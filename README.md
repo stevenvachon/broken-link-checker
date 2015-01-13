@@ -1,5 +1,5 @@
 # broken-link-checker [![NPM Version](http://badge.fury.io/js/broken-link-checker.svg)](http://badge.fury.io/js/broken-link-checker) [![Build Status](https://secure.travis-ci.org/stevenvachon/broken-link-checker.svg)](http://travis-ci.org/stevenvachon/broken-link-checker) [![Dependency Status](https://david-dm.org/stevenvachon/broken-link-checker.svg)](https://david-dm.org/stevenvachon/broken-link-checker)
-> Find broken links, missing images, etc in your HTML (Node.js)
+> Find broken links, missing images, etc in your HTML.
 
 Features:
 * Requests urls, html files, urls to html files
@@ -15,8 +15,9 @@ var blc = new BrokenLinkChecker(options);
 var html = '<a href="https://google.com">absolute link</a>';
 html += '<a href="/path/to/resource.html">relative link</a>';
 
-blc.checkHtml(html, function(linkObj) {
-	console.log(linkObj.url);	//-> "https://google.com", "https://mywebsite.com/path/to/resource.html"
+blc.checkHtml(html, function(results) {
+	console.log(results[0].broken, results[0].url);	//-> false "https://google.com"
+	console.log(results[1].broken, results[1].url);	//-> true "https://mywebsite.com/path/to/resource.html"
 });
 ```
 
@@ -71,4 +72,4 @@ The address to which all relative URLs will be made absolute. Example: a link to
 
 
 ## Changelog
-* 0.0.1 pre-release
+* 0.0.1–0.0.2 pre-releases

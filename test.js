@@ -5,23 +5,45 @@ var BrokenLinkChecker = require("./lib");
 
 describe("Public API", function()
 {
-	it("should support absolute urls", function(done)
+	describe("checkUrl", function()
 	{
-		new BrokenLinkChecker().checkHtml('<a href="https://google.com">link</a>', function(linkObj)
+		it("should check a single absolute url", function(done)
 		{
-			console.log(linkObj);
-			done();
+			// Let internal http lib decide when to give up
+			this.timeout(0);
+			
+			new BrokenLinkChecker().checkUrl("https://google.com", function(result)
+			{
+				result.response = {};	// temp -- for easier logging
+				console.log(result);
+				done();
+			});
 		});
 	});
 	
 	
 	
-	it.skip("should support attribute values containing double quotes", function(done)
+	describe("checkHtml", function()
 	{
-		new BrokenLinkChecker().checkHtml('<a href="https://google.com" data-test="this is a \\"quote\\"!">link</a>', function(linkObj)
+		it("should support a single absolute url", function(done)
 		{
-			console.log(linkObj);
-			done();
+			new BrokenLinkChecker().checkHtml('<a href="https://google.com">link</a>', function(results)
+			{
+				results[0].response = {};	// temp -- for easier logging
+				console.log(results);
+				done();
+			});
+		});
+		
+		
+		
+		it.skip("should support attribute values containing double quotes", function(done)
+		{
+			new BrokenLinkChecker().checkHtml('<a href="https://google.com" data-test="this is a \\"quote\\"!">link</a>', function(linkObj)
+			{
+				console.log(linkObj);
+				done();
+			});
 		});
 	});
 });
