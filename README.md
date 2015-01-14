@@ -72,4 +72,4 @@ The address to which all relative URLs will be made absolute. Example: a link to
 
 
 ## Changelog
-* 0.0.1–0.0.2 pre-releases
+* 0.0.1–0.0.3 pre-releases
