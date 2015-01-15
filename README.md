@@ -14,10 +14,18 @@ var blc = new BrokenLinkChecker(options);
 
 var html = '<a href="https://google.com">absolute link</a>';
 html += '<a href="/path/to/resource.html">relative link</a>';
+html += '<a href="http://fakeurl.com">broken link</a>';
 
-blc.checkHtml(html, function(results) {
-	console.log(results[0].broken, results[0].url);	//-> false "https://google.com"
-	console.log(results[1].broken, results[1].url);	//-> true "https://mywebsite.com/path/to/resource.html"
+blc.checkHtml(html, {
+	link: function(result, i) {
+		console.log(i, result.broken, result.url);
+		//-> 0 false "https://google.com"
+		//-> 1 false "https://mywebsite.com/path/to/resource.html"
+		//-> 2 true "https://fakeurl.com"
+	},
+	complete: function(error) {
+		if (error !== null) throw error;
+	}
 });
 ```
 
@@ -32,20 +40,20 @@ npm install broken-link-checker --save-dev
 
 ## Methods
 
-### blc.checkHtml(html, callback)
+### blc.checkHtml(html, handlers)
 Scans one or more HTML strings to find broken links. A callback is invoked with the results.
 
 * `html` can be a `String` or an `Array`.
-* `callback` is a `Function`.
+* `handlers` is an `Object` containing event handler `Functions`s.
 
-### blc.checkHtmlUrl(url, callback)
-Requests one or more URLs and scans the HTML content returned from each to find broken links. A callback is invoked with the results.
+### blc.checkHtmlUrl(url, handlers)
+Requests one or more URLs and scans the HTML content returned from each to find broken links. A `link` event is fired for each result and a `complete` event is fired after that last link.
 
 * `url` can be a `String` or an `Array`.
-* `callback` is a `Function`.
+* `handlers` is an `Object` containing event handler `Functions`s.
 
 ### blc.checkUrl(url, callback)
-Requests one or more URLs to determine if they are broken. A callback is invoked with the results.
+Requests one or more URLs to determine if they are broken. A `link` event is fired for each result and a `complete` event is fired after that last link.
 
 * `url` can be a `String` or an `Array`.
 * `callback` is a `Function`.
@@ -68,8 +76,9 @@ The address to which all relative URLs will be made absolute. Example: a link to
 * link text
 * stream html files (waiting on [parse5](https://npmjs.com/package/parse5))
 * cli
+* `handlers.log()` for logging requests, parsing html, etc
 * option to check for page source in case 404s redirect to static html with status 200?
 
 
 ## Changelog
-* 0.0.1–0.0.3 pre-releases
+* 0.0.1–0.0.4 pre-releases
