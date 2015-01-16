@@ -17,11 +17,11 @@ html += '<a href="/path/to/resource.html">relative link</a>';
 html += '<a href="http://fakeurl.com">broken link</a>';
 
 blc.checkHtml(html, {
-	link: function(result, i) {
-		console.log(i, result.broken, result.url);
-		//-> 0 false "https://google.com"
-		//-> 1 false "https://mywebsite.com/path/to/resource.html"
-		//-> 2 true "https://fakeurl.com"
+	link: function(result) {
+		console.log(result.index, result.broken, result.text, result.url);
+		//-> 0 false "absolute link" "https://google.com"
+		//-> 1 false "relative link" "https://mywebsite.com/path/to/resource.html"
+		//-> 2 true "broken link" "https://fakeurl.com"
 	},
 	complete: function(error) {
 		if (error !== null) throw error;
@@ -73,7 +73,6 @@ The address to which all relative URLs will be made absolute. Example: a link to
 
 
 ## Roadmap Features
-* link text
 * stream html files (waiting on [parse5](https://npmjs.com/package/parse5))
 * cli
 * `handlers.log()` for logging requests, parsing html, etc
@@ -81,4 +80,4 @@ The address to which all relative URLs will be made absolute. Example: a link to
 
 
 ## Changelog
-* 0.0.1–0.0.4 pre-releases
+* 0.0.1–0.0.5 pre-releases
