@@ -5,6 +5,7 @@ Features:
 * Requests urls, html files, urls to html files
 * Parses various html tags/attributes, not just `<a href>`
 * Supports absolute and relative urls
+* Provides detailed information about each link (http and html)
 
 ```js
 var BrokenLinkChecker = require("broken-link-checker");
@@ -14,14 +15,14 @@ var blc = new BrokenLinkChecker(options);
 
 var html = '<a href="https://google.com">absolute link</a>';
 html += '<a href="/path/to/resource.html">relative link</a>';
-html += '<a href="http://fakeurl.com">broken link</a>';
+html += '<img src="http://fakeurl.com/image.png" alt="missing image"/>';
 
 blc.checkHtml(html, {
 	link: function(result) {
 		console.log(result.index, result.broken, result.text, result.url);
 		//-> 0 false "absolute link" "https://google.com"
 		//-> 1 false "relative link" "https://mywebsite.com/path/to/resource.html"
-		//-> 2 true "broken link" "https://fakeurl.com"
+		//-> 2 true "" "http://fakeurl.com/image.png"
 	},
 	complete: function(error) {
 		if (error !== null) throw error;
@@ -41,21 +42,21 @@ npm install broken-link-checker --save-dev
 ## Methods
 
 ### blc.checkHtml(html, handlers)
-Scans one or more HTML strings to find broken links. A callback is invoked with the results.
+Scans an HTML string to find broken links. A `link` event is fired for each result and a `complete` event is fired after the last result. In the event of a serious error, `complete` is fired with an `error` argument and the whole operation is cancelled.
 
-* `html` can be a `String` or an `Array`.
-* `handlers` is an `Object` containing event handler `Functions`s.
+* `html` is a `String`.
+* `handlers` is an `Object` containing event handler `Function`s.
 
 ### blc.checkHtmlUrl(url, handlers)
-Requests one or more URLs and scans the HTML content returned from each to find broken links. A `link` event is fired for each result and a `complete` event is fired after that last link.
+Requests a URL and scans the HTML content returned to find broken links. A `link` event is fired for each result and a `complete` event is fired after the last result. In the event of a serious error, `complete` is fired with an `error` argument and the whole operation is cancelled.
 
 * `url` can be a `String` or an `Array`.
 * `handlers` is an `Object` containing event handler `Functions`s.
 
 ### blc.checkUrl(url, callback)
-Requests one or more URLs to determine if they are broken. A `link` event is fired for each result and a `complete` event is fired after that last link.
+Requests a URL to determine if it is broken. A callback is invoked with the results.
 
-* `url` can be a `String` or an `Array`.
+* `url` is a `String`.
 * `callback` is a `Function`.
 
 
@@ -76,8 +77,9 @@ The address to which all relative URLs will be made absolute. Example: a link to
 * stream html files (waiting on [parse5](https://npmjs.com/package/parse5))
 * cli
 * `handlers.log()` for logging requests, parsing html, etc
+* different element/attribute filter levels
 * option to check for page source in case 404s redirect to static html with status 200?
 
 
 ## Changelog
-* 0.0.1–0.0.5 pre-releases
+* 0.1.0 initial release
