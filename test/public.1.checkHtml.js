@@ -116,6 +116,33 @@ describe("checkHtml", function()
 		
 		
 		
+		it("<audio src>", function(done)
+		{
+			var results = [];
+			
+			new BrokenLinkChecker({filterLevel:3}).checkHtml('<audio src="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html"></audio>',
+			{
+				link: function(result)
+				{
+					//utils.logLinkObj(result);
+					results[result.html.index] = result;
+				},
+				complete: function()
+				{
+					expect(results).to.have.length(1);
+					expect(results[0].url.original).to.equal("https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html");
+					expect(results[0].html.tagName).to.equal("audio");
+					expect(results[0].html.attrName).to.equal("src");
+					expect(results[0].html.tag).to.equal('<audio src="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html">');
+					expect(results[0].html.text).to.equal("");
+					expect(results[0].broken).to.be.false;
+					done();
+				}
+			});
+		});
+		
+		
+		
 		it("<blockquote cite>", function(done)
 		{
 			var results = [];
@@ -170,6 +197,33 @@ describe("checkHtml", function()
 		
 		
 		
+		it("<embed src/>", function(done)
+		{
+			var results = [];
+			
+			new BrokenLinkChecker({filterLevel:3}).checkHtml('<embed src="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html"/>',
+			{
+				link: function(result)
+				{
+					//utils.logLinkObj(result);
+					results[result.html.index] = result;
+				},
+				complete: function()
+				{
+					expect(results).to.have.length(1);
+					expect(results[0].url.original).to.equal("https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html");
+					expect(results[0].html.tagName).to.equal("embed");
+					expect(results[0].html.attrName).to.equal("src");
+					expect(results[0].html.tag).to.equal('<embed src="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html"/>');
+					expect(results[0].html.text).to.be.null;
+					expect(results[0].broken).to.be.false;
+					done();
+				}
+			});
+		});
+		
+		
+		
 		it("<form action>", function(done)
 		{
 			var results = [];
@@ -189,6 +243,60 @@ describe("checkHtml", function()
 					expect(results[0].html.attrName).to.equal("action");
 					expect(results[0].html.tag).to.equal('<form action="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html">');
 					expect(results[0].html.text).to.equal("fields");
+					expect(results[0].broken).to.be.false;
+					done();
+				}
+			});
+		});
+		
+		
+		
+		it("<iframe longdesc>", function(done)
+		{
+			var results = [];
+			
+			new BrokenLinkChecker({filterLevel:3}).checkHtml('<iframe longdesc="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html"></iframe>',
+			{
+				link: function(result)
+				{
+					//utils.logLinkObj(result);
+					results[result.html.index] = result;
+				},
+				complete: function()
+				{
+					expect(results).to.have.length(1);
+					expect(results[0].url.original).to.equal("https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html");
+					expect(results[0].html.tagName).to.equal("iframe");
+					expect(results[0].html.attrName).to.equal("longdesc");
+					expect(results[0].html.tag).to.equal('<iframe longdesc="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html">');
+					expect(results[0].html.text).to.equal("");
+					expect(results[0].broken).to.be.false;
+					done();
+				}
+			});
+		});
+		
+		
+		
+		it("<iframe src>", function(done)
+		{
+			var results = [];
+			
+			new BrokenLinkChecker({filterLevel:3}).checkHtml('<iframe src="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html"></iframe>',
+			{
+				link: function(result)
+				{
+					//utils.logLinkObj(result);
+					results[result.html.index] = result;
+				},
+				complete: function()
+				{
+					expect(results).to.have.length(1);
+					expect(results[0].url.original).to.equal("https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html");
+					expect(results[0].html.tagName).to.equal("iframe");
+					expect(results[0].html.attrName).to.equal("src");
+					expect(results[0].html.tag).to.equal('<iframe src="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html">');
+					expect(results[0].html.text).to.equal("");
 					expect(results[0].broken).to.be.false;
 					done();
 				}
@@ -332,6 +440,33 @@ describe("checkHtml", function()
 		
 		
 		
+		it("<menuitem icon/>", function(done)
+		{
+			var results = [];
+			
+			new BrokenLinkChecker({filterLevel:3}).checkHtml('<menuitem icon="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html"/>',
+			{
+				link: function(result)
+				{
+					//utils.logLinkObj(result);
+					results[result.html.index] = result;
+				},
+				complete: function()
+				{
+					expect(results).to.have.length(1);
+					expect(results[0].url.original).to.equal("https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html");
+					expect(results[0].html.tagName).to.equal("menuitem");
+					expect(results[0].html.attrName).to.equal("icon");
+					expect(results[0].html.tag).to.equal('<menuitem icon="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html"/>');
+					expect(results[0].html.text).to.be.null;
+					expect(results[0].broken).to.be.false;
+					done();
+				}
+			});
+		});
+		
+		
+		
 		it("<object data>", function(done)
 		{
 			var results = [];
@@ -410,6 +545,87 @@ describe("checkHtml", function()
 				}
 			});
 		});
+		
+		
+		
+		it("<source src/>", function(done)
+		{
+			var results = [];
+			
+			new BrokenLinkChecker({filterLevel:3}).checkHtml('<source src="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html"/>',
+			{
+				link: function(result)
+				{
+					//utils.logLinkObj(result);
+					results[result.html.index] = result;
+				},
+				complete: function()
+				{
+					expect(results).to.have.length(1);
+					expect(results[0].url.original).to.equal("https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html");
+					expect(results[0].html.tagName).to.equal("source");
+					expect(results[0].html.attrName).to.equal("src");
+					expect(results[0].html.tag).to.equal('<source src="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html"/>');
+					expect(results[0].html.text).to.be.null;
+					expect(results[0].broken).to.be.false;
+					done();
+				}
+			});
+		});
+		
+		
+		
+		it("<track src/>", function(done)
+		{
+			var results = [];
+			
+			new BrokenLinkChecker({filterLevel:3}).checkHtml('<track src="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html"/>',
+			{
+				link: function(result)
+				{
+					//utils.logLinkObj(result);
+					results[result.html.index] = result;
+				},
+				complete: function()
+				{
+					expect(results).to.have.length(1);
+					expect(results[0].url.original).to.equal("https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html");
+					expect(results[0].html.tagName).to.equal("track");
+					expect(results[0].html.attrName).to.equal("src");
+					expect(results[0].html.tag).to.equal('<track src="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html"/>');
+					expect(results[0].html.text).to.be.null;
+					expect(results[0].broken).to.be.false;
+					done();
+				}
+			});
+		});
+		
+		
+		
+		it("<video src>", function(done)
+		{
+			var results = [];
+			
+			new BrokenLinkChecker({filterLevel:3}).checkHtml('<video src="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html"></video>',
+			{
+				link: function(result)
+				{
+					//utils.logLinkObj(result);
+					results[result.html.index] = result;
+				},
+				complete: function()
+				{
+					expect(results).to.have.length(1);
+					expect(results[0].url.original).to.equal("https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html");
+					expect(results[0].html.tagName).to.equal("video");
+					expect(results[0].html.attrName).to.equal("src");
+					expect(results[0].html.tag).to.equal('<video src="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html">');
+					expect(results[0].html.text).to.equal("");
+					expect(results[0].broken).to.be.false;
+					done();
+				}
+			});
+		});
 	});
 	
 	
@@ -462,7 +678,7 @@ describe("checkHtml", function()
 		{
 			var results = [];
 			
-			new BrokenLinkChecker({filterLevel:3}).checkHtml('<a id="link" href="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/index.html">link</a>',
+			new BrokenLinkChecker({filterLevel:3}).checkHtml('<a id="link" href="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html">link</a>',
 			{
 				link: function(result)
 				{
@@ -472,10 +688,10 @@ describe("checkHtml", function()
 				complete: function()
 				{
 					expect(results).to.have.length(1);
-					expect(results[0].url.original).to.equal("https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/index.html");
+					expect(results[0].url.original).to.equal("https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html");
 					expect(results[0].html.tagName).to.equal("a");
 					expect(results[0].html.attrName).to.equal("href");
-					expect(results[0].html.tag).to.equal('<a id="link" href="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/index.html">');
+					expect(results[0].html.tag).to.equal('<a id="link" href="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html">');
 					expect(results[0].html.text).to.equal("link");
 					expect(results[0].broken).to.be.false;
 					done();
@@ -567,8 +783,8 @@ describe("checkHtml", function()
 		{
 			var results = [];
 			
-			var html = '<a href="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/index.html"';
-			html += ' href="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html">link</a>';
+			var html = '<a href="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html"';
+			html += ' href="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-fake.html">link</a>';
 			
 			new BrokenLinkChecker({filterLevel:3}).checkHtml(html,
 			{
@@ -580,10 +796,10 @@ describe("checkHtml", function()
 				complete: function()
 				{
 					expect(results).to.have.length(1);
-					expect(results[0].url.original).to.equal("https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/index.html");
+					expect(results[0].url.original).to.equal("https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html");
 					expect(results[0].html.tagName).to.equal("a");
 					expect(results[0].html.attrName).to.equal("href");
-					expect(results[0].html.tag).to.equal('<a href="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/index.html">');
+					expect(results[0].html.tag).to.equal('<a href="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html">');
 					expect(results[0].html.text).to.equal("link");
 					expect(results[0].broken).to.be.false;
 					done();
@@ -629,6 +845,35 @@ describe("checkHtml", function()
 					expect(results[1].html.text).to.equal("quote");
 					expect(results[1].broken).to.be.false;
 					
+					done();
+				}
+			});
+		});
+		
+		
+		
+		it("should support void elements", function(done)
+		{
+			var results = [];
+			
+			var html = '<img src="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html">';
+			
+			new BrokenLinkChecker({filterLevel:3}).checkHtml(html,
+			{
+				link: function(result)
+				{
+					//utils.logLinkObj(result);
+					results[result.html.index] = result;
+				},
+				complete: function()
+				{
+					expect(results).to.have.length(1);
+					expect(results[0].url.original).to.equal("https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html");
+					expect(results[0].html.tagName).to.equal("img");
+					expect(results[0].html.attrName).to.equal("src");
+					expect(results[0].html.tag).to.equal('<img src="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html">');
+					expect(results[0].html.text).to.be.null;
+					expect(results[0].broken).to.be.false;
 					done();
 				}
 			});

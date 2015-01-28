@@ -77,11 +77,11 @@ Type: `Number`
 Default value: `1`  
 The tags and attributes that are considered links for checking, split into the following levels:
 * `0`: clickable links
-* `1`: clickable links, images
-* `2`: clickable links, images, stylesheets, scripts, forms
-* `3`: clickable links, images, stylesheets, scripts, forms, meta
+* `1`: clickable links, media
+* `2`: clickable links, media, stylesheets, scripts, forms
+* `3`: clickable links, media, stylesheets, scripts, forms, meta
 
-To see the exact breakdown, check out the [tag map](https://github.com/stevenvachon/broken-link-checker/blob/master/lib/index.js#L20-L56).
+To see the exact breakdown, check out the [tag map](https://github.com/stevenvachon/broken-link-checker/blob/master/lib/index.js#L20-L79).
 
 ### options.site
 Type: `String`  
@@ -112,6 +112,7 @@ if (result.error !== null) {
 * stream html files (waiting on [parse5](https://npmjs.com/package/parse5))
 
 ## Changelog
+* 0.2.2 added missing tags/attributes
 * 0.2.1 basic CLI, bug fixes
 * 0.2.0 `excludeEmptyAnchors`,`filterLevel`, new linkObj structure, more complete test suite
 * 0.1.0 initial release
