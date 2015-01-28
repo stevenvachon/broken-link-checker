@@ -609,20 +609,6 @@ describe("checkUrl", function()
 	
 	describe("options", function()
 	{
-		it.skip('acceptedSchemes = ["http","https"]', function(done)
-		{
-			// How to test this? request only checks http/s
-		});
-		
-		
-		
-		it.skip('acceptedSchemes = ["http","https","somethingelse"]', function(done)
-		{
-			// how to test this? request only checks http/s
-		});
-		
-		
-		
 		// `site` has already been tested above
 	});
 });

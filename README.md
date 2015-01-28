@@ -67,11 +67,6 @@ new BrokenLinkChecker(options).checkUrl(url, function(result){});
 
 ## Options
 
-### options.acceptedSchemes
-Type: `Array`  
-Default value: `["http","https"]`  
-Any links to schemes/protocols not listed here will contain an "Invalid URI" error.
-
 ### options.excludeEmptyAnchors
 Type: `Boolean`  
 Default value: `false`  
@@ -86,7 +81,7 @@ The tags and attributes that are considered links for checking, split into the f
 * `2`: clickable links, images, stylesheets, scripts, forms
 * `3`: clickable links, images, stylesheets, scripts, forms, meta
 
-To see the exact breakdown, check out the [tag map](https://github.com/stevenvachon/broken-link-checker/blob/master/lib/index.js#L18-L54).
+To see the exact breakdown, check out the [tag map](https://github.com/stevenvachon/broken-link-checker/blob/master/lib/index.js#L20-L56).
 
 ### options.site
 Type: `String`  
@@ -112,10 +107,11 @@ if (result.error !== null) {
 * support `<head><base href="baseurl"></head>` element
 * test links to larger/binary files to prevent full download
 * option to check for page source in case 404s redirect to static html with status 200?
-* cli
+* better cli -- table view option that disables default log, spinner like npm?
 * `handlers.log()` for logging requests, parsing html, etc
 * stream html files (waiting on [parse5](https://npmjs.com/package/parse5))
 
 ## Changelog
-* 0.2.0 `options.excludeEmptyAnchors`,`options.filterLevel`, new linkObj structure, more complete test suite
+* 0.2.1 basic CLI, bug fixes
+* 0.2.0 `excludeEmptyAnchors`,`filterLevel`, new linkObj structure, more complete test suite
 * 0.1.0 initial release

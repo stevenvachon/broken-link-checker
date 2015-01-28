@@ -416,10 +416,6 @@ describe("checkHtml", function()
 	
 	describe.skip("options", function()
 	{
-		// `acceptedSchemes` has already been tested in checkUrl tests
-		
-		
-		
 		it("excludeEmptyAnchors = false", function(done)
 		{
 			
