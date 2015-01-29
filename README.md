@@ -4,13 +4,13 @@
 Features:
 * Requests urls, html files, urls to html files
 * Parses various html tags/attributes, not just `<a href>`
-* Supports absolute and relative urls
+* Supports absolute urls, relative urls and `<base>`
 * Provides detailed information about each link (http and html)
 
 ```js
 var BrokenLinkChecker = require("broken-link-checker");
 
-var options = { site:"https://mywebsite.com" };
+var options = { base:"https://mywebsite.com" };
 var blc = new BrokenLinkChecker(options);
 
 var html = '<a href="https://google.com">absolute link</a>';
@@ -33,10 +33,24 @@ blc.checkHtml(html, {
 
 ## Installation
 
-[Node.js](http://nodejs.org/) `~0.10` is required. Type this at the command line:
+[Node.js](http://nodejs.org/) `~0.10` is required. There're two ways to use it:
+
+### Command Line Usage
+To install, type this at the command line:
+```shell
+npm install broken-link-checker -g
+```
+Typical usage looks like:
+```shell
+blc http://website.com/
+```
+
+### Programmatic API
+To install, type this at the command line:
 ```shell
 npm install broken-link-checker --save-dev
 ```
+The rest of this document will assist you with how to use the API.
 
 
 ## Methods
@@ -51,7 +65,7 @@ new BrokenLinkChecker(options).checkHtml(html, {
 ```
 
 ### blc.checkHtmlUrl(url, handlers)
-Scans the HTML content at `url` to find broken links. `handlers.link` is fired for each result and `handlers.complete` is fired after the last result or zero results. If `url` cannot be reached, `handlers.complete` is fired with an `error` argument and the whole operation is cancelled.
+Scans the HTML content at `url` to find broken links. `handlers.link` is fired for each result and `handlers.complete` is fired after the last result or zero results. If `url` cannot be reached, `handlers.complete` is fired with an `error` argument and the whole operation is cancelled. This method ignores `options.base`.
 ```js
 new BrokenLinkChecker(options).checkHtmlUrl(url, {
 	link: function(result){},
@@ -67,6 +81,11 @@ new BrokenLinkChecker(options).checkUrl(url, function(result){});
 
 ## Options
 
+### options.base
+Type: `String`  
+Default value: `undefined`  
+The address to which all relative URLs will be made absolute. Without a value, links to relative URLs will contain an "Invalid URI" error.
+
 ### options.excludeEmptyAnchors
 Type: `Boolean`  
 Default value: `false`  
@@ -81,18 +100,21 @@ The tags and attributes that are considered links for checking, split into the f
 * `2`: clickable links, media, stylesheets, scripts, forms
 * `3`: clickable links, media, stylesheets, scripts, forms, meta
 
-To see the exact breakdown, check out the [tag map](https://github.com/stevenvachon/broken-link-checker/blob/master/lib/index.js#L20-L79).
+To see the exact breakdown, check out the [tag map](https://github.com/stevenvachon/broken-link-checker/blob/master/lib/index.js#L21-L80).
 
-### options.site
-Type: `String`  
-Default value: `undefined`  
-The address to which all relative URLs will be made absolute. Without a value, links to relative URLs will contain an "Invalid URI" error.
+### options.maxSockets
+Type: `Boolean`  
+Default value: `2`  
+The max number of links to check at any given time. This avoids overloading a single target host as a result of many links to that host.
+**Note** In the next version, a `maxSocketsPerHost` will be added allowing this options value to be `Infinity` by default.
 
 
 ## Handling link errors
 Each result will have its own `error` key for which you can compare against:
 ```js
 if (result.error !== null) {
+	// Server denied access
+	if (result.error.code === "ECONNREFUSED"){}
 	// Server could not be reached
 	if (result.error.code === "ENOTFOUND"){}
 	// Connection timed out
@@ -104,15 +126,23 @@ if (result.error !== null) {
 
 
 ## Roadmap Features
-* support `<head><base href="baseurl"></head>` element
-* test links to larger/binary files to prevent full download
+* write a "response-concurrency" lib for `maxSocketsPerHost`
 * option to check for page source in case 404s redirect to static html with status 200?
 * better cli -- table view option that disables default log, spinner like npm?
 * `handlers.log()` for logging requests, parsing html, etc
 * stream html files (waiting on [parse5](https://npmjs.com/package/parse5))
+* `checkMarkdown()`,`checkMarkdownUrl()`,`checkHtmlMarkdown()`,`checkHtmlMarkdownUrl()`
 
 ## Changelog
+* 0.3.0
+  * options: `site` renamed to `base`, added `maxSockets`
+  * `<base>` supported
+  * requesting links now only downloads the response header
+  * faster test suite
 * 0.2.2 added missing tags/attributes
 * 0.2.1 basic CLI, bug fixes
-* 0.2.0 `excludeEmptyAnchors`,`filterLevel`, new linkObj structure, more complete test suite
+* 0.2.0
+  * options: `excludeEmptyAnchors`,`filterLevel`
+  * new linkObj structure
+  * more complete test suite
 * 0.1.0 initial release

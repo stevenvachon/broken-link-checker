@@ -4,22 +4,32 @@ var utils = require("./utils");
 
 var expect = require("chai").expect;
 
+var conn;
+
 
 
 describe("checkHtmlUrl", function()
 {
-	// Let internal http lib decide when to give up
-	this.timeout(0);
+	before( function(done)
+	{
+		utils.startConnections( function(connections)
+		{
+			conn = connections;
+			done();
+		});
+	});
+	
+	
+	
+	after( function(done)
+	{
+		utils.stopConnections(conn.realPorts, function(){ done() });
+	});
 	
 	
 	
 	describe("should accept only valid input types for", function()
 	{
-		// Reset to defeault timeout since no request should be made in this test
-		this.timeout(2000);
-		
-		
-		
 		it("url", function(done)
 		{
 			var blc = new BrokenLinkChecker();
@@ -60,11 +70,18 @@ describe("checkHtmlUrl", function()
 	
 	
 	
-	it("should work", function(done)
+	it.skip("should use url as base", function(done)
+	{
+		
+	});
+	
+	
+	
+	it("should support custom base", function(done)
 	{
 		var results = [];
 		
-		new BrokenLinkChecker().checkHtmlUrl("https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/index.html",
+		new BrokenLinkChecker({base:conn.absoluteUrls[0]+"/fixture/index.html"}).checkHtmlUrl(conn.absoluteUrls[0]+"/fixture/index.html",
 		{
 			link: function(result)
 			{
@@ -81,20 +98,52 @@ describe("checkHtmlUrl", function()
 				
 				expect(results).to.have.length(2);
 				
-				expect(results[0].url.original).to.equal("https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html");
+				expect(results[0].url).to.deep.equal({
+					original: "link-real.html",
+					resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
+				});
+				expect(results[0].base).to.deep.equal({
+					original: conn.absoluteUrls[0]+"/fixture/index.html",
+					resolved: conn.absoluteUrls[0]+"/fixture/index.html"
+				});
 				expect(results[0].html.tagName).to.equal("a");
 				expect(results[0].html.attrName).to.equal("href");
-				expect(results[0].html.tag).to.equal('<a href="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html">');
+				expect(results[0].html.tag).to.equal('<a href="link-real.html">');
 				expect(results[0].html.text).to.equal("link-real");
 				expect(results[0].broken).to.be.false;
 				
-				expect(results[1].url.original).to.equal("https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-fake.html");
+				expect(results[1].url).to.deep.equal({
+					original: "link-fake.html",
+					resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html"
+				});
+				expect(results[1].base).to.deep.equal({
+					original: conn.absoluteUrls[0]+"/fixture/index.html",
+					resolved: conn.absoluteUrls[0]+"/fixture/index.html"
+				});
 				expect(results[1].html.tagName).to.equal("a");
 				expect(results[1].html.attrName).to.equal("href");
-				expect(results[1].html.tag).to.equal('<a href="https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-fake.html">');
+				expect(results[1].html.tag).to.equal('<a href="link-fake.html">');
 				expect(results[1].html.text).to.equal("link-fake");
 				expect(results[1].broken).to.be.true;
 				
+				done();
+			}
+		});
+	});
+	
+	
+	
+	it("should reject non-html urls", function(done)
+	{
+		new BrokenLinkChecker().checkHtmlUrl(conn.absoluteUrls[0]+"/fixture/image.gif",
+		{
+			link: function(result)
+			{
+				done( new Error("this should not have been called") );
+			},
+			complete: function(error)
+			{
+				expect(error).to.be.instanceOf(Error);
 				done();
 			}
 		});

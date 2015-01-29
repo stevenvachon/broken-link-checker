@@ -4,22 +4,32 @@ var utils = require("./utils");
 
 var expect = require("chai").expect;
 
+var conn;
+
 
 
 describe("checkUrl", function()
 {
-	// Let internal http lib decide when to give up
-	this.timeout(0);
+	before( function(done)
+	{
+		utils.startConnections( function(connections)
+		{
+			conn = connections;
+			done();
+		});
+	});
+	
+	
+	
+	after( function(done)
+	{
+		utils.stopConnections(conn.realPorts, function(){ done() });
+	});
 	
 	
 	
 	describe("should accept only valid input types for", function()
 	{
-		// Reset to defeault timeout since no request should be made in this test
-		this.timeout(2000);
-		
-		
-		
 		it("url", function(done)
 		{
 			var blc = new BrokenLinkChecker();
@@ -59,18 +69,20 @@ describe("checkUrl", function()
 	
 	
 	
-	// TODO :: start a simple webserver on localhost and make requests to that (works without internet connection)
-	// TODO :: for urls that must fail, point to the next available port on localhost since it has no server running
 	describe("should not be broken with a REAL HOST and REAL PATH from", function()
 	{
 		it("an absolute url", function(done)
 		{
-			new BrokenLinkChecker().checkUrl("https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html", function(result)
+			new BrokenLinkChecker().checkUrl(conn.absoluteUrls[0]+"/fixture/link-real.html", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
-					original: "https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html",
-					resolved: "https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html"
+					original: conn.absoluteUrls[0]+"/fixture/link-real.html",
+					resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
+				});
+				expect(result.base).to.deep.equal({
+					original: null,
+					resolved: null
 				});
 				expect(result.error).to.be.null;
 				expect(result.broken).to.be.false;
@@ -82,12 +94,16 @@ describe("checkUrl", function()
 		
 		it("a scheme-relative url", function(done)
 		{
-			new BrokenLinkChecker({site:"https://rawgit.com/stevenvachon/broken-link-checker/master/"}).checkUrl("//rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html", function(result)
+			new BrokenLinkChecker({base:conn.absoluteUrls[0]}).checkUrl(conn.relativeUrls[0]+"/fixture/link-real.html", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
-					original: "//rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html",
-					resolved: "https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html"
+					original: conn.relativeUrls[0]+"/fixture/link-real.html",
+					resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
+				});
+				expect(result.base).to.deep.equal({
+					original: conn.absoluteUrls[0],
+					resolved: conn.absoluteUrls[0]+"/"
 				});
 				expect(result.error).to.be.null;
 				expect(result.broken).to.be.false;
@@ -99,12 +115,16 @@ describe("checkUrl", function()
 		
 		it("a root-path-relative url", function(done)
 		{
-			new BrokenLinkChecker({site:"https://rawgit.com/stevenvachon/broken-link-checker/master/"}).checkUrl("/stevenvachon/broken-link-checker/master/test/fixture/link-real.html", function(result)
+			new BrokenLinkChecker({base:conn.absoluteUrls[0]}).checkUrl("/fixture/link-real.html", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
-					original: "/stevenvachon/broken-link-checker/master/test/fixture/link-real.html",
-					resolved: "https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html"
+					original: "/fixture/link-real.html",
+					resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
+				});
+				expect(result.base).to.deep.equal({
+					original: conn.absoluteUrls[0],
+					resolved: conn.absoluteUrls[0]+"/"
 				});
 				expect(result.error).to.be.null;
 				expect(result.broken).to.be.false;
@@ -116,12 +136,16 @@ describe("checkUrl", function()
 		
 		it("a path-relative url", function(done)
 		{
-			new BrokenLinkChecker({site:"https://rawgit.com/stevenvachon/broken-link-checker/master/"}).checkUrl("test/fixture/link-real.html", function(result)
+			new BrokenLinkChecker({base:conn.absoluteUrls[0]}).checkUrl("fixture/link-real.html", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
-					original: "test/fixture/link-real.html",
-					resolved: "https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html"
+					original: "fixture/link-real.html",
+					resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
+				});
+				expect(result.base).to.deep.equal({
+					original: conn.absoluteUrls[0],
+					resolved: conn.absoluteUrls[0]+"/"
 				});
 				expect(result.error).to.be.null;
 				expect(result.broken).to.be.false;
@@ -133,12 +157,16 @@ describe("checkUrl", function()
 		
 		it("a query-relative url", function(done)
 		{
-			new BrokenLinkChecker({site:"https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html"}).checkUrl("?query", function(result)
+			new BrokenLinkChecker({base:conn.absoluteUrls[0]+"/fixture/link-real.html"}).checkUrl("?query", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
 					original: "?query",
-					resolved: "https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html?query"
+					resolved: conn.absoluteUrls[0]+"/fixture/link-real.html?query"
+				});
+				expect(result.base).to.deep.equal({
+					original: conn.absoluteUrls[0]+"/fixture/link-real.html",
+					resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
 				});
 				expect(result.error).to.be.null;
 				expect(result.broken).to.be.false;
@@ -150,12 +178,16 @@ describe("checkUrl", function()
 		
 		it("a hash-relative url", function(done)
 		{
-			new BrokenLinkChecker({site:"https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html"}).checkUrl("#hash", function(result)
+			new BrokenLinkChecker({base:conn.absoluteUrls[0]+"/fixture/link-real.html"}).checkUrl("#hash", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
 					original: "#hash",
-					resolved: "https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html#hash"
+					resolved: conn.absoluteUrls[0]+"/fixture/link-real.html#hash"
+				});
+				expect(result.base).to.deep.equal({
+					original: conn.absoluteUrls[0]+"/fixture/link-real.html",
+					resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
 				});
 				expect(result.error).to.be.null;
 				expect(result.broken).to.be.false;
@@ -167,12 +199,16 @@ describe("checkUrl", function()
 		
 		it("an empty url", function(done)
 		{
-			new BrokenLinkChecker({site:"https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html"}).checkUrl("", function(result)
+			new BrokenLinkChecker({base:conn.absoluteUrls[0]+"/fixture/link-real.html"}).checkUrl("", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
 					original: "",
-					resolved: "https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html"
+					resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
+				});
+				expect(result.base).to.deep.equal({
+					original: conn.absoluteUrls[0]+"/fixture/link-real.html",
+					resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
 				});
 				expect(result.error).to.be.null;
 				expect(result.broken).to.be.false;
@@ -187,12 +223,16 @@ describe("checkUrl", function()
 	{
 		it("an absolute url", function(done)
 		{
-			new BrokenLinkChecker().checkUrl("https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-fake.html", function(result)
+			new BrokenLinkChecker().checkUrl(conn.absoluteUrls[0]+"/fixture/link-fake.html", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
-					original: "https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-fake.html",
-					resolved: "https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-fake.html"
+					original: conn.absoluteUrls[0]+"/fixture/link-fake.html",
+					resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html"
+				});
+				expect(result.base).to.deep.equal({
+					original: null,
+					resolved: null
 				});
 				expect(result.error).to.be.null;
 				expect(result.broken).to.be.true;
@@ -204,12 +244,16 @@ describe("checkUrl", function()
 		
 		it("a scheme-relative url", function(done)
 		{
-			new BrokenLinkChecker({site:"https://rawgit.com/stevenvachon/broken-link-checker/master/"}).checkUrl("//rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-fake.html", function(result)
+			new BrokenLinkChecker({base:conn.absoluteUrls[0]}).checkUrl(conn.relativeUrls[0]+"/fixture/link-fake.html", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
-					original: "//rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-fake.html",
-					resolved: "https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-fake.html"
+					original: conn.relativeUrls[0]+"/fixture/link-fake.html",
+					resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html"
+				});
+				expect(result.base).to.deep.equal({
+					original: conn.absoluteUrls[0],
+					resolved: conn.absoluteUrls[0]+"/"
 				});
 				expect(result.error).to.be.null;
 				expect(result.broken).to.be.true;
@@ -221,12 +265,16 @@ describe("checkUrl", function()
 		
 		it("a root-path-relative url", function(done)
 		{
-			new BrokenLinkChecker({site:"https://rawgit.com/stevenvachon/broken-link-checker/master/"}).checkUrl("/stevenvachon/broken-link-checker/master/test/fixture/link-fake.html", function(result)
+			new BrokenLinkChecker({base:conn.absoluteUrls[0]}).checkUrl("/fixture/link-fake.html", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
-					original: "/stevenvachon/broken-link-checker/master/test/fixture/link-fake.html",
-					resolved: "https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-fake.html"
+					original: "/fixture/link-fake.html",
+					resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html"
+				});
+				expect(result.base).to.deep.equal({
+					original: conn.absoluteUrls[0],
+					resolved: conn.absoluteUrls[0]+"/"
 				});
 				expect(result.error).to.be.null;
 				expect(result.broken).to.be.true;
@@ -238,12 +286,16 @@ describe("checkUrl", function()
 		
 		it("a path-relative url", function(done)
 		{
-			new BrokenLinkChecker({site:"https://rawgit.com/stevenvachon/broken-link-checker/master/"}).checkUrl("test/fixture/link-fake.html", function(result)
+			new BrokenLinkChecker({base:conn.absoluteUrls[0]}).checkUrl("fixture/link-fake.html", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
-					original: "test/fixture/link-fake.html",
-					resolved: "https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-fake.html"
+					original: "fixture/link-fake.html",
+					resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html"
+				});
+				expect(result.base).to.deep.equal({
+					original: conn.absoluteUrls[0],
+					resolved: conn.absoluteUrls[0]+"/"
 				});
 				expect(result.error).to.be.null;
 				expect(result.broken).to.be.true;
@@ -255,12 +307,16 @@ describe("checkUrl", function()
 		
 		it("a query-relative url", function(done)
 		{
-			new BrokenLinkChecker({site:"https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-fake.html"}).checkUrl("?query", function(result)
+			new BrokenLinkChecker({base:conn.absoluteUrls[0]+"/fixture/link-fake.html"}).checkUrl("?query", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
 					original: "?query",
-					resolved: "https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-fake.html?query"
+					resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html?query"
+				});
+				expect(result.base).to.deep.equal({
+					original: conn.absoluteUrls[0]+"/fixture/link-fake.html",
+					resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html"
 				});
 				expect(result.error).to.be.null;
 				expect(result.broken).to.be.true;
@@ -272,12 +328,16 @@ describe("checkUrl", function()
 		
 		it("a hash-relative url", function(done)
 		{
-			new BrokenLinkChecker({site:"https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-fake.html"}).checkUrl("#hash", function(result)
+			new BrokenLinkChecker({base:conn.absoluteUrls[0]+"/fixture/link-fake.html"}).checkUrl("#hash", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
 					original: "#hash",
-					resolved: "https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-fake.html#hash"
+					resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html#hash"
+				});
+				expect(result.base).to.deep.equal({
+					original: conn.absoluteUrls[0]+"/fixture/link-fake.html",
+					resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html"
 				});
 				expect(result.error).to.be.null;
 				expect(result.broken).to.be.true;
@@ -289,12 +349,16 @@ describe("checkUrl", function()
 		
 		it("an empty url", function(done)
 		{
-			new BrokenLinkChecker({site:"https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-fake.html"}).checkUrl("", function(result)
+			new BrokenLinkChecker({base:conn.absoluteUrls[0]+"/fixture/link-fake.html"}).checkUrl("", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
 					original: "",
-					resolved: "https://rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-fake.html"
+					resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html"
+				});
+				expect(result.base).to.deep.equal({
+					original: conn.absoluteUrls[0]+"/fixture/link-fake.html",
+					resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html"
 				});
 				expect(result.error).to.be.null;
 				expect(result.broken).to.be.true;
@@ -305,19 +369,25 @@ describe("checkUrl", function()
 	
 	
 	
+	// Technically it's a real host with a fake port, but same goal
+	// and faster than http://asdf1234.asdf1234
 	describe("should be broken and have error with a FAKE HOST from", function()
 	{
 		it("an absolute url", function(done)
 		{
-			new BrokenLinkChecker().checkUrl("http://asdf1234.asdf1234", function(result)
+			new BrokenLinkChecker().checkUrl(conn.fakeAbsoluteUrl+"/path/to/resource.html", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
-					original: "http://asdf1234.asdf1234",
-					resolved: "http://asdf1234.asdf1234/"
+					original: conn.fakeAbsoluteUrl+"/path/to/resource.html",
+					resolved: conn.fakeAbsoluteUrl+"/path/to/resource.html"
+				});
+				expect(result.base).to.deep.equal({
+					original: null,
+					resolved: null
 				});
 				expect(result.error).to.be.instanceOf(Error);
-				expect(result.error.code).to.equal("ENOTFOUND");
+				expect(result.error.code).to.equal("ECONNREFUSED");
 				expect(result.broken).to.be.true;
 				done();
 			});
@@ -327,15 +397,19 @@ describe("checkUrl", function()
 		
 		it("a scheme-relative url", function(done)
 		{
-			new BrokenLinkChecker({site:"http://asdf1234.asdf1234"}).checkUrl("//asdf1234.asdf1234/path/to/resource.html", function(result)
+			new BrokenLinkChecker({base:conn.fakeAbsoluteUrl}).checkUrl(conn.fakeRelativeUrl+"/path/to/resource.html", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
-					original: "//asdf1234.asdf1234/path/to/resource.html",
-					resolved: "http://asdf1234.asdf1234/path/to/resource.html"
+					original: conn.fakeRelativeUrl+"/path/to/resource.html",
+					resolved: conn.fakeAbsoluteUrl+"/path/to/resource.html"
+				});
+				expect(result.base).to.deep.equal({
+					original: conn.fakeAbsoluteUrl,
+					resolved: conn.fakeAbsoluteUrl+"/"
 				});
 				expect(result.error).to.be.instanceOf(Error);
-				expect(result.error.code).to.equal("ENOTFOUND");
+				expect(result.error.code).to.equal("ECONNREFUSED");
 				expect(result.broken).to.be.true;
 				done();
 			});
@@ -345,15 +419,19 @@ describe("checkUrl", function()
 		
 		it("a root-path-relative url", function(done)
 		{
-			new BrokenLinkChecker({site:"http://asdf1234.asdf1234"}).checkUrl("/path/to/resource.html", function(result)
+			new BrokenLinkChecker({base:conn.fakeAbsoluteUrl}).checkUrl("/path/to/resource.html", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
 					original: "/path/to/resource.html",
-					resolved: "http://asdf1234.asdf1234/path/to/resource.html"
+					resolved: conn.fakeAbsoluteUrl+"/path/to/resource.html"
+				});
+				expect(result.base).to.deep.equal({
+					original: conn.fakeAbsoluteUrl,
+					resolved: conn.fakeAbsoluteUrl+"/"
 				});
 				expect(result.error).to.be.instanceOf(Error);
-				expect(result.error.code).to.equal("ENOTFOUND");
+				expect(result.error.code).to.equal("ECONNREFUSED");
 				expect(result.broken).to.be.true;
 				done();
 			});
@@ -363,15 +441,19 @@ describe("checkUrl", function()
 		
 		it("a path-relative url", function(done)
 		{
-			new BrokenLinkChecker({site:"http://asdf1234.asdf1234"}).checkUrl("path/to/resource.html", function(result)
+			new BrokenLinkChecker({base:conn.fakeAbsoluteUrl}).checkUrl("path/to/resource.html", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
 					original: "path/to/resource.html",
-					resolved: "http://asdf1234.asdf1234/path/to/resource.html"
+					resolved: conn.fakeAbsoluteUrl+"/path/to/resource.html"
+				});
+				expect(result.base).to.deep.equal({
+					original: conn.fakeAbsoluteUrl,
+					resolved: conn.fakeAbsoluteUrl+"/"
 				});
 				expect(result.error).to.be.instanceOf(Error);
-				expect(result.error.code).to.equal("ENOTFOUND");
+				expect(result.error.code).to.equal("ECONNREFUSED");
 				expect(result.broken).to.be.true;
 				done();
 			});
@@ -381,15 +463,19 @@ describe("checkUrl", function()
 		
 		it("a query-relative url", function(done)
 		{
-			new BrokenLinkChecker({site:"http://asdf1234.asdf1234"}).checkUrl("?query", function(result)
+			new BrokenLinkChecker({base:conn.fakeAbsoluteUrl+"/path/to/resource.html"}).checkUrl("?query", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
 					original: "?query",
-					resolved: "http://asdf1234.asdf1234/?query"
+					resolved: conn.fakeAbsoluteUrl+"/path/to/resource.html?query"
+				});
+				expect(result.base).to.deep.equal({
+					original: conn.fakeAbsoluteUrl+"/path/to/resource.html",
+					resolved: conn.fakeAbsoluteUrl+"/path/to/resource.html"
 				});
 				expect(result.error).to.be.instanceOf(Error);
-				expect(result.error.code).to.equal("ENOTFOUND");
+				expect(result.error.code).to.equal("ECONNREFUSED");
 				expect(result.broken).to.be.true;
 				done();
 			});
@@ -399,15 +485,19 @@ describe("checkUrl", function()
 		
 		it("a hash-relative url", function(done)
 		{
-			new BrokenLinkChecker({site:"http://asdf1234.asdf1234"}).checkUrl("#hash", function(result)
+			new BrokenLinkChecker({base:conn.fakeAbsoluteUrl+"/path/to/resource.html"}).checkUrl("#hash", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
 					original: "#hash",
-					resolved: "http://asdf1234.asdf1234/#hash"
+					resolved: conn.fakeAbsoluteUrl+"/path/to/resource.html#hash"
+				});
+				expect(result.base).to.deep.equal({
+					original: conn.fakeAbsoluteUrl+"/path/to/resource.html",
+					resolved: conn.fakeAbsoluteUrl+"/path/to/resource.html"
 				});
 				expect(result.error).to.be.instanceOf(Error);
-				expect(result.error.code).to.equal("ENOTFOUND");
+				expect(result.error.code).to.equal("ECONNREFUSED");
 				expect(result.broken).to.be.true;
 				done();
 			});
@@ -417,15 +507,19 @@ describe("checkUrl", function()
 		
 		it("an empty url", function(done)
 		{
-			new BrokenLinkChecker({site:"http://asdf1234.asdf1234"}).checkUrl("", function(result)
+			new BrokenLinkChecker({base:conn.fakeAbsoluteUrl+"/path/to/resource.html"}).checkUrl("", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
 					original: "",
-					resolved: "http://asdf1234.asdf1234/"
+					resolved: conn.fakeAbsoluteUrl+"/path/to/resource.html"
+				});
+				expect(result.base).to.deep.equal({
+					original: conn.fakeAbsoluteUrl+"/path/to/resource.html",
+					resolved: conn.fakeAbsoluteUrl+"/path/to/resource.html"
 				});
 				expect(result.error).to.be.instanceOf(Error);
-				expect(result.error.code).to.equal("ENOTFOUND");
+				expect(result.error.code).to.equal("ECONNREFUSED");
 				expect(result.broken).to.be.true;
 				done();
 			});
@@ -436,11 +530,6 @@ describe("checkUrl", function()
 	
 	describe("should be broken and have error with NO HOST from", function()
 	{
-		// Reset to defeault timeout since no request should be made in this test
-		this.timeout(2000);
-		
-		
-		
 		it("an absolute url", function(done)
 		{
 			new BrokenLinkChecker().checkUrl("http://", function(result)
@@ -449,6 +538,10 @@ describe("checkUrl", function()
 				expect(result.url).to.deep.equal({
 					original: "http://",
 					resolved: "http:///"
+				});
+				expect(result.base).to.deep.equal({
+					original: null,
+					resolved: null
 				});
 				expect(result.error).to.be.instanceOf(Error);
 				expect(result.error.message).to.equal("Invalid URL");
@@ -461,11 +554,15 @@ describe("checkUrl", function()
 		
 		it("a scheme-relative url", function(done)
 		{
-			new BrokenLinkChecker().checkUrl("//rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html", function(result)
+			new BrokenLinkChecker().checkUrl(conn.relativeUrls[0]+"/fixture/link-real.html", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
-					original: "//rawgit.com/stevenvachon/broken-link-checker/master/test/fixture/link-real.html",
+					original: conn.relativeUrls[0]+"/fixture/link-real.html",
+					resolved: null
+				});
+				expect(result.base).to.deep.equal({
+					original: null,
 					resolved: null
 				});
 				expect(result.error).to.be.instanceOf(Error);
@@ -479,11 +576,15 @@ describe("checkUrl", function()
 		
 		it("a root-path-relative url", function(done)
 		{
-			new BrokenLinkChecker().checkUrl("/stevenvachon/broken-link-checker/master/test/fixture/link-real.html", function(result)
+			new BrokenLinkChecker().checkUrl("/fixture/link-real.html", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
-					original: "/stevenvachon/broken-link-checker/master/test/fixture/link-real.html",
+					original: "/fixture/link-real.html",
+					resolved: null
+				});
+				expect(result.base).to.deep.equal({
+					original: null,
 					resolved: null
 				});
 				expect(result.error).to.be.instanceOf(Error);
@@ -497,11 +598,15 @@ describe("checkUrl", function()
 		
 		it("a path-relative url", function(done)
 		{
-			new BrokenLinkChecker().checkUrl("test/fixture/link-real.html", function(result)
+			new BrokenLinkChecker().checkUrl("fixture/link-real.html", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
-					original: "test/fixture/link-real.html",
+					original: "fixture/link-real.html",
+					resolved: null
+				});
+				expect(result.base).to.deep.equal({
+					original: null,
 					resolved: null
 				});
 				expect(result.error).to.be.instanceOf(Error);
@@ -522,6 +627,10 @@ describe("checkUrl", function()
 					original: "?query",
 					resolved: null
 				});
+				expect(result.base).to.deep.equal({
+					original: null,
+					resolved: null
+				});
 				expect(result.error).to.be.instanceOf(Error);
 				expect(result.error.message).to.equal("Invalid URL");
 				expect(result.broken).to.be.true;
@@ -540,6 +649,10 @@ describe("checkUrl", function()
 					original: "#hash",
 					resolved: null
 				});
+				expect(result.base).to.deep.equal({
+					original: null,
+					resolved: null
+				});
 				expect(result.error).to.be.instanceOf(Error);
 				expect(result.error.message).to.equal("Invalid URL");
 				expect(result.broken).to.be.true;
@@ -556,6 +669,10 @@ describe("checkUrl", function()
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
 					original: "",
+					resolved: null
+				});
+				expect(result.base).to.deep.equal({
+					original: null,
 					resolved: null
 				});
 				expect(result.error).to.be.instanceOf(Error);
@@ -579,6 +696,10 @@ describe("checkUrl", function()
 					original: "data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACH/C1hNUCBEYXRhWE1QAz94cAAsAAAAAAEAAQAAAgJEAQA7",
 					resolved: null
 				});
+				expect(result.base).to.deep.equal({
+					original: null,
+					resolved: null
+				});
 				expect(result.error).to.be.instanceOf(Error);
 				expect(result.error.message).to.equal("Invalid URL");
 				expect(result.broken).to.be.true;
@@ -595,6 +716,10 @@ describe("checkUrl", function()
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
 					original: "tel:5-555-555-5555",
+					resolved: null
+				});
+				expect(result.base).to.deep.equal({
+					original: null,
 					resolved: null
 				});
 				expect(result.error).to.be.instanceOf(Error);
