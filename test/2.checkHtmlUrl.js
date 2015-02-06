@@ -70,18 +70,67 @@ describe("checkHtmlUrl", function()
 	
 	
 	
-	it.skip("should use url as base", function(done)
+	it("should use url as base", function(done)
 	{
+		var results = [];
 		
+		new BrokenLinkChecker().checkHtmlUrl(conn.absoluteUrls[0]+"/fixture/index.html",
+		{
+			link: function(result)
+			{
+				//utils.logLinkObj(result);
+				results[result.html.index] = result;
+			},
+			complete: function(error)
+			{
+				if (error !== null)
+				{
+					done(error);
+					return;
+				}
+				
+				expect(results).to.have.length(2);
+				
+				expect(results[0].url).to.deep.equal({
+					original: "link-real.html",
+					resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
+				});
+				expect(results[0].base).to.deep.equal({
+					original: conn.absoluteUrls[0]+"/fixture/index.html",
+					resolved: conn.absoluteUrls[0]+"/fixture/index.html"
+				});
+				expect(results[0].html.tagName).to.equal("a");
+				expect(results[0].html.attrName).to.equal("href");
+				expect(results[0].html.tag).to.equal('<a href="link-real.html">');
+				expect(results[0].html.text).to.equal("link-real");
+				expect(results[0].broken).to.be.false;
+				
+				expect(results[1].url).to.deep.equal({
+					original: "link-fake.html",
+					resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html"
+				});
+				expect(results[1].base).to.deep.equal({
+					original: conn.absoluteUrls[0]+"/fixture/index.html",
+					resolved: conn.absoluteUrls[0]+"/fixture/index.html"
+				});
+				expect(results[1].html.tagName).to.equal("a");
+				expect(results[1].html.attrName).to.equal("href");
+				expect(results[1].html.tag).to.equal('<a href="link-fake.html">');
+				expect(results[1].html.text).to.equal("link-fake");
+				expect(results[1].broken).to.be.true;
+				
+				done();
+			}
+		});
 	});
 	
 	
 	
-	it("should support custom base", function(done)
+	it("should ignore custom base", function(done)
 	{
 		var results = [];
 		
-		new BrokenLinkChecker({base:conn.absoluteUrls[0]+"/fixture/index.html"}).checkHtmlUrl(conn.absoluteUrls[0]+"/fixture/index.html",
+		new BrokenLinkChecker({base:conn.absoluteUrls[0]+"/fake/index.html"}).checkHtmlUrl(conn.absoluteUrls[0]+"/fixture/index.html",
 		{
 			link: function(result)
 			{

@@ -4,7 +4,7 @@
 Features:
 * Requests urls, html files, urls to html files
 * Parses various html tags/attributes, not just `<a href>`
-* Supports absolute urls, relative urls and `<base>`
+* Supports redirects, absolute urls, relative urls and `<base>`
 * Provides detailed information about each link (http and html)
 
 ```js
@@ -20,7 +20,7 @@ html += '<img src="http://fakeurl.com/image.png" alt="missing image"/>';
 blc.checkHtml(html, {
 	link: function(result) {
 		console.log(result.html.index, result.broken, result.html.text, result.url.resolved);
-		//-> 0 false "absolute link" "https://google.com"
+		//-> 0 false "absolute link" "https://google.com/"
 		//-> 1 false "relative link" "https://mywebsite.com/path/to/resource.html"
 		//-> 2 true null "http://fakeurl.com/image.png"
 	},
@@ -65,7 +65,7 @@ new BrokenLinkChecker(options).checkHtml(html, {
 ```
 
 ### blc.checkHtmlUrl(url, handlers)
-Scans the HTML content at `url` to find broken links. `handlers.link` is fired for each result and `handlers.complete` is fired after the last result or zero results. If `url` cannot be reached, `handlers.complete` is fired with an `error` argument and the whole operation is cancelled. This method ignores `options.base`.
+Scans the HTML content at `url` to find broken links. `handlers.link` is fired for each result and `handlers.complete` is fired after the last result or zero results. If `url` cannot be reached, `handlers.complete` is fired with an `error` argument and the whole operation is cancelled. This method overrides `options.base` with `url` and any redirections that may occur.
 ```js
 new BrokenLinkChecker(options).checkHtmlUrl(url, {
 	link: function(result){},
@@ -100,13 +100,12 @@ The tags and attributes that are considered links for checking, split into the f
 * `2`: clickable links, media, stylesheets, scripts, forms
 * `3`: clickable links, media, stylesheets, scripts, forms, meta
 
-To see the exact breakdown, check out the [tag map](https://github.com/stevenvachon/broken-link-checker/blob/master/lib/index.js#L21-L80).
+To see the exact breakdown, check out the [tag map](https://github.com/stevenvachon/broken-link-checker/blob/master/lib/index.js#L18-L77).
 
 ### options.maxSockets
-Type: `Boolean`  
-Default value: `2`  
-The max number of links to check at any given time. This avoids overloading a single target host as a result of many links to that host.
-**Note** In the next version, a `maxSocketsPerHost` will be added allowing this options value to be `Infinity` by default.
+Type: `Number`  
+Default value: `1`  
+The maximum number of links per host/port to check at any given time. This avoids overloading a single target host with too many concurrent requests. This will not limit concurrent requests to other hosts.
 
 
 ## Handling link errors
@@ -126,14 +125,20 @@ if (result.error !== null) {
 
 
 ## Roadmap Features
-* write a "response-concurrency" lib for `maxSocketsPerHost`
-* option to check for page source in case 404s redirect to static html with status 200?
+* provide a `link.url.redirected` value if the link was redirected
+* option to only check external links
+* option to avoid links to the same page
+* option to include iframe html source in checking?
+* method to pause/stop checking
 * better cli -- table view option that disables default log, spinner like npm?
 * `handlers.log()` for logging requests, parsing html, etc
 * stream html files (waiting on [parse5](https://npmjs.com/package/parse5))
 * `checkMarkdown()`,`checkMarkdownUrl()`,`checkHtmlMarkdown()`,`checkHtmlMarkdownUrl()`
 
 ## Changelog
+* 0.4.0
+  * `checkHtmlUrl()` no longer uses `options.base`
+  * added `selector` to linkObj
 * 0.3.0
   * options: `site` renamed to `base`, added `maxSockets`
   * `<base>` supported

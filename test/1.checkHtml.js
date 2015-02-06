@@ -1260,6 +1260,7 @@ describe("checkHtml", function()
 				{
 					expect(results).to.have.length(1);
 					expect(results[0].url.original).to.equal(conn.absoluteUrls[0]+"/fixture/link-real.html");
+					expect(results[0].html.selector).to.equal("a:nth-child(1)");
 					expect(results[0].html.tagName).to.equal("a");
 					expect(results[0].html.attrName).to.equal("href");
 					expect(results[0].html.tag).to.equal('<a href=" '+conn.absoluteUrls[0]+'/fixture/link-real.html	">');
@@ -1287,6 +1288,7 @@ describe("checkHtml", function()
 				{
 					expect(results).to.have.length(1);
 					expect(results[0].url.original).to.equal(conn.absoluteUrls[0]+"/fixture/link-real.html");
+					expect(results[0].html.selector).to.equal("a:nth-child(1)");
 					expect(results[0].html.tagName).to.equal("a");
 					expect(results[0].html.attrName).to.equal("href");
 					expect(results[0].html.tag).to.equal('<a id="link" href="'+conn.absoluteUrls[0]+'/fixture/link-real.html">');
@@ -1318,6 +1320,7 @@ describe("checkHtml", function()
 					expect(results).to.have.length(2);
 					
 					expect(results[0].url.original).to.equal(conn.absoluteUrls[0]+"/fixture/image.gif");
+					expect(results[0].html.selector).to.equal("img:nth-child(1)");
 					expect(results[0].html.tagName).to.equal("img");
 					expect(results[0].html.attrName).to.equal("src");
 					expect(results[0].html.tag).to.equal(html);
@@ -1325,6 +1328,7 @@ describe("checkHtml", function()
 					expect(results[0].broken).to.be.false;
 					
 					expect(results[1].url.original).to.equal(conn.absoluteUrls[0]+"/fixture/link-real.html");
+					expect(results[1].html.selector).to.equal("img:nth-child(1)");
 					expect(results[1].html.tagName).to.equal("img");
 					expect(results[1].html.attrName).to.equal("longdesc");
 					expect(results[1].html.tag).to.equal(html);
@@ -1356,6 +1360,7 @@ describe("checkHtml", function()
 				{
 					expect(results).to.have.length(1);
 					expect(results[0].url.original).to.equal(conn.absoluteUrls[0]+"/fixture/link-real.html");
+					expect(results[0].html.selector).to.equal("a:nth-child(1)");
 					expect(results[0].html.tagName).to.equal("a");
 					expect(results[0].html.attrName).to.equal("href");
 					expect(results[0].html.tag).to.equal('<a href="'+conn.absoluteUrls[0]+'/fixture/link-real.html">');
@@ -1387,6 +1392,7 @@ describe("checkHtml", function()
 					expect(results).to.have.length(2);
 					
 					expect(results[0].url.original).to.equal(conn.absoluteUrls[0]+"/fixture/index.html");
+					expect(results[0].html.selector).to.equal("a:nth-child(1)");
 					expect(results[0].html.tagName).to.equal("a");
 					expect(results[0].html.attrName).to.equal("href");
 					expect(results[0].html.tag).to.equal('<a href="'+conn.absoluteUrls[0]+'/fixture/index.html">');
@@ -1394,6 +1400,49 @@ describe("checkHtml", function()
 					expect(results[0].broken).to.be.false;
 					
 					expect(results[1].url.original).to.equal(conn.absoluteUrls[0]+"/fixture/link-real.html");
+					expect(results[1].html.selector).to.equal("a:nth-child(2)");
+					expect(results[1].html.tagName).to.equal("a");
+					expect(results[1].html.attrName).to.equal("href");
+					expect(results[1].html.tag).to.equal('<a href="'+conn.absoluteUrls[0]+'/fixture/link-real.html">');
+					expect(results[1].html.text).to.equal("link2");
+					expect(results[1].broken).to.be.false;
+					
+					done();
+				}
+			});
+		});
+		
+		
+		
+		it("should support nonconsecutive link elements", function(done)
+		{
+			var results = [];
+			
+			var html = '<a href="'+conn.absoluteUrls[0]+'/fixture/index.html">link1</a>';
+			html += 'content <span>content</span> content';
+			html += '<a href="'+conn.absoluteUrls[0]+'/fixture/link-real.html">link2</a>';
+			
+			new BrokenLinkChecker({filterLevel:3}).checkHtml(html,
+			{
+				link: function(result)
+				{
+					//utils.logLinkObj(result);
+					results[result.html.index] = result;
+				},
+				complete: function()
+				{
+					expect(results).to.have.length(2);
+					
+					expect(results[0].url.original).to.equal(conn.absoluteUrls[0]+"/fixture/index.html");
+					expect(results[0].html.selector).to.equal("a:nth-child(1)");
+					expect(results[0].html.tagName).to.equal("a");
+					expect(results[0].html.attrName).to.equal("href");
+					expect(results[0].html.tag).to.equal('<a href="'+conn.absoluteUrls[0]+'/fixture/index.html">');
+					expect(results[0].html.text).to.equal("link1");
+					expect(results[0].broken).to.be.false;
+					
+					expect(results[1].url.original).to.equal(conn.absoluteUrls[0]+"/fixture/link-real.html");
+					expect(results[1].html.selector).to.equal("a:nth-child(3)");
 					expect(results[1].html.tagName).to.equal("a");
 					expect(results[1].html.attrName).to.equal("href");
 					expect(results[1].html.tag).to.equal('<a href="'+conn.absoluteUrls[0]+'/fixture/link-real.html">');
@@ -1427,6 +1476,7 @@ describe("checkHtml", function()
 					expect(results).to.have.length(2);
 					
 					expect(results[0].url.original).to.equal(conn.absoluteUrls[0]+"/fixture/index.html");
+					expect(results[0].html.selector).to.equal("a:nth-child(1)");
 					expect(results[0].html.tagName).to.equal("a");
 					expect(results[0].html.attrName).to.equal("href");
 					expect(results[0].html.tag).to.equal('<a href="'+conn.absoluteUrls[0]+'/fixture/index.html">');
@@ -1434,12 +1484,44 @@ describe("checkHtml", function()
 					expect(results[0].broken).to.be.false;
 					
 					expect(results[1].url.original).to.equal(conn.absoluteUrls[0]+"/fixture/link-real.html");
+					expect(results[1].html.selector).to.equal("a:nth-child(1) > q:nth-child(1)");
 					expect(results[1].html.tagName).to.equal("q");
 					expect(results[1].html.attrName).to.equal("cite");
 					expect(results[1].html.tag).to.equal('<q cite="'+conn.absoluteUrls[0]+'/fixture/link-real.html">');
 					expect(results[1].html.text).to.equal("quote");
 					expect(results[1].broken).to.be.false;
 					
+					done();
+				}
+			});
+		});
+		
+		
+		
+		it("should support link elements with nested elements", function(done)
+		{
+			var results = [];
+			
+			var html = '<a href="'+conn.absoluteUrls[0]+'/fixture/index.html">';
+			html += '<span>text</span></a>';
+			
+			new BrokenLinkChecker({filterLevel:3}).checkHtml(html,
+			{
+				link: function(result)
+				{
+					//utils.logLinkObj(result);
+					results[result.html.index] = result;
+				},
+				complete: function()
+				{
+					expect(results).to.have.length(1);
+					expect(results[0].url.original).to.equal(conn.absoluteUrls[0]+"/fixture/index.html");
+					expect(results[0].html.selector).to.equal("a:nth-child(1)");
+					expect(results[0].html.tagName).to.equal("a");
+					expect(results[0].html.attrName).to.equal("href");
+					expect(results[0].html.tag).to.equal('<a href="'+conn.absoluteUrls[0]+'/fixture/index.html">');
+					expect(results[0].html.text).to.equal("text");
+					expect(results[0].broken).to.be.false;
 					done();
 				}
 			});
@@ -1462,6 +1544,7 @@ describe("checkHtml", function()
 				{
 					expect(results).to.have.length(1);
 					expect(results[0].url.original).to.equal(conn.absoluteUrls[0]+"/fixture/link-real.html");
+					expect(results[0].html.selector).to.equal("img:nth-child(1)");
 					expect(results[0].html.tagName).to.equal("img");
 					expect(results[0].html.attrName).to.equal("src");
 					expect(results[0].html.tag).to.equal('<img src="'+conn.absoluteUrls[0]+'/fixture/link-real.html">');
@@ -1491,6 +1574,119 @@ describe("checkHtml", function()
 		it.skip("should ignore tel uri", function(done)
 		{
 			
+		});
+		
+		
+		
+		it("should support detailed selectors and omit nth-child from html and body", function(done)
+		{
+			var results = [];
+			
+			var html = '<html><head><title>asdf</title></head><body>';
+			html += '<div><a href="'+conn.absoluteUrls[0]+'/fixture/index.html">link1</a>';
+			html += '<div><a href="'+conn.absoluteUrls[0]+'/fixture/index.html">link2</a></div>';
+			html += '<div><a href="'+conn.absoluteUrls[0]+'/fixture/index.html">link3</a></div>';
+			html += '<a href="'+conn.absoluteUrls[0]+'/fixture/index.html">link4</a></div>';
+			html += '<a href="'+conn.absoluteUrls[0]+'/fixture/index.html">link5</a>';
+			html += '</body></html>';
+			
+			new BrokenLinkChecker({filterLevel:3}).checkHtml(html,
+			{
+				link: function(result)
+				{
+					//utils.logLinkObj(result);
+					results[result.html.index] = result;
+				},
+				complete: function()
+				{
+					expect(results).to.have.length(5);
+					
+					expect(results[0].url.original).to.equal(conn.absoluteUrls[0]+"/fixture/index.html");
+					expect(results[0].html.selector).to.equal("html > body > div:nth-child(1) > a:nth-child(1)");
+					expect(results[0].html.tagName).to.equal("a");
+					expect(results[0].html.attrName).to.equal("href");
+					expect(results[0].html.tag).to.equal('<a href="'+conn.absoluteUrls[0]+'/fixture/index.html">');
+					expect(results[0].html.text).to.equal("link1");
+					expect(results[0].broken).to.be.false;
+					
+					expect(results[1].url.original).to.equal(conn.absoluteUrls[0]+"/fixture/index.html");
+					expect(results[1].html.selector).to.equal("html > body > div:nth-child(1) > div:nth-child(2) > a:nth-child(1)");
+					expect(results[1].html.tagName).to.equal("a");
+					expect(results[1].html.attrName).to.equal("href");
+					expect(results[1].html.tag).to.equal('<a href="'+conn.absoluteUrls[0]+'/fixture/index.html">');
+					expect(results[1].html.text).to.equal("link2");
+					expect(results[1].broken).to.be.false;
+					
+					expect(results[2].url.original).to.equal(conn.absoluteUrls[0]+"/fixture/index.html");
+					expect(results[2].html.selector).to.equal("html > body > div:nth-child(1) > div:nth-child(3) > a:nth-child(1)");
+					expect(results[2].html.tagName).to.equal("a");
+					expect(results[2].html.attrName).to.equal("href");
+					expect(results[2].html.tag).to.equal('<a href="'+conn.absoluteUrls[0]+'/fixture/index.html">');
+					expect(results[2].html.text).to.equal("link3");
+					expect(results[2].broken).to.be.false;
+					
+					expect(results[3].url.original).to.equal(conn.absoluteUrls[0]+"/fixture/index.html");
+					expect(results[3].html.selector).to.equal("html > body > div:nth-child(1) > a:nth-child(4)");
+					expect(results[3].html.tagName).to.equal("a");
+					expect(results[3].html.attrName).to.equal("href");
+					expect(results[3].html.tag).to.equal('<a href="'+conn.absoluteUrls[0]+'/fixture/index.html">');
+					expect(results[3].html.text).to.equal("link4");
+					expect(results[3].broken).to.be.false;
+					
+					expect(results[4].url.original).to.equal(conn.absoluteUrls[0]+"/fixture/index.html");
+					expect(results[4].html.selector).to.equal("html > body > a:nth-child(2)");
+					expect(results[4].html.tagName).to.equal("a");
+					expect(results[4].html.attrName).to.equal("href");
+					expect(results[4].html.tag).to.equal('<a href="'+conn.absoluteUrls[0]+'/fixture/index.html">');
+					expect(results[4].html.text).to.equal("link5");
+					expect(results[4].broken).to.be.false;
+					
+					done();
+				}
+			});
+		});
+		
+		
+		
+		it.skip("should support invalid html structure", function(done)
+		{
+			var results = [];
+			
+			var html = '<html><head><title>asdf</title></head><body>';
+			html += '<div><a href="'+conn.absoluteUrls[0]+'/fixture/index.html">link1</div></a>';
+			html += '<a href="'+conn.absoluteUrls[0]+'/fixture/index.html">link2</a>';
+			html += '</wtf></body></html>';
+			
+			new BrokenLinkChecker({filterLevel:3}).checkHtml(html,
+			{
+				link: function(result)
+				{
+					//utils.logLinkObj(result);
+					results[result.html.index] = result;
+				},
+				complete: function()
+				{
+					expect(results).to.have.length(2);
+					
+					expect(results[0].url.original).to.equal(conn.absoluteUrls[0]+"/fixture/index.html");
+					expect(results[0].html.selector).to.equal("html > body > div:nth-child(1) > a:nth-child(1)");
+					expect(results[0].html.tagName).to.equal("a");
+					expect(results[0].html.attrName).to.equal("href");
+					expect(results[0].html.tag).to.equal('<a href="'+conn.absoluteUrls[0]+'/fixture/index.html">');
+					expect(results[0].html.text).to.equal("link1");
+					expect(results[0].broken).to.be.false;
+					
+					expect(results[1].url.original).to.equal(conn.absoluteUrls[0]+"/fixture/index.html");
+					expect(results[1].html.selector).to.equal("html > body > a:nth-child(2)");
+					expect(results[1].html.tagName).to.equal("a");
+					expect(results[1].html.attrName).to.equal("href");
+					expect(results[1].html.tag).to.equal('<a href="'+conn.absoluteUrls[0]+'/fixture/index.html">');
+					expect(results[1].html.text).to.equal("link2");
+					expect(results[1].broken).to.be.false;
+					
+					done();
+				}
+			});
 		});
 		
 		
