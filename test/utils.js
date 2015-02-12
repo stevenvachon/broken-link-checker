@@ -3,6 +3,9 @@ var http = require("http");
 var https = require("https");
 var nodeStatic = require("node-static");
 var portscanner = require("portscanner");
+var voidElements = require("void-elements");
+
+var tags = require("../lib/tags");
 
 var fileServer = new nodeStatic.Server(__dirname);
 var host = "127.0.0.1";
@@ -17,6 +20,36 @@ function getAvailablePort(callback)
 		if (error) throw error;
 		callback(port);
 	})
+}
+
+
+
+function getTagsString(filterLevel, url)
+{
+	var attrName,html,tag,tagName;
+	var filteredTags = tags[filterLevel];
+	var html = "";
+	
+	for (tagName in filteredTags)
+	{
+		html += '<'+tagName;
+		
+		tag = filteredTags[tagName];
+		
+		for (attrName in tag)
+		{
+			html += ' '+attrName+'="'+url+'"';
+		}
+		
+		html += '>';
+		
+		if (voidElements[tagName] !== true)
+		{
+			html += 'link</'+tagName+'>';
+		}
+	}
+	
+	return html;
 }
 
 
@@ -174,6 +207,7 @@ function stopConnections(ports, callback)
 
 module.exports = 
 {
+	getTagsString: getTagsString,
 	logLinkObj: logLinkObj,
 	startConnections: startConnections,
 	stopConnections: stopConnections

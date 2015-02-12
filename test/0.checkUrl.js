@@ -69,6 +69,7 @@ describe("checkUrl", function()
 	
 	
 	
+	// TODO :: test `internal` and `samePage`
 	describe("should not be broken with a REAL HOST and REAL PATH from", function()
 	{
 		it("an absolute url", function(done)
@@ -711,11 +712,11 @@ describe("checkUrl", function()
 		
 		it("a tel uri", function(done)
 		{
-			new BrokenLinkChecker().checkUrl("tel:5-555-555-5555", function(result)
+			new BrokenLinkChecker().checkUrl("tel:+5-555-555-5555", function(result)
 			{
 				//utils.logLinkObj(result);
 				expect(result.url).to.deep.equal({
-					original: "tel:5-555-555-5555",
+					original: "tel:+5-555-555-5555",
 					resolved: null
 				});
 				expect(result.base).to.deep.equal({

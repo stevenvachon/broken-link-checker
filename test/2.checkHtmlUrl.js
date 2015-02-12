@@ -70,131 +70,135 @@ describe("checkHtmlUrl", function()
 	
 	
 	
-	it("should use url as base", function(done)
+	describe("edge cases", function()
 	{
-		var results = [];
-		
-		new BrokenLinkChecker().checkHtmlUrl(conn.absoluteUrls[0]+"/fixture/index.html",
+		it("should use url as base", function(done)
 		{
-			link: function(result)
+			var results = [];
+			
+			new BrokenLinkChecker().checkHtmlUrl(conn.absoluteUrls[0]+"/fixture/index.html",
 			{
-				//utils.logLinkObj(result);
-				results[result.html.index] = result;
-			},
-			complete: function(error)
-			{
-				if (error !== null)
+				link: function(result)
 				{
-					done(error);
-					return;
-				}
-				
-				expect(results).to.have.length(2);
-				
-				expect(results[0].url).to.deep.equal({
-					original: "link-real.html",
-					resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
-				});
-				expect(results[0].base).to.deep.equal({
-					original: conn.absoluteUrls[0]+"/fixture/index.html",
-					resolved: conn.absoluteUrls[0]+"/fixture/index.html"
-				});
-				expect(results[0].html.tagName).to.equal("a");
-				expect(results[0].html.attrName).to.equal("href");
-				expect(results[0].html.tag).to.equal('<a href="link-real.html">');
-				expect(results[0].html.text).to.equal("link-real");
-				expect(results[0].broken).to.be.false;
-				
-				expect(results[1].url).to.deep.equal({
-					original: "link-fake.html",
-					resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html"
-				});
-				expect(results[1].base).to.deep.equal({
-					original: conn.absoluteUrls[0]+"/fixture/index.html",
-					resolved: conn.absoluteUrls[0]+"/fixture/index.html"
-				});
-				expect(results[1].html.tagName).to.equal("a");
-				expect(results[1].html.attrName).to.equal("href");
-				expect(results[1].html.tag).to.equal('<a href="link-fake.html">');
-				expect(results[1].html.text).to.equal("link-fake");
-				expect(results[1].broken).to.be.true;
-				
-				done();
-			}
-		});
-	});
-	
-	
-	
-	it("should ignore custom base", function(done)
-	{
-		var results = [];
-		
-		new BrokenLinkChecker({base:conn.absoluteUrls[0]+"/fake/index.html"}).checkHtmlUrl(conn.absoluteUrls[0]+"/fixture/index.html",
-		{
-			link: function(result)
-			{
-				//utils.logLinkObj(result);
-				results[result.html.index] = result;
-			},
-			complete: function(error)
-			{
-				if (error !== null)
+					//utils.logLinkObj(result);
+					results[result.html.index] = result;
+				},
+				complete: function(error)
 				{
-					done(error);
-					return;
+					if (error !== null)
+					{
+						done(error);
+						return;
+					}
+					
+					expect(results).to.have.length(2);
+					
+					expect(results[0].url).to.deep.equal({
+						original: "link-real.html",
+						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
+					});
+					expect(results[0].base).to.deep.equal({
+						original: conn.absoluteUrls[0]+"/fixture/index.html",
+						resolved: conn.absoluteUrls[0]+"/fixture/index.html"
+					});
+					expect(results[0].html.tagName).to.equal("a");
+					expect(results[0].html.attrName).to.equal("href");
+					expect(results[0].html.tag).to.equal('<a href="link-real.html">');
+					expect(results[0].html.text).to.equal("link-real");
+					expect(results[0].broken).to.be.false;
+					
+					expect(results[1].url).to.deep.equal({
+						original: "link-fake.html",
+						resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html"
+					});
+					expect(results[1].base).to.deep.equal({
+						original: conn.absoluteUrls[0]+"/fixture/index.html",
+						resolved: conn.absoluteUrls[0]+"/fixture/index.html"
+					});
+					expect(results[1].html.tagName).to.equal("a");
+					expect(results[1].html.attrName).to.equal("href");
+					expect(results[1].html.tag).to.equal('<a href="link-fake.html">');
+					expect(results[1].html.text).to.equal("link-fake");
+					expect(results[1].broken).to.be.true;
+					
+					done();
 				}
-				
-				expect(results).to.have.length(2);
-				
-				expect(results[0].url).to.deep.equal({
-					original: "link-real.html",
-					resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
-				});
-				expect(results[0].base).to.deep.equal({
-					original: conn.absoluteUrls[0]+"/fixture/index.html",
-					resolved: conn.absoluteUrls[0]+"/fixture/index.html"
-				});
-				expect(results[0].html.tagName).to.equal("a");
-				expect(results[0].html.attrName).to.equal("href");
-				expect(results[0].html.tag).to.equal('<a href="link-real.html">');
-				expect(results[0].html.text).to.equal("link-real");
-				expect(results[0].broken).to.be.false;
-				
-				expect(results[1].url).to.deep.equal({
-					original: "link-fake.html",
-					resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html"
-				});
-				expect(results[1].base).to.deep.equal({
-					original: conn.absoluteUrls[0]+"/fixture/index.html",
-					resolved: conn.absoluteUrls[0]+"/fixture/index.html"
-				});
-				expect(results[1].html.tagName).to.equal("a");
-				expect(results[1].html.attrName).to.equal("href");
-				expect(results[1].html.tag).to.equal('<a href="link-fake.html">');
-				expect(results[1].html.text).to.equal("link-fake");
-				expect(results[1].broken).to.be.true;
-				
-				done();
-			}
+			});
 		});
-	});
-	
-	
-	
-	it("should reject non-html urls", function(done)
-	{
-		new BrokenLinkChecker().checkHtmlUrl(conn.absoluteUrls[0]+"/fixture/image.gif",
+		
+		
+		
+		it("should ignore custom base", function(done)
 		{
-			link: function(result)
+			var results = [];
+			
+			new BrokenLinkChecker({base:conn.absoluteUrls[0]+"/fake/index.html"}).checkHtmlUrl(conn.absoluteUrls[0]+"/fixture/index.html",
 			{
-				done( new Error("this should not have been called") );
-			},
-			complete: function(error)
+				link: function(result)
+				{
+					//utils.logLinkObj(result);
+					results[result.html.index] = result;
+				},
+				complete: function(error)
+				{
+					if (error !== null)
+					{
+						done(error);
+						return;
+					}
+					
+					expect(results).to.have.length(2);
+					
+					expect(results[0].url).to.deep.equal({
+						original: "link-real.html",
+						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
+					});
+					expect(results[0].base).to.deep.equal({
+						original: conn.absoluteUrls[0]+"/fixture/index.html",
+						resolved: conn.absoluteUrls[0]+"/fixture/index.html"
+					});
+					expect(results[0].html.tagName).to.equal("a");
+					expect(results[0].html.attrName).to.equal("href");
+					expect(results[0].html.tag).to.equal('<a href="link-real.html">');
+					expect(results[0].html.text).to.equal("link-real");
+					expect(results[0].broken).to.be.false;
+					
+					expect(results[1].url).to.deep.equal({
+						original: "link-fake.html",
+						resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html"
+					});
+					expect(results[1].base).to.deep.equal({
+						original: conn.absoluteUrls[0]+"/fixture/index.html",
+						resolved: conn.absoluteUrls[0]+"/fixture/index.html"
+					});
+					expect(results[1].html.tagName).to.equal("a");
+					expect(results[1].html.attrName).to.equal("href");
+					expect(results[1].html.tag).to.equal('<a href="link-fake.html">');
+					expect(results[1].html.text).to.equal("link-fake");
+					expect(results[1].broken).to.be.true;
+					
+					done();
+				}
+			});
+		});
+		
+		
+		
+		it("should reject non-html urls", function(done)
+		{
+			new BrokenLinkChecker().checkHtmlUrl(conn.absoluteUrls[0]+"/fixture/image.gif",
 			{
-				expect(error).to.be.instanceOf(Error);
-				done();
-			}
+				link: function(result)
+				{
+					//utils.logLinkObj(result);
+					done( new Error("this should not have been called") );
+				},
+				complete: function(error)
+				{
+					expect(error).to.be.instanceOf(Error);
+					done();
+				}
+			});
 		});
 	});
 });

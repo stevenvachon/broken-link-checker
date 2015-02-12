@@ -81,15 +81,36 @@ new BrokenLinkChecker(options).checkUrl(url, function(result){});
 
 ## Options
 
+### options.acceptedSchemes
+Type: `Array`  
+Default value: `["http","https"]`  
+Will only check links with schemes/protocols mentioned in this list. Any others will output an "Invalid URL" error.
+
 ### options.base
 Type: `String`  
 Default value: `undefined`  
-The address to which all relative URLs will be made absolute. Without a value, links to relative URLs will contain an "Invalid URI" error.
+The address to which all relative URLs will be made absolute. Without a value, links to relative URLs will output an "Invalid URL" error.
 
-### options.excludeEmptyAnchors
+### options.excludedSchemes
+Type: `Array`  
+Default value: `["data","geo","mailto","sms","tel"]`  
+Will not check or output links with schemes/protocols mentioned in this list. This avoids the output of "Invalid URL" errors with links that cannot be checked.
+
+This option does not apply to `checkUrl()`.
+
+### options.excludeInternalLinks
 Type: `Boolean`  
 Default value: `false`  
-An empty anchor (`<a href="">`,`<area href="">`) will not be checked when `true`. While browsers natively treat these as links to the current page, it is possible that their existence is the result of developer error.
+Will only check and output external links when `true`.
+
+This option does not apply to `checkUrl()`.
+
+### options.excludeLinksToSamePage
+Type: `Boolean`  
+Default value: `true`  
+As the name suggests, it will not check or output links to the same page which include fragments/hashes (relative and absolute).
+
+This option does not apply to `checkUrl()`.
 
 ### options.filterLevel
 Type: `Number`  
@@ -100,7 +121,9 @@ The tags and attributes that are considered links for checking, split into the f
 * `2`: clickable links, media, stylesheets, scripts, forms
 * `3`: clickable links, media, stylesheets, scripts, forms, meta
 
-To see the exact breakdown, check out the [tag map](https://github.com/stevenvachon/broken-link-checker/blob/master/lib/index.js#L18-L77).
+To see the exact breakdown, check out the [tag map](https://github.com/stevenvachon/broken-link-checker/blob/master/lib/tags.js).
+
+This option does not apply to `checkUrl()`.
 
 ### options.maxSockets
 Type: `Number`  
@@ -119,15 +142,13 @@ if (result.error !== null) {
 	// Connection timed out
 	if (result.error.code === "ETIMEDOUT"){}
 	// Duh.
-	if (result.error.message === "Invalid URI"){}
+	if (result.error.message === "Invalid URL"){}
 }
 ```
 
 
 ## Roadmap Features
 * provide a `link.url.redirected` value if the link was redirected
-* option to only check external links
-* option to avoid links to the same page
 * option to include iframe html source in checking?
 * method to pause/stop checking
 * better cli -- table view option that disables default log, spinner like npm?
@@ -136,18 +157,23 @@ if (result.error !== null) {
 * `checkMarkdown()`,`checkMarkdownUrl()`,`checkHtmlMarkdown()`,`checkHtmlMarkdownUrl()`
 
 ## Changelog
+* 0.4.1
+  * options added: `acceptedSchemes`, `excludedSchemes`, `excludeInternalLinks`, `excludeLinksToSamePage`
+  * options removed: `excludeEmptyAnchors`
+  * linkObj added: `internal`, `samePage`
 * 0.4.0
   * `checkHtmlUrl()` no longer uses `options.base`
-  * added `selector` to linkObj
+  * linkObj added: `selector`
 * 0.3.0
-  * options: `site` renamed to `base`, added `maxSockets`
+  * options added: `maxSockets`
+  * options renamed: `site`->`base`
   * `<base>` supported
   * requesting links now only downloads the response header
   * faster test suite
 * 0.2.2 added missing tags/attributes
 * 0.2.1 basic CLI, bug fixes
 * 0.2.0
-  * options: `excludeEmptyAnchors`,`filterLevel`
+  * options added: `excludeEmptyAnchors`, `filterLevel`
   * new linkObj structure
   * more complete test suite
 * 0.1.0 initial release

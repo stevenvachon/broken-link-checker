@@ -1,7 +1,7 @@
 {
   "name": "broken-link-checker",
   "description": "Find broken links, missing images, etc in your HTML.",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "homepage": "https://github.com/stevenvachon/broken-link-checker",
   "author": {
     "name": "Steven Vachon",
@@ -35,7 +35,7 @@
     "void-elements": "^2.0.1"
   },
   "devDependencies": {
-    "chai": "^1.10.0",
+    "chai": "^2.0.0",
     "mocha": "^2.1.0",
     "node-static": "~0.7.6",
     "portscanner": "^1.0.0"
