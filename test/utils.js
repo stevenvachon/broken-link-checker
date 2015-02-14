@@ -76,14 +76,35 @@ function startHttpServer(callback)
 		{
 			request.addListener("end", function()
 			{
-				fileServer.serve(request, response, function(error, result)
+				switch (request.url)
 				{
-					if (error !== null)
+					case "/fixture/redirect.html":
 					{
-						response.writeHead(error.status, error.headers);
+						// Redirect
+						response.writeHead(302, { "Location":"/fixture/redirect2.html" });
 						response.end();
+						break;
 					}
-				});
+					case "/fixture/redirect2.html":
+					{
+						// Redirect
+						response.writeHead(302, { "Location":"/fixture/index.html" });
+						response.end();
+						break;
+					}
+					default:
+					{
+						// Serve file
+						fileServer.serve(request, response, function(error, result)
+						{
+							if (error !== null)
+							{
+								response.writeHead(error.status, error.headers);
+								response.end();
+							}
+						});
+					}
+				}
 			}).resume();
 		}).listen(port, host);
 		

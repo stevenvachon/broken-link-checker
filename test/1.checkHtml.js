@@ -34,17 +34,21 @@ describe("checkHtml", function()
 		it("html", function(done)
 		{
 			var blc = new BrokenLinkChecker();
-			var checkHtml_array    = function(){ blc.checkHtml([0],          function(){}) };
-			var checkHtml_function = function(){ blc.checkHtml(function(){}, function(){}) };
-			var checkHtml_number   = function(){ blc.checkHtml(0,            function(){}) };
-			var checkHtml_object   = function(){ blc.checkHtml({0:0},        function(){}) };
-			var checkHtml_string   = function(){ blc.checkHtml("",           function(){}) };
+			var checkHtml_array     = function(){ blc.checkHtml([0],          {}) };
+			var checkHtml_function  = function(){ blc.checkHtml(function(){}, {}) };
+			var checkHtml_null      = function(){ blc.checkHtml(null,         {}) };
+			var checkHtml_number    = function(){ blc.checkHtml(0,            {}) };
+			var checkHtml_object    = function(){ blc.checkHtml({0:0},        {}) };
+			var checkHtml_string    = function(){ blc.checkHtml("",           {}) };
+			var checkHtml_undefined = function(){ blc.checkHtml(undefined,    {}) };
 			
-			expect(checkHtml_array   ).to.throw("html must be a string");
-			expect(checkHtml_function).to.throw("html must be a string");
-			expect(checkHtml_number  ).to.throw("html must be a string");
-			expect(checkHtml_object  ).to.throw("html must be a string");
-			expect(checkHtml_string  ).to.not.throw("html must be a string");
+			expect(checkHtml_array    ).to.throw("html must be a string");
+			expect(checkHtml_function ).to.throw("html must be a string");
+			expect(checkHtml_null     ).to.throw("html must be a string");
+			expect(checkHtml_number   ).to.throw("html must be a string");
+			expect(checkHtml_object   ).to.throw("html must be a string");
+			expect(checkHtml_string   ).to.not.throw("html must be a string");
+			expect(checkHtml_undefined).to.throw("html must be a string");
 			done();
 		});
 		
@@ -53,17 +57,21 @@ describe("checkHtml", function()
 		it("handlers", function(done)
 		{
 			var blc = new BrokenLinkChecker();
-			var checkHtml_array    = function(){ blc.checkHtml("", [0]         ) };
-			var checkHtml_function = function(){ blc.checkHtml("", function(){}) };
-			var checkHtml_number   = function(){ blc.checkHtml("", 0           ) };
-			var checkHtml_object   = function(){ blc.checkHtml("", {0:0}       ) };
-			var checkHtml_string   = function(){ blc.checkHtml("", ""          ) };
+			var checkHtml_array     = function(){ blc.checkHtml("", [0]         ) };
+			var checkHtml_function  = function(){ blc.checkHtml("", function(){}) };
+			var checkHtml_null      = function(){ blc.checkHtml("", null        ) };
+			var checkHtml_number    = function(){ blc.checkHtml("", 0           ) };
+			var checkHtml_object    = function(){ blc.checkHtml("", {0:0}       ) };
+			var checkHtml_string    = function(){ blc.checkHtml("", ""          ) };
+			var checkHtml_undefined = function(){ blc.checkHtml("", undefined   ) };
 			
-			expect(checkHtml_array   ).to.throw("handlers must be an object");
-			expect(checkHtml_function).to.throw("handlers must be an object");
-			expect(checkHtml_number  ).to.throw("handlers must be an object");
-			expect(checkHtml_object  ).to.not.throw("handlers must be an object");
-			expect(checkHtml_string  ).to.throw("handlers must be an object");
+			expect(checkHtml_array    ).to.throw("handlers must be an object");
+			expect(checkHtml_function ).to.throw("handlers must be an object");
+			expect(checkHtml_null     ).to.throw("handlers must be an object");
+			expect(checkHtml_number   ).to.throw("handlers must be an object");
+			expect(checkHtml_object   ).to.not.throw("handlers must be an object");
+			expect(checkHtml_string   ).to.throw("handlers must be an object");
+			expect(checkHtml_undefined).to.throw("handlers must be an object");
 			done();
 		});
 	});
@@ -659,7 +667,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: conn.absoluteUrls[1]+"/fixture/link-real.html",
-						resolved: conn.absoluteUrls[1]+"/fixture/link-real.html"
+						resolved: conn.absoluteUrls[1]+"/fixture/link-real.html",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -693,7 +702,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "/fixture/link-real.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
+						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -727,7 +737,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "fixture/link-real.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
+						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -761,7 +772,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "?query",
-						resolved: conn.absoluteUrls[0]+"/fixture/index.html?query"
+						resolved: conn.absoluteUrls[0]+"/fixture/index.html?query",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0]+"/fixture/index.html",
@@ -795,7 +807,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "#hash",
-						resolved: conn.absoluteUrls[0]+"/fixture/index.html#hash"
+						resolved: conn.absoluteUrls[0]+"/fixture/index.html#hash",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0]+"/fixture/index.html",
@@ -829,7 +842,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "",
-						resolved: conn.absoluteUrls[0]+"/fixture/index.html"
+						resolved: conn.absoluteUrls[0]+"/fixture/index.html",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0]+"/fixture/index.html",
@@ -867,7 +881,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: conn.absoluteUrls[1]+"/fixture/link-real.html",
-						resolved: conn.absoluteUrls[1]+"/fixture/link-real.html"
+						resolved: conn.absoluteUrls[1]+"/fixture/link-real.html",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -905,7 +920,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "/fixture/link-real.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
+						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -943,7 +959,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "link-real.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
+						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -981,7 +998,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "?query",
-						resolved: conn.absoluteUrls[0]+"/fixture/?query"
+						resolved: conn.absoluteUrls[0]+"/fixture/?query",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -1019,7 +1037,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "#hash",
-						resolved: conn.absoluteUrls[0]+"/fixture/#hash"
+						resolved: conn.absoluteUrls[0]+"/fixture/#hash",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -1057,7 +1076,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "",
-						resolved: conn.absoluteUrls[0]+"/fixture/"
+						resolved: conn.absoluteUrls[0]+"/fixture/",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -1095,7 +1115,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: conn.absoluteUrls[1]+"/fixture/link-real.html",
-						resolved: conn.absoluteUrls[1]+"/fixture/link-real.html"
+						resolved: conn.absoluteUrls[1]+"/fixture/link-real.html",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -1133,7 +1154,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "/fixture/link-real.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
+						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -1171,7 +1193,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "link-real.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
+						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -1209,7 +1232,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "?query",
-						resolved: conn.absoluteUrls[0]+"/fixture/?query"
+						resolved: conn.absoluteUrls[0]+"/fixture/?query",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -1247,7 +1271,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "#hash",
-						resolved: conn.absoluteUrls[0]+"/fixture/#hash"
+						resolved: conn.absoluteUrls[0]+"/fixture/#hash",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -1285,7 +1310,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "",
-						resolved: conn.absoluteUrls[0]+"/fixture/"
+						resolved: conn.absoluteUrls[0]+"/fixture/",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -1323,7 +1349,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: conn.absoluteUrls[1]+"/fixture/link-real.html",
-						resolved: conn.absoluteUrls[1]+"/fixture/link-real.html"
+						resolved: conn.absoluteUrls[1]+"/fixture/link-real.html",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -1361,7 +1388,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "/fixture/link-real.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
+						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -1399,7 +1427,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "link-real.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
+						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -1437,7 +1466,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "?query",
-						resolved: conn.absoluteUrls[0]+"/fixture/?query"
+						resolved: conn.absoluteUrls[0]+"/fixture/?query",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -1475,7 +1505,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "#hash",
-						resolved: conn.absoluteUrls[0]+"/fixture/#hash"
+						resolved: conn.absoluteUrls[0]+"/fixture/#hash",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -1513,7 +1544,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "",
-						resolved: conn.absoluteUrls[0]+"/fixture/"
+						resolved: conn.absoluteUrls[0]+"/fixture/",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -1551,7 +1583,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: conn.absoluteUrls[0]+"/fixture/link-real.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
+						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -1589,7 +1622,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "/fixture/link-real.html",
-						resolved: conn.absoluteUrls[1]+"/fixture/link-real.html"
+						resolved: conn.absoluteUrls[1]+"/fixture/link-real.html",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -1627,7 +1661,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "link-real.html",
-						resolved: conn.absoluteUrls[1]+"/fixture/link-real.html"
+						resolved: conn.absoluteUrls[1]+"/fixture/link-real.html",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -1665,7 +1700,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "?query",
-						resolved: conn.absoluteUrls[1]+"/fixture/?query"
+						resolved: conn.absoluteUrls[1]+"/fixture/?query",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -1703,7 +1739,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "#hash",
-						resolved: conn.absoluteUrls[1]+"/fixture/#hash"
+						resolved: conn.absoluteUrls[1]+"/fixture/#hash",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -1741,7 +1778,8 @@ describe("checkHtml", function()
 					expect(results).to.have.length(1);
 					expect(results[0].url).to.deep.equal({
 						original: "",
-						resolved: conn.absoluteUrls[1]+"/fixture/"
+						resolved: conn.absoluteUrls[1]+"/fixture/",
+						redirected: null
 					});
 					expect(results[0].base).to.deep.equal({
 						original: conn.absoluteUrls[0],

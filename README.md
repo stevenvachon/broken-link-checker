@@ -148,7 +148,9 @@ if (result.error !== null) {
 
 
 ## Roadmap Features
-* provide a `link.url.redirected` value if the link was redirected
+* option to store a map of checked links to avoid checking same URL twice (even with different hashes)?
+  * per checkHtml/checkHtmlUrl operation?
+  * could copy response from first checked link for each successive link's completeness
 * option to include iframe html source in checking?
 * method to pause/stop checking
 * better cli -- table view option that disables default log, spinner like npm?
@@ -157,6 +159,7 @@ if (result.error !== null) {
 * `checkMarkdown()`,`checkMarkdownUrl()`,`checkHtmlMarkdown()`,`checkHtmlMarkdownUrl()`
 
 ## Changelog
+* 0.4.2 added `redirected` to linkObj, bug fixes
 * 0.4.1
   * options added: `acceptedSchemes`, `excludedSchemes`, `excludeInternalLinks`, `excludeLinksToSamePage`
   * options removed: `excludeEmptyAnchors`
