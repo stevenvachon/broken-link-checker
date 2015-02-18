@@ -88,7 +88,7 @@ function startHttpServer(callback)
 					case "/fixture/redirect2.html":
 					{
 						// Redirect
-						response.writeHead(302, { "Location":"/fixture/index.html" });
+						response.writeHead(301, { "Location":"/fixture/index.html" });
 						response.end();
 						break;
 					}

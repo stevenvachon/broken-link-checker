@@ -108,7 +108,7 @@ This option does not apply to `checkUrl()`.
 ### options.excludeLinksToSamePage
 Type: `Boolean`  
 Default value: `true`  
-As the name suggests, it will not check or output links to the same page which include fragments/hashes (relative and absolute).
+As the name suggests, it will not check or output links to the same page; relative and absolute fragments/hashes included.
 
 This option does not apply to `checkUrl()`.
 
@@ -130,6 +130,11 @@ Type: `Number`
 Default value: `1`  
 The maximum number of links per host/port to check at any given time. This avoids overloading a single target host with too many concurrent requests. This will not limit concurrent requests to other hosts.
 
+### options.rateLimit
+Type: `Number`  
+Default value: `0`  
+The number of milliseconds to wait before each request.
+
 
 ## Handling link errors
 Each result will have its own `error` key for which you can compare against:
@@ -147,26 +152,39 @@ if (result.error !== null) {
 ```
 
 
+## FAQ
+1. **Where is the status code?**  
+`result.response.statusCode`.
+
+1. **Where is the redirect(s) log?**  
+Check out the `result.response.request.redirects` Array for status codes and URLs.
+
+
 ## Roadmap Features
+* rename `maxSockets` to `maxSocketsPerHost` and add a real `maxSockets`
+* start/end string locations for url attribute values ([parse5#43](https://github.com/inikulin/parse5/issues/43)])
+* option to exclude keywords from URLs (facebook.com, etc)
 * option to store a map of checked links to avoid checking same URL twice (even with different hashes)?
   * per checkHtml/checkHtmlUrl operation?
   * could copy response from first checked link for each successive link's completeness
+* option to check broken link on archive.org for archived version (using [this lib](https://npmjs.com/archive.org))
 * option to include iframe html source in checking?
 * method to pause/stop checking
 * better cli -- table view option that disables default log, spinner like npm?
 * `handlers.log()` for logging requests, parsing html, etc
-* stream html files (waiting on [parse5](https://npmjs.com/package/parse5))
+* stream html files ([parse5#26](https://github.com/inikulin/parse5/issues/26)])
 * `checkMarkdown()`,`checkMarkdownUrl()`,`checkHtmlMarkdown()`,`checkHtmlMarkdownUrl()`
 
 ## Changelog
-* 0.4.2 added `redirected` to linkObj, bug fixes
+* 0.4.3 added `rateLimit` option, cleanup
+* 0.4.2 added `url.redirected` to linkObj, bug fixes
 * 0.4.1
   * options added: `acceptedSchemes`, `excludedSchemes`, `excludeInternalLinks`, `excludeLinksToSamePage`
   * options removed: `excludeEmptyAnchors`
   * linkObj added: `internal`, `samePage`
 * 0.4.0
   * `checkHtmlUrl()` no longer uses `options.base`
-  * linkObj added: `selector`
+  * linkObj added: `html.selector`
 * 0.3.0
   * options added: `maxSockets`
   * options renamed: `site`->`base`
