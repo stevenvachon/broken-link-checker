@@ -1,7 +1,7 @@
 {
   "name": "broken-link-checker",
   "description": "Find broken links, missing images, etc in your HTML.",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "homepage": "https://github.com/stevenvachon/broken-link-checker",
   "author": {
     "name": "Steven Vachon",
@@ -29,10 +29,10 @@
   "dependencies": {
     "chalk": "^1.0.0",
     "default-user-agent": "~0.0.1",
+    "limited-request-queue": "git://github.com/stevenvachon/limited-request-queue.git",
     "object-assign": "^2.0.0",
     "parse5": "^1.4.1",
     "request": "^2.53.0",
-    "rate-limit": "~0.1.1",
     "void-elements": "^2.0.1"
   },
   "devDependencies": {

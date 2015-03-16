@@ -6,18 +6,17 @@ Features:
 * Parses various html tags/attributes, not just `<a href>`
 * Supports redirects, absolute urls, relative urls and `<base>`
 * Provides detailed information about each link (http and html)
+* Pause/Resume at any time
 
 ```js
-var BrokenLinkChecker = require("broken-link-checker");
-
-var options = { base:"https://mywebsite.com" };
-var blc = new BrokenLinkChecker(options);
+var blc = require("broken-link-checker");
 
 var html = '<a href="https://google.com">absolute link</a>';
 html += '<a href="/path/to/resource.html">relative link</a>';
 html += '<img src="http://fakeurl.com/image.png" alt="missing image"/>';
 
-blc.checkHtml(html, {
+var options = { base:"https://mywebsite.com" };
+var htmlChecker = new blc.HtmlChecker(options, {
 	link: function(result) {
 		console.log(result.html.index, result.broken, result.html.text, result.url.resolved);
 		//-> 0 false "absolute link" "https://google.com/"
@@ -28,6 +27,8 @@ blc.checkHtml(html, {
 		console.log("done checking!");
 	}
 });
+
+htmlChecker.parse(html);
 ```
 
 
@@ -53,30 +54,65 @@ npm install broken-link-checker --save-dev
 The rest of this document will assist you with how to use the API.
 
 
-## Methods
+## Classes
 
-### blc.checkHtml(html, handlers)
-Scans `html` to find broken links. `handlers.link` is fired for each result and `handlers.complete` is fired after the last result or zero results.
+### blc.HtmlChecker(options, handlers)
+Scans an HTML string to find broken links.
+
+* `handlers.link` is fired with the result of each discovered link (broken or not).
+* `handlers.complete` is fired after the last result or zero results.
+
+* `.scan(htmlString)` for parsing & scanning a single string. Returns `false` when there is a previously incomplete scan (and `true` otherwise).
+
 ```js
-new BrokenLinkChecker(options).checkHtml(html, {
+var htmlChecker = new blc.HtmlChecker(options, {
 	link: function(result){},
 	complete: function(){}
 });
+
+htmlChecker.scan(htmlString);
 ```
 
-### blc.checkHtmlUrl(url, handlers)
-Scans the HTML content at `url` to find broken links. `handlers.link` is fired for each result and `handlers.complete` is fired after the last result or zero results. If `url` cannot be reached, `handlers.complete` is fired with an `error` argument and the whole operation is cancelled. This method overrides `options.base` with `url` and any redirections that may occur.
+### blc.HtmlUrlChecker(options, handlers)
+Scans the HTML content at each queued URL to find broken links.
+
+* `handlers.link` is fired with the result of each queue item's discovered link (broken or not).
+* `handlers.queueItemComplete` is fired after a queue item's last result or zero results, or if the queued URL could not be reached.
+* `handlers.queueComplete` is fired when the queue has been emptied.
+
+* `.enqueue(htmlUrl)` adds an item to the queue. Items are auto-dequeued when their requests are complete. Items cannot be manually dequeued at this time.
+* `.pause()` will pause the queue, but will not pause any active requests.
+* `.resume()` will resume the queue.
+
+This method overrides `options.base` with each queued URL (and any redirections that may occur).
+
 ```js
-new BrokenLinkChecker(options).checkHtmlUrl(url, {
+var htmlUrlChecker = new blc.HtmlUrlChecker(options, {
 	link: function(result){},
-	complete: function(error){}
+	queueItemComplete: function(error, htmlUrl){},
+	queueComplete: function(){}
 });
+
+htmlUrlChecker.enqueue(htmlUrl);
 ```
 
-### blc.checkUrl(url, callback)
-Requests `url` to determine if it is broken. A callback is invoked with the results.
+### blc.UrlChecker(options, handlers)
+Requests each queued URL to determine if they are broken.
+
+* `handlers.link` is fired for each result (broken or not).
+* `handlers.queueComplete` is fired when the queue has been emptied.
+
+* `.enqueue(url)` adds an item to the queue. Items are auto-dequeued when their requests are complete. Items cannot be manually dequeued at this time.
+* `.pause()` will pause the queue, but will not pause any active requests.
+* `.resume()` will resume the queue.
+
 ```js
-new BrokenLinkChecker(options).checkUrl(url, function(result){});
+var urlChecker = new blc.UrlChecker(options, {
+	link: function(result){},
+	queueComplete: function(){}
+});
+
+urlChecker.enqueue(url);
 ```
 
 ## Options
@@ -96,21 +132,26 @@ Type: `Array`
 Default value: `["data","geo","mailto","sms","tel"]`  
 Will not check or output links with schemes/protocols mentioned in this list. This avoids the output of "Invalid URL" errors with links that cannot be checked.
 
-This option does not apply to `checkUrl()`.
+This option does not apply to `UrlChecker`.
 
 ### options.excludeInternalLinks
 Type: `Boolean`  
 Default value: `false`  
 Will only check and output external links when `true`.
 
-This option does not apply to `checkUrl()`.
+This option does not apply to `UrlChecker`.
 
 ### options.excludeLinksToSamePage
 Type: `Boolean`  
 Default value: `true`  
 As the name suggests, it will not check or output links to the same page; relative and absolute fragments/hashes included.
 
-This option does not apply to `checkUrl()`.
+This option does not apply to `UrlChecker`.
+
+### options.excludeResponseData
+Type: `Boolean`  
+Default value: `true`  
+Each link's lengthy response data (generated by [request](https://npmjs.com/package/request)) will not be outputted when `true`.
 
 ### options.filterLevel
 Type: `Number`  
@@ -121,11 +162,16 @@ The tags and attributes that are considered links for checking, split into the f
 * `2`: clickable links, media, stylesheets, scripts, forms
 * `3`: clickable links, media, stylesheets, scripts, forms, meta
 
-To see the exact breakdown, check out the [tag map](https://github.com/stevenvachon/broken-link-checker/blob/master/lib/tags.js).
+To see the exact breakdown, check out the [tag map](https://github.com/stevenvachon/broken-link-checker/blob/master/lib/common/tags.js).
 
-This option does not apply to `checkUrl()`.
+This option does not apply to `UrlChecker`.
 
 ### options.maxSockets
+Type: `Number`  
+Default value: `Infinity`  
+The maximum number of links to check at any given time.
+
+### options.maxSocketsPerHost
 Type: `Number`  
 Default value: `1`  
 The maximum number of links per host/port to check at any given time. This avoids overloading a single target host with too many concurrent requests. This will not limit concurrent requests to other hosts.
@@ -152,30 +198,28 @@ if (result.error !== null) {
 ```
 
 
-## FAQ
-1. **Where is the status code?**  
-`result.response.statusCode`.
-
-1. **Where is the redirect(s) log?**  
-Check out the `result.response.request.redirects` Array for status codes and URLs.
-
-
 ## Roadmap Features
-* rename `maxSockets` to `maxSocketsPerHost` and add a real `maxSockets`
-* start/end string locations for url attribute values ([parse5#43](https://github.com/inikulin/parse5/issues/43)])
+* add `linkObj.id` using [puid](https://www.npmjs.com/package/puid)?
+* start/end string locations for url attribute values ([parse5#43](https://github.com/inikulin/parse5/issues/43))
 * option to exclude keywords from URLs (facebook.com, etc)
-* option to store a map of checked links to avoid checking same URL twice (even with different hashes)?
-  * per checkHtml/checkHtmlUrl operation?
+* response cache to avoid checking same URL twice (even with different hashes)?
+  * per class instance?
   * could copy response from first checked link for each successive link's completeness
+  * provide method to clear cache
 * option to check broken link on archive.org for archived version (using [this lib](https://npmjs.com/archive.org))
 * option to include iframe html source in checking?
-* method to pause/stop checking
 * better cli -- table view option that disables default log, spinner like npm?
 * `handlers.log()` for logging requests, parsing html, etc
-* stream html files ([parse5#26](https://github.com/inikulin/parse5/issues/26)])
-* `checkMarkdown()`,`checkMarkdownUrl()`,`checkHtmlMarkdown()`,`checkHtmlMarkdownUrl()`
+* stream html files ([parse5#26](https://github.com/inikulin/parse5/issues/26))
+* `MarkdownChecker`,`MarkdownUrlChecker`,`HtmlMarkdownChecker`,`HtmlMarkdownUrlChecker`
 
 ## Changelog
+* 0.5.0
+  * API change
+  * options added: `excludeResponseData`, `maxSockets`
+  * options renamed: `maxSockets`->`maxSocketsPerHost`
+  * linkObj added: `http`
+  * linkObj moved: `response`->`http.response`
 * 0.4.3 added `rateLimit` option, cleanup
 * 0.4.2 added `url.redirected` to linkObj, bug fixes
 * 0.4.1
@@ -183,7 +227,7 @@ Check out the `result.response.request.redirects` Array for status codes and URL
   * options removed: `excludeEmptyAnchors`
   * linkObj added: `internal`, `samePage`
 * 0.4.0
-  * `checkHtmlUrl()` no longer uses `options.base`
+  * checking HTML URLs now ignores `options.base`
   * linkObj added: `html.selector`
 * 0.3.0
   * options added: `maxSockets`
