@@ -62,7 +62,8 @@ Scans an HTML string to find broken links.
 * `handlers.link` is fired with the result of each discovered link (broken or not).
 * `handlers.complete` is fired after the last result or zero results.
 
-* `.scan(htmlString)` for parsing & scanning a single string. Returns `false` when there is a previously incomplete scan (and `true` otherwise).
+* `.scan(htmlString, baseUrl)` parses & scans a single string. Returns `false` when there is a previously incomplete scan (and `true` otherwise).
+  * `baseUrl` is the address to which all relative URLs will be made absolute. Without a value, links to relative URLs will output an "Invalid URL" error.
 
 ```js
 var htmlChecker = new blc.HtmlChecker(options, {
@@ -70,7 +71,7 @@ var htmlChecker = new blc.HtmlChecker(options, {
 	complete: function(){}
 });
 
-htmlChecker.scan(htmlString);
+htmlChecker.scan(htmlString, baseUrl);
 ```
 
 ### blc.HtmlUrlChecker(options, handlers)
@@ -83,8 +84,6 @@ Scans the HTML content at each queued URL to find broken links.
 * `.enqueue(htmlUrl)` adds an item to the queue. Items are auto-dequeued when their requests are complete. Items cannot be manually dequeued at this time.
 * `.pause()` will pause the queue, but will not pause any active requests.
 * `.resume()` will resume the queue.
-
-This method overrides `options.base` with each queued URL (and any redirections that may occur).
 
 ```js
 var htmlUrlChecker = new blc.HtmlUrlChecker(options, {
@@ -102,7 +101,8 @@ Requests each queued URL to determine if they are broken.
 * `handlers.link` is fired for each result (broken or not).
 * `handlers.queueComplete` is fired when the queue has been emptied.
 
-* `.enqueue(url)` adds an item to the queue. Items are auto-dequeued when their requests are complete. Items cannot be manually dequeued at this time.
+* `.enqueue(url, baseUrl)` adds an item to the queue. Items are auto-dequeued when their requests are complete. Items cannot be manually dequeued at this time.
+  * `baseUrl` is the address to which all relative URLs will be made absolute. Without a value, links to relative URLs will output an "Invalid URL" error.
 * `.pause()` will pause the queue, but will not pause any active requests.
 * `.resume()` will resume the queue.
 
@@ -112,7 +112,7 @@ var urlChecker = new blc.UrlChecker(options, {
 	queueComplete: function(){}
 });
 
-urlChecker.enqueue(url);
+urlChecker.enqueue(url, baseUrl);
 ```
 
 ## Options
@@ -122,31 +122,26 @@ Type: `Array`
 Default value: `["http","https"]`  
 Will only check links with schemes/protocols mentioned in this list. Any others will output an "Invalid URL" error.
 
-### options.base
-Type: `String`  
-Default value: `undefined`  
-The address to which all relative URLs will be made absolute. Without a value, links to relative URLs will output an "Invalid URL" error.
-
 ### options.excludedSchemes
 Type: `Array`  
 Default value: `["data","geo","mailto","sms","tel"]`  
 Will not check or output links with schemes/protocols mentioned in this list. This avoids the output of "Invalid URL" errors with links that cannot be checked.
 
-This option does not apply to `UrlChecker`.
+This option only applies to `HtmlChecker` and `HtmlUrlChecker`.
 
 ### options.excludeInternalLinks
 Type: `Boolean`  
 Default value: `false`  
 Will only check and output external links when `true`.
 
-This option does not apply to `UrlChecker`.
+This option only applies to `HtmlChecker` and `HtmlUrlChecker`.
 
 ### options.excludeLinksToSamePage
 Type: `Boolean`  
 Default value: `true`  
 As the name suggests, it will not check or output links to the same page; relative and absolute fragments/hashes included.
 
-This option does not apply to `UrlChecker`.
+This option only applies to `HtmlChecker` and `HtmlUrlChecker`.
 
 ### options.excludeResponseData
 Type: `Boolean`  
@@ -164,7 +159,7 @@ The tags and attributes that are considered links for checking, split into the f
 
 To see the exact breakdown, check out the [tag map](https://github.com/stevenvachon/broken-link-checker/blob/master/lib/common/tags.js).
 
-This option does not apply to `UrlChecker`.
+This option only applies to `HtmlChecker` and `HtmlUrlChecker`.
 
 ### options.maxSockets
 Type: `Number`  
