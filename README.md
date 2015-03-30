@@ -15,8 +15,7 @@ var html = '<a href="https://google.com">absolute link</a>';
 html += '<a href="/path/to/resource.html">relative link</a>';
 html += '<img src="http://fakeurl.com/image.png" alt="missing image"/>';
 
-var options = { base:"https://mywebsite.com" };
-var htmlChecker = new blc.HtmlChecker(options, {
+var htmlChecker = new blc.HtmlChecker(null, {
 	link: function(result) {
 		console.log(result.html.index, result.broken, result.html.text, result.url.resolved);
 		//-> 0 false "absolute link" "https://google.com/"
@@ -28,7 +27,7 @@ var htmlChecker = new blc.HtmlChecker(options, {
 	}
 });
 
-htmlChecker.parse(html);
+htmlChecker.scan(html, "https://mywebsite.com");
 ```
 
 
@@ -79,9 +78,10 @@ Scans the HTML content at each queued URL to find broken links.
 
 * `handlers.link` is fired with the result of each queue item's discovered link (broken or not).
 * `handlers.queueItemComplete` is fired after a queue item's last result or zero results, or if the queued URL could not be reached.
-* `handlers.queueComplete` is fired when the queue has been emptied.
+* `handlers.end` is fired when the end of the queue has been reached.
 
 * `.enqueue(htmlUrl)` adds an item to the queue. Items are auto-dequeued when their requests are complete. Items cannot be manually dequeued at this time.
+* `.length()` returns the number of items in the queue.
 * `.pause()` will pause the queue, but will not pause any active requests.
 * `.resume()` will resume the queue.
 
@@ -89,7 +89,7 @@ Scans the HTML content at each queued URL to find broken links.
 var htmlUrlChecker = new blc.HtmlUrlChecker(options, {
 	link: function(result){},
 	queueItemComplete: function(error, htmlUrl){},
-	queueComplete: function(){}
+	end: function(){}
 });
 
 htmlUrlChecker.enqueue(htmlUrl);
@@ -99,17 +99,18 @@ htmlUrlChecker.enqueue(htmlUrl);
 Requests each queued URL to determine if they are broken.
 
 * `handlers.link` is fired for each result (broken or not).
-* `handlers.queueComplete` is fired when the queue has been emptied.
+* `handlers.end` is fired when the end of the queue has been reached.
 
-* `.enqueue(url, baseUrl)` adds an item to the queue. Items are auto-dequeued when their requests are complete. Items cannot be manually dequeued at this time.
+* `.enqueue(url, baseUrl)` adds an item to the queue. Items are auto-dequeued when their requests are completed. Items cannot be manually dequeued at this time.
   * `baseUrl` is the address to which all relative URLs will be made absolute. Without a value, links to relative URLs will output an "Invalid URL" error.
+* `.length()` returns the number of items in the queue.
 * `.pause()` will pause the queue, but will not pause any active requests.
 * `.resume()` will resume the queue.
 
 ```js
 var urlChecker = new blc.UrlChecker(options, {
 	link: function(result){},
-	queueComplete: function(){}
+	end: function(){}
 });
 
 urlChecker.enqueue(url, baseUrl);
@@ -157,7 +158,7 @@ The tags and attributes that are considered links for checking, split into the f
 * `2`: clickable links, media, stylesheets, scripts, forms
 * `3`: clickable links, media, stylesheets, scripts, forms, meta
 
-To see the exact breakdown, check out the [tag map](https://github.com/stevenvachon/broken-link-checker/blob/master/lib/common/tags.js).
+To see the exact breakdown, check out the [tag map](https://github.com/stevenvachon/broken-link-checker/blob/master/lib/internal/tags.js).
 
 This option only applies to `HtmlChecker` and `HtmlUrlChecker`.
 
