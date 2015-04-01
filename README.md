@@ -76,11 +76,12 @@ htmlChecker.scan(htmlString, baseUrl);
 ### blc.HtmlUrlChecker(options, handlers)
 Scans the HTML content at each queued URL to find broken links.
 
-* `handlers.link` is fired with the result of each queue item's discovered link (broken or not).
-* `handlers.queueItemComplete` is fired after a queue item's last result or zero results, or if the queued URL could not be reached.
+* `handlers.link` is fired with the result of each discovered link (broken or not) within the current queue item.
+* `handlers.item` is fired after a queue item's last result, on zero results, or if the HTML could not be retreived.
 * `handlers.end` is fired when the end of the queue has been reached.
 
-* `.enqueue(htmlUrl)` adds an item to the queue. Items are auto-dequeued when their requests are complete. Items cannot be manually dequeued at this time.
+* `.dequeue(id)` removes an item from the queue. Returns `true` on success or an `Error` on failure.
+* `.enqueue(htmlUrl)` adds an item to the queue. Items are auto-dequeued when their requests are complete. Returns a queue ID on success or an `Error` on failure.
 * `.length()` returns the number of items in the queue.
 * `.pause()` will pause the queue, but will not pause any active requests.
 * `.resume()` will resume the queue.
@@ -88,7 +89,7 @@ Scans the HTML content at each queued URL to find broken links.
 ```js
 var htmlUrlChecker = new blc.HtmlUrlChecker(options, {
 	link: function(result){},
-	queueItemComplete: function(error, htmlUrl){},
+	item: function(error, htmlUrl){},
 	end: function(){}
 });
 
@@ -101,7 +102,8 @@ Requests each queued URL to determine if they are broken.
 * `handlers.link` is fired for each result (broken or not).
 * `handlers.end` is fired when the end of the queue has been reached.
 
-* `.enqueue(url, baseUrl)` adds an item to the queue. Items are auto-dequeued when their requests are completed. Items cannot be manually dequeued at this time.
+* `.dequeue(id)` removes an item from the queue. Returns `true` on success or an `Error` on failure.
+* `.enqueue(url, baseUrl)` adds an item to the queue. Items are auto-dequeued when their requests are completed. Returns a queue ID on success or an `Error` on failure.
   * `baseUrl` is the address to which all relative URLs will be made absolute. Without a value, links to relative URLs will output an "Invalid URL" error.
 * `.length()` returns the number of items in the queue.
 * `.pause()` will pause the queue, but will not pause any active requests.

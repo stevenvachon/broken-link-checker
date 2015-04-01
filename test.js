@@ -1,27 +1,29 @@
-function SuperClass()
+function bar()
 {
-	this.superVar = Math.random();
+	console.log(this.a);
 }
 
-SuperClass.prototype.init = function(arg1, arg2)
+
+
+function foo()
 {
-	this.arg1 = arg1;
-	this.arg2 = arg2;
-	
-	console.log(this.arg1, this.arg2, this.superVar);
-};
-
-
-
-function SubClass(arg1, arg2)
-{
-	this.init(arg1, arg2);
+	console.log(this.b);
 }
 
-SubClass.prototype = new SuperClass();
-SubClass.prototype.constructor = SubClass;
+
+
+function test()
+{
+	return {
+		a: "yeah",
+		b: "nope",
+		
+		foo: foo,
+		bar: bar
+	};
+}
 
 
 
-new SubClass("foo1", "bar1");
-new SubClass("foo2", "bar2");
+test().bar();
+test().foo();
