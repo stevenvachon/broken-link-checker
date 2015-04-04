@@ -7,6 +7,8 @@ module.exports =
 {
 	getTagsString: require("./getTagsString"),
 	options: require("./options"),
+	startConnection:  server.startConnection,
 	startConnections: server.startConnections,
-	stopConnections: server.stopConnections
+	stopConnection:   server.stopConnection,
+	stopConnections:  server.stopConnections
 };

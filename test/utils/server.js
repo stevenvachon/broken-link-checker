@@ -90,7 +90,7 @@ function startHttpServers(numServers, callback)
 	
 	/*if (numServers < 1)
 	{
-		callback(ports, urls);
+		callback(ports, absoluteUrls, schemeRelativeUrl);
 		return;
 	}*/
 	
@@ -100,16 +100,20 @@ function startHttpServers(numServers, callback)
 		absoluteUrls.push( getUrl(port) );
 		schemeRelativeUrls.push( getUrl(port,true) );
 		
+		// If more servers to start
 		if (ports.length < numServers)
 		{
+			// Start next one
 			startHttpServer(started);
 		}
 		else
 		{
+			// All servers started
 			callback(ports, absoluteUrls, schemeRelativeUrls);
 		}
 	}
 	
+	// Start first server
 	startHttpServer(started);
 }
 
@@ -157,6 +161,28 @@ function stopHttpServers(ports, callback)
 
 
 
+function startConnection(callback)
+{
+	startHttpServers(1, function(ports, absoluteUrls, schemeRelativeUrls)
+	{
+		getAvailablePort( function(port)
+		{
+			callback(
+			{
+				realPort: ports[0],
+				absoluteUrl: absoluteUrls[0],
+				relativeUrl: schemeRelativeUrls[0],
+				
+				fakePort: port,
+				fakeAbsoluteUrl: getUrl(port),
+				fakeRelativeUrl: getUrl(port,true)
+			});
+		});
+	});
+}
+
+
+
 function startConnections(callback)
 {
 	startHttpServers(2, function(ports, absoluteUrls, schemeRelativeUrls)
@@ -179,6 +205,13 @@ function startConnections(callback)
 
 
 
+function stopConnection(port, callback)
+{
+	stopHttpServer(port, callback);
+}
+
+
+
 function stopConnections(ports, callback)
 {
 	stopHttpServers(ports, callback);
@@ -188,6 +221,8 @@ function stopConnections(ports, callback)
 
 module.exports = 
 {
+	startConnection:  startConnection,
 	startConnections: startConnections,
-	stopConnections: stopConnections
+	stopConnection:   stopConnection,
+	stopConnections:  stopConnections
 };

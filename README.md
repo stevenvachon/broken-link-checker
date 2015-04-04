@@ -81,19 +81,21 @@ Scans the HTML content at each queued URL to find broken links.
 * `handlers.end` is fired when the end of the queue has been reached.
 
 * `.dequeue(id)` removes an item from the queue. Returns `true` on success or an `Error` on failure.
-* `.enqueue(htmlUrl)` adds an item to the queue. Items are auto-dequeued when their requests are complete. Returns a queue ID on success or an `Error` on failure.
+* `.enqueue(htmlUrl, customData)` adds an item to the queue. Items are auto-dequeued when their requests are complete. Returns a queue ID on success or an `Error` on failure.
+  * `customData` is optional data that is stored in the queue item.
 * `.length()` returns the number of items in the queue.
+* `.numActive()` returns the number of active requests.
 * `.pause()` will pause the queue, but will not pause any active requests.
 * `.resume()` will resume the queue.
 
 ```js
 var htmlUrlChecker = new blc.HtmlUrlChecker(options, {
-	link: function(result){},
-	item: function(error, htmlUrl){},
+	link: function(result, customData){},
+	item: function(error, htmlUrl, customData){},
 	end: function(){}
 });
 
-htmlUrlChecker.enqueue(htmlUrl);
+htmlUrlChecker.enqueue(htmlUrl, customData);
 ```
 
 ### blc.UrlChecker(options, handlers)
@@ -103,19 +105,21 @@ Requests each queued URL to determine if they are broken.
 * `handlers.end` is fired when the end of the queue has been reached.
 
 * `.dequeue(id)` removes an item from the queue. Returns `true` on success or an `Error` on failure.
-* `.enqueue(url, baseUrl)` adds an item to the queue. Items are auto-dequeued when their requests are completed. Returns a queue ID on success or an `Error` on failure.
+* `.enqueue(url, baseUrl, customData)` adds an item to the queue. Items are auto-dequeued when their requests are completed. Returns a queue ID on success or an `Error` on failure.
   * `baseUrl` is the address to which all relative URLs will be made absolute. Without a value, links to relative URLs will output an "Invalid URL" error.
+  * `customData` is optional data that is stored in the queue item.
 * `.length()` returns the number of items in the queue.
+* `.numActive()` returns the number of active requests.
 * `.pause()` will pause the queue, but will not pause any active requests.
 * `.resume()` will resume the queue.
 
 ```js
 var urlChecker = new blc.UrlChecker(options, {
-	link: function(result){},
+	link: function(result, customData){},
 	end: function(){}
 });
 
-urlChecker.enqueue(url, baseUrl);
+urlChecker.enqueue(url, baseUrl, customData);
 ```
 
 ## Options
