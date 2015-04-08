@@ -29,60 +29,269 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 	
 	
 	
-	it("should work", function(done)
+	describe("methods", function()
 	{
-		var results = [];
-		
-		new HtmlUrlChecker( utils.options(),
+		describe("enqueue()", function()
 		{
-			link: function(result)
+			it("should accept a valid url", function(done)
 			{
-				results[ result.html.index ] = result;
-			},
-			end: function()
-			{
-				expect(results).to.have.length(2);
-				expect(results[0].broken).to.be.false;
-				expect(results[1].broken).to.be.true;
+				var id = new HtmlUrlChecker( utils.options() ).enqueue(conn.absoluteUrl);
+				
+				expect(id).to.not.be.instanceOf(Error);
 				done();
-			}
-		}).enqueue(conn.absoluteUrl+"/fixture/index.html");
+			});
+			
+			
+			
+			it("should reject an invalid url", function(done)
+			{
+				var id = new HtmlUrlChecker( utils.options() ).enqueue("/path/");
+				
+				expect(id).to.be.instanceOf(Error);
+				done();
+			});
+		});
+		
+		
+		
+		describe("dequeue()", function()
+		{
+			it("should accept a valid id", function(done)
+			{
+				var instance = new HtmlUrlChecker( utils.options() );
+				
+				// Prevent first queued item from immediately starting (and thus being auto-dequeued)
+				instance.pause();
+				
+				var id = instance.enqueue( conn.absoluteUrl );
+				
+				expect(id).to.not.be.instanceOf(Error);
+				expect( instance.length() ).to.equal(1);
+				expect( instance.dequeue(id) ).to.be.true;
+				expect( instance.length() ).to.equal(0);
+				done();
+			});
+			
+			
+			
+			it("should reject an invalid id", function(done)
+			{
+				var instance = new HtmlUrlChecker( utils.options() );
+				
+				// Prevent first queued item from immediately starting (and thus being auto-dequeued)
+				instance.pause();
+				
+				var id = instance.enqueue( conn.absoluteUrl );
+				
+				expect( instance.dequeue(id+1) ).to.be.instanceOf(Error);
+				expect( instance.length() ).to.equal(1);
+				done();
+			});
+		});
+		
+		
+		
+		describe("numActiveItems()", function()
+		{
+			it("should work", function(done)
+			{
+				var instance = new HtmlUrlChecker( utils.options() );
+				
+				instance.enqueue(conn.absoluteUrl);
+				instance.enqueue("/fixture/link-real.html", conn.absoluteUrl);
+				
+				expect( instance.numActiveItems() ).to.equal(1);
+				done();
+			});
+		});
+		
+		
+		
+		describe("numActiveLinks()", function()
+		{
+			it.skip("should work", function(done)
+			{
+				var instance = new HtmlUrlChecker( utils.options() );
+				
+				instance.enqueue("/fixture/index.html", conn.absoluteUrl);
+				
+				expect( instance.numActiveLinks() ).to.equal(2);
+				done();
+			});
+		});
 	});
 	
 	
 	
-	it("should support multiple queue items", function(done)
+	describe("handlers", function()
 	{
-		var results = [];
-		
-		var instance = new HtmlUrlChecker( utils.options(),
+		it("link", function(done)
 		{
-			link: function(result, customData)
+			var count = 0;
+			
+			new HtmlUrlChecker( utils.options(),
 			{
-				if (results[ customData.index ] === undefined)
+				link: function(result, customData)
 				{
-					results[ customData.index ] = [];
+					// HTML has more than one link, so only accept the first
+					// to avoid calling `done()` more than once
+					if (++count > 1) return;
+					
+					expect(arguments).to.have.length(2);
+					expect(result).to.be.instanceOf(Object);
+					expect(customData).to.be.undefined;
+					done();
 				}
-				
-				results[ customData.index ][ result.html.index ] = result;
-			},
-			end: function()
-			{
-				expect(results).to.have.length(2);
-				
-				expect(results[0]).to.have.length(2);
-				expect(results[0][0].broken).to.be.false;
-				expect(results[0][1].broken).to.be.true;
-				
-				expect(results[1]).to.have.length(2);
-				expect(results[1][0].broken).to.be.false;
-				expect(results[1][1].broken).to.be.true;
-				
-				done();
-			}
+			}).enqueue( conn.absoluteUrl+"/fixture/index.html" );
 		});
 		
-		instance.enqueue(conn.absoluteUrl+"/fixture/index.html", {index:0});
-		instance.enqueue(conn.absoluteUrl+"/fixture/index.html", {index:1});
+		
+		
+		it("item", function(done)
+		{
+			new HtmlUrlChecker( utils.options(),
+			{
+				item: function(error, htmlUrl, customData)
+				{
+					expect(arguments).to.have.length(3);
+					expect(error).to.be.null;
+					expect(htmlUrl).to.be.a("string");
+					expect(customData).to.be.undefined;
+					done();
+				}
+			}).enqueue( conn.absoluteUrl+"/fixture/index.html" );
+		});
+		
+		
+		
+		it("complete", function(done)
+		{
+			new HtmlUrlChecker( utils.options(),
+			{
+				end: function()
+				{
+					expect(arguments).to.have.length(0);
+					done();
+				}
+			}).enqueue( conn.absoluteUrl+"/fixture/index.html" );
+		});
+	});
+	
+	
+	
+	describe("edge cases", function()
+	{
+		it("should support custom data", function(done)
+		{
+			var itemCalled = false;
+			var linkCalled = false;
+			
+			new HtmlUrlChecker( utils.options(),
+			{
+				link: function(result, customData)
+				{
+					expect(customData).to.be.instanceOf(Object);
+					expect(customData.test).to.equal("value");
+					linkCalled = true;
+				},
+				item: function(error, htmlUrl, customData)
+				{
+					expect(customData).to.be.instanceOf(Object);
+					expect(customData.test).to.equal("value");
+					itemCalled = true;
+				},
+				end: function()
+				{
+					expect(linkCalled).to.be.true;
+					expect(itemCalled).to.be.true;
+					done();
+				}
+			}).enqueue( conn.absoluteUrl+"/fixture/index.html", {test:"value"} );
+		});
+		
+		
+		
+		it("should support multiple queue items", function(done)
+		{
+			var results = [];
+			
+			var instance = new HtmlUrlChecker( utils.options(),
+			{
+				link: function(result, customData)
+				{
+					if (results[ customData.index ] === undefined)
+					{
+						results[ customData.index ] = [];
+					}
+					
+					results[ customData.index ][ result.html.index ] = result;
+				},
+				end: function()
+				{
+					expect(results).to.have.length(2);
+					
+					expect(results[0]).to.have.length(2);
+					expect(results[0][0].broken).to.be.false;
+					expect(results[0][1].broken).to.be.true;
+					
+					expect(results[1]).to.have.length(2);
+					expect(results[1][0].broken).to.be.false;
+					expect(results[1][1].broken).to.be.true;
+					
+					done();
+				}
+			});
+			
+			instance.enqueue( conn.absoluteUrl+"/fixture/index.html", {index:0} );
+			instance.enqueue( conn.absoluteUrl+"/fixture/index.html", {index:1} );
+		});
+		
+		
+		
+		it("should support html with no links", function(done)
+		{
+			var count = 0;
+			var itemCalled = false;
+			
+			new HtmlUrlChecker( utils.options(),
+			{
+				link: function()
+				{
+					count++;
+				},
+				item: function()
+				{
+					itemCalled = true;
+				},
+				end: function()
+				{
+					expect(itemCalled).to.be.true;
+					expect(count).to.equal(0);
+					done();
+				}
+			}).enqueue( conn.absoluteUrl+"/fixture/link-real.html" );
+		});
+		
+		
+		
+		it("should report error when html could not be retrieved", function(done)
+		{
+			var itemCalled = false;
+			
+			new HtmlUrlChecker( utils.options(),
+			{
+				item: function(error, htmlUrl, customData)
+				{
+					expect(error).to.be.instanceOf(Error);
+					expect(htmlUrl).to.be.a("string");
+					itemCalled = true;
+				},
+				end: function()
+				{
+					expect(itemCalled).to.be.true;
+					done();
+				}
+			}).enqueue( conn.absoluteUrl+"/fixture/link-fake.html", {test:"value"} );
+		});
 	});
 });

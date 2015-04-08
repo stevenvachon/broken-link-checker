@@ -61,6 +61,9 @@ Scans an HTML string to find broken links.
 * `handlers.link` is fired with the result of each discovered link (broken or not).
 * `handlers.complete` is fired after the last result or zero results.
 
+* `.numActive()` returns the number of active requests.
+* `.pause()` will pause the internal link queue, but will not pause any active requests.
+* `.resume()` will resume the internal link queue.
 * `.scan(htmlString, baseUrl)` parses & scans a single string. Returns `false` when there is a previously incomplete scan (and `true` otherwise).
   * `baseUrl` is the address to which all relative URLs will be made absolute. Without a value, links to relative URLs will output an "Invalid URL" error.
 
@@ -84,7 +87,8 @@ Scans the HTML content at each queued URL to find broken links.
 * `.enqueue(htmlUrl, customData)` adds an item to the queue. Items are auto-dequeued when their requests are complete. Returns a queue ID on success or an `Error` on failure.
   * `customData` is optional data that is stored in the queue item.
 * `.length()` returns the number of items in the queue.
-* `.numActive()` returns the number of active requests.
+* `.numActiveItems()` returns the number of active HTML URL sessions (series of link requests).
+* `.numActiveLinks()` returns the number of active link requests.
 * `.pause()` will pause the queue, but will not pause any active requests.
 * `.resume()` will resume the queue.
 

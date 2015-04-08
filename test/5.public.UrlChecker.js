@@ -31,28 +31,79 @@ describe("PUBLIC -- UrlChecker", function()
 	
 	describe("methods", function()
 	{
-		it("enqueue()", function(done)
+		describe("enqueue()", function()
 		{
-			var id = new UrlChecker( utils.options() ).enqueue( conn.absoluteUrl );
+			it("should accept a valid url", function(done)
+			{
+				var instance = new UrlChecker( utils.options() );
+				
+				expect( instance.enqueue(conn.absoluteUrl) ).to.not.be.instanceOf(Error);
+				expect( instance.enqueue("/fixture/link-real.html", conn.absoluteUrl) ).to.not.be.instanceOf(Error);
+				done();
+			});
 			
-			expect(id).to.not.be.instanceOf(Error);
-			done();
+			
+			
+			it("should reject an invalid url", function(done)
+			{
+				var id = new UrlChecker( utils.options() ).enqueue("/path/");
+				
+				expect(id).to.be.instanceOf(Error);
+				done();
+			});
 		});
 		
 		
 		
-		it("dequeue()", function(done)
+		describe("dequeue()", function()
 		{
-			var instance = new UrlChecker( utils.options() );
+			it("should accept a valid id", function(done)
+			{
+				var instance = new UrlChecker( utils.options() );
+				
+				// Prevent first queued item from immediately starting (and thus being auto-dequeued)
+				instance.pause();
+				
+				var id = instance.enqueue( conn.absoluteUrl );
+				
+				expect(id).to.not.be.instanceOf(Error);
+				expect( instance.length() ).to.equal(1);
+				expect( instance.dequeue(id) ).to.be.true;
+				expect( instance.length() ).to.equal(0);
+				done();
+			});
 			
-			// Prevent first queued item from immediately starting (and thus being auto-dequeued)
-			instance.pause();
 			
-			var id = instance.enqueue( conn.absoluteUrl );
 			
-			expect(id).to.not.be.instanceOf(Error);
-			expect( instance.dequeue(id) ).to.be.true;
-			done();
+			it("should reject an invalid id", function(done)
+			{
+				var instance = new UrlChecker( utils.options() );
+				
+				// Prevent first queued item from immediately starting (and thus being auto-dequeued)
+				instance.pause();
+				
+				var id = instance.enqueue( conn.absoluteUrl );
+				
+				expect( instance.dequeue(id+1) ).to.be.instanceOf(Error);
+				expect( instance.length() ).to.equal(1);
+				done();
+			});
+		});
+		
+		
+		
+		describe("numActive()", function()
+		{
+			it("should work", function(done)
+			{
+				var instance = new UrlChecker( utils.options() );
+				
+				instance.enqueue(conn.absoluteUrl);
+				instance.enqueue("/fixture/link-real.html", conn.absoluteUrl);
+				
+				expect( instance.numActive() ).to.equal(2);
+				done();
+			});
 		});
 	});
 	
@@ -64,8 +115,11 @@ describe("PUBLIC -- UrlChecker", function()
 		{
 			new UrlChecker( utils.options(),
 			{
-				link: function(result)
+				link: function(result, customData)
 				{
+					expect(arguments).to.have.length(2);
+					expect(result).to.be.instanceOf(Object);
+					expect(customData).to.be.undefined;
 					done();
 				}
 			}).enqueue( conn.absoluteUrl );
@@ -79,6 +133,7 @@ describe("PUBLIC -- UrlChecker", function()
 			{
 				end: function()
 				{
+					expect(arguments).to.have.length(0);
 					done();
 				}
 			}).enqueue( conn.absoluteUrl );
@@ -89,18 +144,18 @@ describe("PUBLIC -- UrlChecker", function()
 	
 	describe("edge cases", function()
 	{
-		it("should return a link", function(done)
+		it("should support a relative url", function(done)
 		{
 			new UrlChecker( utils.options(),
 			{
 				link: function(result)
 				{
-					expect(result).to.be.instanceOf(Object);
-					expect(result.url.original).to.equal( conn.absoluteUrl );
+					expect(result.url.resolved).to.equal( conn.absoluteUrl+"/fixture/link-real.html" );
+					expect(result.url.original).to.equal("/fixture/link-real.html");
 					expect(result.base.original).to.equal( conn.absoluteUrl );
 					done();
 				}
-			}).enqueue( conn.absoluteUrl, conn.absoluteUrl );
+			}).enqueue( "/fixture/link-real.html", conn.absoluteUrl );
 		});
 		
 		
@@ -120,7 +175,7 @@ describe("PUBLIC -- UrlChecker", function()
 		
 		
 		
-		it("should support multiple links", function(done)
+		it("should support multiple queue items", function(done)
 		{
 			var results = [];
 			

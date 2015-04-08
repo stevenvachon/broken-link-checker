@@ -64,6 +64,23 @@ describe("INTERNAL -- getHtmlFromUrl", function()
 	
 	
 	
+	it("should report a non-html url", function(done)
+	{
+		getHtmlFromUrl(
+			conn.absoluteUrls[0]+"/fixture/image.gif",
+			utils.options(),
+			function(error, htmlString, responseUrl)
+			{
+				expect(error).to.be.instanceOf(Error);
+				expect(htmlString).to.be.undefined;
+				expect(responseUrl).to.equal( conn.absoluteUrls[0]+"/fixture/image.gif" );
+				done();
+			}
+		);
+	});
+	
+	
+	
 	it("should report a 404", function(done)
 	{
 		getHtmlFromUrl(

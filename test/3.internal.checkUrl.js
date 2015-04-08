@@ -1025,6 +1025,13 @@ describe("INTERNAL -- checkUrl", function()
 	
 	describe("options", function()
 	{
+		it.skip("acceptedSchemes = []", function(done)
+		{
+			
+		});
+		
+		
+		
 		it.skip("excludeResponseData = true", function(done)
 		{
 			

@@ -26,6 +26,7 @@ describe("INTERNAL -- HtmlLinkParser", function()
 				}
 			}).parse('<a href="fake.html">link</a>');
 			
+			// Ended here to ensure that everything is synchronous
 			expect(foundLink).to.be.true;
 			done();
 		});
@@ -45,6 +46,7 @@ describe("INTERNAL -- HtmlLinkParser", function()
 				}
 			}).parse('<a href="fake.html">link</a>');
 			
+			// Ended here to ensure that everything is synchronous
 			expect(completed).to.be.true;
 			done();
 		});
