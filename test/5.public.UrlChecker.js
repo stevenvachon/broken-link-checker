@@ -38,7 +38,7 @@ describe("PUBLIC -- UrlChecker", function()
 				var instance = new UrlChecker( utils.options() );
 				
 				expect( instance.enqueue(conn.absoluteUrl) ).to.not.be.instanceOf(Error);
-				expect( instance.enqueue("/fixture/link-real.html", conn.absoluteUrl) ).to.not.be.instanceOf(Error);
+				expect( instance.enqueue("/fixtures/link-real.html", conn.absoluteUrl) ).to.not.be.instanceOf(Error);
 				done();
 			});
 			
@@ -99,7 +99,7 @@ describe("PUBLIC -- UrlChecker", function()
 				var instance = new UrlChecker( utils.options() );
 				
 				instance.enqueue(conn.absoluteUrl);
-				instance.enqueue("/fixture/link-real.html", conn.absoluteUrl);
+				instance.enqueue("/fixtures/link-real.html", conn.absoluteUrl);
 				
 				expect( instance.numActive() ).to.equal(2);
 				done();
@@ -127,7 +127,7 @@ describe("PUBLIC -- UrlChecker", function()
 		
 		
 		
-		it("complete", function(done)
+		it("end", function(done)
 		{
 			new UrlChecker( utils.options(),
 			{
@@ -150,12 +150,12 @@ describe("PUBLIC -- UrlChecker", function()
 			{
 				link: function(result)
 				{
-					expect(result.url.resolved).to.equal( conn.absoluteUrl+"/fixture/link-real.html" );
-					expect(result.url.original).to.equal("/fixture/link-real.html");
+					expect(result.url.resolved).to.equal( conn.absoluteUrl+"/fixtures/link-real.html" );
+					expect(result.url.original).to.equal("/fixtures/link-real.html");
 					expect(result.base.original).to.equal( conn.absoluteUrl );
 					done();
 				}
-			}).enqueue( "/fixture/link-real.html", conn.absoluteUrl );
+			}).enqueue( "/fixtures/link-real.html", conn.absoluteUrl );
 		});
 		
 		
@@ -188,16 +188,16 @@ describe("PUBLIC -- UrlChecker", function()
 				end: function()
 				{
 					expect(results).to.have.length(3);
-					expect(results[0].url.original).to.equal( conn.absoluteUrl+"/fixture/index.html" );
-					expect(results[1].url.original).to.equal( conn.absoluteUrl+"/fixture/link-real.html" );
-					expect(results[2].url.original).to.equal( conn.absoluteUrl+"/fixture/link-fake.html" );
+					expect(results[0].url.original).to.equal( conn.absoluteUrl+"/fixtures/index.html" );
+					expect(results[1].url.original).to.equal( conn.absoluteUrl+"/fixtures/link-real.html" );
+					expect(results[2].url.original).to.equal( conn.absoluteUrl+"/fixtures/link-fake.html" );
 					done();
 				}
 			});
 			
-			instance.enqueue( conn.absoluteUrl+"/fixture/index.html",     null, {index:0} );
-			instance.enqueue( conn.absoluteUrl+"/fixture/link-real.html", null, {index:1} );
-			instance.enqueue( conn.absoluteUrl+"/fixture/link-fake.html", null, {index:2} );
+			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html",     null, {index:0} );
+			instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:1} );
+			instance.enqueue( conn.absoluteUrl+"/fixtures/link-fake.html", null, {index:2} );
 		});
 	});
 });

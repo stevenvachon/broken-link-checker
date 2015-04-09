@@ -30,19 +30,40 @@ describe("INTERNAL -- checkUrl", function()
 	
 	
 	
+	it("should run the callback function", function(done)
+	{
+		checkUrl(
+			conn.absoluteUrls[0]+"/fixtures/link-real.html",
+			conn.absoluteUrls[0],
+			utils.options(),
+			function(result)
+			{
+				expect(result).to.be.instanceOf(Object);
+				expect(result.url).to.be.instanceOf(Object);
+				expect(result.base).to.be.instanceOf(Object);
+				expect(result.http).to.be.instanceOf(Object);
+				expect(result.http.response).to.be.instanceOf(Object);
+				expect(result.html).to.be.instanceOf(Object);
+				done();
+			}
+		);
+	});
+	
+	
+	
 	describe("should not be broken with a REAL HOST and REAL PATH from", function()
 	{
 		it("an absolute url", function(done)
 		{
 			checkUrl(
-				conn.absoluteUrls[0]+"/fixture/link-real.html",
+				conn.absoluteUrls[0]+"/fixtures/link-real.html",
 				conn.absoluteUrls[0],
 				utils.options(),
 				function(result)
 				{
 					expect(result.url).to.deep.equal({
-						original: conn.absoluteUrls[0]+"/fixture/link-real.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html",
+						original: conn.absoluteUrls[0]+"/fixtures/link-real.html",
+						resolved: conn.absoluteUrls[0]+"/fixtures/link-real.html",
 						redirected: null
 					});
 					expect(result.base).to.deep.equal({
@@ -64,14 +85,14 @@ describe("INTERNAL -- checkUrl", function()
 		it("a scheme-relative url", function(done)
 		{
 			checkUrl(
-				conn.relativeUrls[0]+"/fixture/link-real.html",
+				conn.relativeUrls[0]+"/fixtures/link-real.html",
 				conn.absoluteUrls[0],
 				utils.options(),
 				function(result)
 				{
 					expect(result.url).to.deep.equal({
-						original: conn.relativeUrls[0]+"/fixture/link-real.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html",
+						original: conn.relativeUrls[0]+"/fixtures/link-real.html",
+						resolved: conn.absoluteUrls[0]+"/fixtures/link-real.html",
 						redirected: null
 					});
 					expect(result.base).to.deep.equal({
@@ -93,14 +114,14 @@ describe("INTERNAL -- checkUrl", function()
 		it("a root-path-relative url", function(done)
 		{
 			checkUrl(
-				"/fixture/link-real.html",
+				"/fixtures/link-real.html",
 				conn.absoluteUrls[0],
 				utils.options(),
 				function(result)
 				{
 					expect(result.url).to.deep.equal({
-						original: "/fixture/link-real.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html",
+						original: "/fixtures/link-real.html",
+						resolved: conn.absoluteUrls[0]+"/fixtures/link-real.html",
 						redirected: null
 					});
 					expect(result.base).to.deep.equal({
@@ -122,14 +143,14 @@ describe("INTERNAL -- checkUrl", function()
 		it("a path-relative url", function(done)
 		{
 			checkUrl(
-				"fixture/link-real.html",
+				"fixtures/link-real.html",
 				conn.absoluteUrls[0],
 				utils.options(),
 				function(result)
 				{
 					expect(result.url).to.deep.equal({
-						original: "fixture/link-real.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html",
+						original: "fixtures/link-real.html",
+						resolved: conn.absoluteUrls[0]+"/fixtures/link-real.html",
 						redirected: null
 					});
 					expect(result.base).to.deep.equal({
@@ -152,18 +173,18 @@ describe("INTERNAL -- checkUrl", function()
 		{
 			checkUrl(
 				"?query",
-				conn.absoluteUrls[0]+"/fixture/link-real.html",
+				conn.absoluteUrls[0]+"/fixtures/link-real.html",
 				utils.options(),
 				function(result)
 				{
 					expect(result.url).to.deep.equal({
 						original: "?query",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html?query",
+						resolved: conn.absoluteUrls[0]+"/fixtures/link-real.html?query",
 						redirected: null
 					});
 					expect(result.base).to.deep.equal({
-						original: conn.absoluteUrls[0]+"/fixture/link-real.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
+						original: conn.absoluteUrls[0]+"/fixtures/link-real.html",
+						resolved: conn.absoluteUrls[0]+"/fixtures/link-real.html"
 					});
 					expect(result.http.redirects).to.have.length(0);
 					expect(result.error).to.be.null;
@@ -181,18 +202,18 @@ describe("INTERNAL -- checkUrl", function()
 		{
 			checkUrl(
 				"#hash",
-				conn.absoluteUrls[0]+"/fixture/link-real.html",
+				conn.absoluteUrls[0]+"/fixtures/link-real.html",
 				utils.options(),
 				function(result)
 				{
 					expect(result.url).to.deep.equal({
 						original: "#hash",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html#hash",
+						resolved: conn.absoluteUrls[0]+"/fixtures/link-real.html#hash",
 						redirected: null
 					});
 					expect(result.base).to.deep.equal({
-						original: conn.absoluteUrls[0]+"/fixture/link-real.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
+						original: conn.absoluteUrls[0]+"/fixtures/link-real.html",
+						resolved: conn.absoluteUrls[0]+"/fixtures/link-real.html"
 					});
 					expect(result.http.redirects).to.have.length(0);
 					expect(result.error).to.be.null;
@@ -210,18 +231,18 @@ describe("INTERNAL -- checkUrl", function()
 		{
 			checkUrl(
 				"",
-				conn.absoluteUrls[0]+"/fixture/link-real.html",
+				conn.absoluteUrls[0]+"/fixtures/link-real.html",
 				utils.options(),
 				function(result)
 				{
 					expect(result.url).to.deep.equal({
 						original: "",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html",
+						resolved: conn.absoluteUrls[0]+"/fixtures/link-real.html",
 						redirected: null
 					});
 					expect(result.base).to.deep.equal({
-						original: conn.absoluteUrls[0]+"/fixture/link-real.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-real.html"
+						original: conn.absoluteUrls[0]+"/fixtures/link-real.html",
+						resolved: conn.absoluteUrls[0]+"/fixtures/link-real.html"
 					});
 					expect(result.http.redirects).to.have.length(0);
 					expect(result.error).to.be.null;
@@ -241,14 +262,14 @@ describe("INTERNAL -- checkUrl", function()
 		it("an absolute url", function(done)
 		{
 			checkUrl(
-				conn.absoluteUrls[0]+"/fixture/link-fake.html",
+				conn.absoluteUrls[0]+"/fixtures/link-fake.html",
 				conn.absoluteUrls[0],
 				utils.options(),
 				function(result)
 				{
 					expect(result.url).to.deep.equal({
-						original: conn.absoluteUrls[0]+"/fixture/link-fake.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html",
+						original: conn.absoluteUrls[0]+"/fixtures/link-fake.html",
+						resolved: conn.absoluteUrls[0]+"/fixtures/link-fake.html",
 						redirected: null
 					});
 					expect(result.base).to.deep.equal({
@@ -270,14 +291,14 @@ describe("INTERNAL -- checkUrl", function()
 		it("a scheme-relative url", function(done)
 		{
 			checkUrl(
-				conn.relativeUrls[0]+"/fixture/link-fake.html",
+				conn.relativeUrls[0]+"/fixtures/link-fake.html",
 				conn.absoluteUrls[0],
 				utils.options(),
 				function(result)
 				{
 					expect(result.url).to.deep.equal({
-						original: conn.relativeUrls[0]+"/fixture/link-fake.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html",
+						original: conn.relativeUrls[0]+"/fixtures/link-fake.html",
+						resolved: conn.absoluteUrls[0]+"/fixtures/link-fake.html",
 						redirected: null
 					});
 					expect(result.base).to.deep.equal({
@@ -299,14 +320,14 @@ describe("INTERNAL -- checkUrl", function()
 		it("a root-path-relative url", function(done)
 		{
 			checkUrl(
-				"/fixture/link-fake.html",
+				"/fixtures/link-fake.html",
 				conn.absoluteUrls[0],
 				utils.options(),
 				function(result)
 				{
 					expect(result.url).to.deep.equal({
-						original: "/fixture/link-fake.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html",
+						original: "/fixtures/link-fake.html",
+						resolved: conn.absoluteUrls[0]+"/fixtures/link-fake.html",
 						redirected: null
 					});
 					expect(result.base).to.deep.equal({
@@ -328,14 +349,14 @@ describe("INTERNAL -- checkUrl", function()
 		it("a path-relative url", function(done)
 		{
 			checkUrl(
-				"fixture/link-fake.html",
+				"fixtures/link-fake.html",
 				conn.absoluteUrls[0],
 				utils.options(),
 				function(result)
 				{
 					expect(result.url).to.deep.equal({
-						original: "fixture/link-fake.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html",
+						original: "fixtures/link-fake.html",
+						resolved: conn.absoluteUrls[0]+"/fixtures/link-fake.html",
 						redirected: null
 					});
 					expect(result.base).to.deep.equal({
@@ -358,18 +379,18 @@ describe("INTERNAL -- checkUrl", function()
 		{
 			checkUrl(
 				"?query",
-				conn.absoluteUrls[0]+"/fixture/link-fake.html",
+				conn.absoluteUrls[0]+"/fixtures/link-fake.html",
 				utils.options(),
 				function(result)
 				{
 					expect(result.url).to.deep.equal({
 						original: "?query",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html?query",
+						resolved: conn.absoluteUrls[0]+"/fixtures/link-fake.html?query",
 						redirected: null
 					});
 					expect(result.base).to.deep.equal({
-						original: conn.absoluteUrls[0]+"/fixture/link-fake.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html"
+						original: conn.absoluteUrls[0]+"/fixtures/link-fake.html",
+						resolved: conn.absoluteUrls[0]+"/fixtures/link-fake.html"
 					});
 					expect(result.http.redirects).to.have.length(0);
 					expect(result.error).to.be.null;
@@ -387,18 +408,18 @@ describe("INTERNAL -- checkUrl", function()
 		{
 			checkUrl(
 				"#hash",
-				conn.absoluteUrls[0]+"/fixture/link-fake.html",
+				conn.absoluteUrls[0]+"/fixtures/link-fake.html",
 				utils.options(),
 				function(result)
 				{
 					expect(result.url).to.deep.equal({
 						original: "#hash",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html#hash",
+						resolved: conn.absoluteUrls[0]+"/fixtures/link-fake.html#hash",
 						redirected: null
 					});
 					expect(result.base).to.deep.equal({
-						original: conn.absoluteUrls[0]+"/fixture/link-fake.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html"
+						original: conn.absoluteUrls[0]+"/fixtures/link-fake.html",
+						resolved: conn.absoluteUrls[0]+"/fixtures/link-fake.html"
 					});
 					expect(result.http.redirects).to.have.length(0);
 					expect(result.error).to.be.null;
@@ -416,18 +437,18 @@ describe("INTERNAL -- checkUrl", function()
 		{
 			checkUrl(
 				"",
-				conn.absoluteUrls[0]+"/fixture/link-fake.html",
+				conn.absoluteUrls[0]+"/fixtures/link-fake.html",
 				utils.options(),
 				function(result)
 				{
 					expect(result.url).to.deep.equal({
 						original: "",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html",
+						resolved: conn.absoluteUrls[0]+"/fixtures/link-fake.html",
 						redirected: null
 					});
 					expect(result.base).to.deep.equal({
-						original: conn.absoluteUrls[0]+"/fixture/link-fake.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/link-fake.html"
+						original: conn.absoluteUrls[0]+"/fixtures/link-fake.html",
+						resolved: conn.absoluteUrls[0]+"/fixtures/link-fake.html"
 					});
 					expect(result.http.redirects).to.have.length(0);
 					expect(result.error).to.be.null;
@@ -692,13 +713,13 @@ describe("INTERNAL -- checkUrl", function()
 		it("a scheme-relative url", function(done)
 		{
 			checkUrl(
-				conn.relativeUrls[0]+"/fixture/link-real.html",
+				conn.relativeUrls[0]+"/fixtures/link-real.html",
 				null,
 				utils.options(),
 				function(result)
 				{
 					expect(result.url).to.deep.equal({
-						original: conn.relativeUrls[0]+"/fixture/link-real.html",
+						original: conn.relativeUrls[0]+"/fixtures/link-real.html",
 						resolved: null,
 						redirected: null
 					});
@@ -722,13 +743,13 @@ describe("INTERNAL -- checkUrl", function()
 		it("a root-path-relative url", function(done)
 		{
 			checkUrl(
-				"/fixture/link-real.html",
+				"/fixtures/link-real.html",
 				null,
 				utils.options(),
 				function(result)
 				{
 					expect(result.url).to.deep.equal({
-						original: "/fixture/link-real.html",
+						original: "/fixtures/link-real.html",
 						resolved: null,
 						redirected: null
 					});
@@ -752,13 +773,13 @@ describe("INTERNAL -- checkUrl", function()
 		it("a path-relative url", function(done)
 		{
 			checkUrl(
-				"fixture/link-real.html",
+				"fixtures/link-real.html",
 				null,
 				utils.options(),
 				function(result)
 				{
 					expect(result.url).to.deep.equal({
-						original: "fixture/link-real.html",
+						original: "fixtures/link-real.html",
 						resolved: null,
 						redirected: null
 					});
@@ -938,15 +959,15 @@ describe("INTERNAL -- checkUrl", function()
 		it("containing no query or hash", function(done)
 		{
 			checkUrl(
-				conn.absoluteUrls[0]+"/fixture/redirect.html",
+				conn.absoluteUrls[0]+"/fixtures/redirect.html",
 				conn.absoluteUrls[0],
 				utils.options(),
 				function(result)
 				{
 					expect(result.url).to.deep.equal({
-						original: conn.absoluteUrls[0]+"/fixture/redirect.html",
-						resolved: conn.absoluteUrls[0]+"/fixture/redirect.html",
-						redirected: conn.absoluteUrls[0]+"/fixture/index.html"
+						original: conn.absoluteUrls[0]+"/fixtures/redirect.html",
+						resolved: conn.absoluteUrls[0]+"/fixtures/redirect.html",
+						redirected: conn.absoluteUrls[0]+"/fixtures/index.html"
 					});
 					expect(result.base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -967,14 +988,14 @@ describe("INTERNAL -- checkUrl", function()
 		it("containing a query", function(done)
 		{
 			checkUrl(
-				conn.absoluteUrls[0]+"/fixture/redirect.html?query",
+				conn.absoluteUrls[0]+"/fixtures/redirect.html?query",
 				conn.absoluteUrls[0],
 				utils.options(),
 				function(result)
 				{
 					expect(result.url).to.deep.equal({
-						original: conn.absoluteUrls[0]+"/fixture/redirect.html?query",
-						resolved: conn.absoluteUrls[0]+"/fixture/redirect.html?query",
+						original: conn.absoluteUrls[0]+"/fixtures/redirect.html?query",
+						resolved: conn.absoluteUrls[0]+"/fixtures/redirect.html?query",
 						redirected: null
 					});
 					expect(result.base).to.deep.equal({
@@ -996,15 +1017,15 @@ describe("INTERNAL -- checkUrl", function()
 		it("containing a hash", function(done)
 		{
 			checkUrl(
-				conn.absoluteUrls[0]+"/fixture/redirect.html#hash",
+				conn.absoluteUrls[0]+"/fixtures/redirect.html#hash",
 				conn.absoluteUrls[0],
 				utils.options(),
 				function(result)
 				{
 					expect(result.url).to.deep.equal({
-						original: conn.absoluteUrls[0]+"/fixture/redirect.html#hash",
-						resolved: conn.absoluteUrls[0]+"/fixture/redirect.html#hash",
-						redirected: conn.absoluteUrls[0]+"/fixture/index.html"
+						original: conn.absoluteUrls[0]+"/fixtures/redirect.html#hash",
+						resolved: conn.absoluteUrls[0]+"/fixtures/redirect.html#hash",
+						redirected: conn.absoluteUrls[0]+"/fixtures/index.html"
 					});
 					expect(result.base).to.deep.equal({
 						original: conn.absoluteUrls[0],
@@ -1032,9 +1053,18 @@ describe("INTERNAL -- checkUrl", function()
 		
 		
 		
-		it.skip("excludeResponseData = true", function(done)
+		it("excludeResponseData = true", function(done)
 		{
-			
+			checkUrl(
+				conn.absoluteUrls[0]+"/fixtures/link-real.html",
+				conn.absoluteUrls[0],
+				utils.options({ excludeResponseData:true }),
+				function(result)
+				{
+					expect(result.http.response).to.be.null;
+					done();
+				}
+			);
 		});
 	});
 });

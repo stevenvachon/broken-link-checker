@@ -29,7 +29,7 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 	
 	
 	
-	describe("methods", function()
+	describe("methods (#1)", function()
 	{
 		describe("enqueue()", function()
 		{
@@ -88,37 +88,6 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 				done();
 			});
 		});
-		
-		
-		
-		describe("numActiveItems()", function()
-		{
-			it("should work", function(done)
-			{
-				var instance = new HtmlUrlChecker( utils.options() );
-				
-				instance.enqueue(conn.absoluteUrl);
-				instance.enqueue("/fixture/link-real.html", conn.absoluteUrl);
-				
-				expect( instance.numActiveItems() ).to.equal(1);
-				done();
-			});
-		});
-		
-		
-		
-		describe("numActiveLinks()", function()
-		{
-			it.skip("should work", function(done)
-			{
-				var instance = new HtmlUrlChecker( utils.options() );
-				
-				instance.enqueue("/fixture/index.html", conn.absoluteUrl);
-				
-				expect( instance.numActiveLinks() ).to.equal(2);
-				done();
-			});
-		});
 	});
 	
 	
@@ -142,7 +111,7 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 					expect(customData).to.be.undefined;
 					done();
 				}
-			}).enqueue( conn.absoluteUrl+"/fixture/index.html" );
+			}).enqueue( conn.absoluteUrl+"/fixtures/index.html" );
 		});
 		
 		
@@ -159,12 +128,12 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 					expect(customData).to.be.undefined;
 					done();
 				}
-			}).enqueue( conn.absoluteUrl+"/fixture/index.html" );
+			}).enqueue( conn.absoluteUrl+"/fixtures/index.html" );
 		});
 		
 		
 		
-		it("complete", function(done)
+		it("end", function(done)
 		{
 			new HtmlUrlChecker( utils.options(),
 			{
@@ -173,7 +142,61 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 					expect(arguments).to.have.length(0);
 					done();
 				}
-			}).enqueue( conn.absoluteUrl+"/fixture/index.html" );
+			}).enqueue( conn.absoluteUrl+"/fixtures/index.html" );
+		});
+	});
+	
+	
+	
+	describe("methods (#2)", function()
+	{
+		describe("numActiveItems()", function()
+		{
+			it("should work", function(done)
+			{
+				var instance = new HtmlUrlChecker( utils.options(),
+				{
+					end: function()
+					{
+						expect( instance.numActiveItems() ).to.equal(0);
+						done();
+					}
+				});
+				
+				instance.enqueue( conn.absoluteUrl+"/fixtures/index.html" );
+				instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html" );
+				
+				expect( instance.numActiveItems() ).to.equal(1);
+			});
+		});
+		
+		
+		
+		describe("numActiveLinks()", function()
+		{
+			it("should work", function(done)
+			{
+				var htmlCalled = false;
+				
+				var instance = new HtmlUrlChecker( utils.options(),
+				{
+					html: function(id)	// undocumented event
+					{
+						expect( instance.numActiveLinks() ).to.equal(2);
+						htmlCalled = true;
+					},
+					end: function()
+					{
+						expect(htmlCalled).to.be.true;
+						expect( instance.numActiveLinks() ).to.equal(0);
+						done();
+					}
+				});
+				
+				instance.enqueue( conn.absoluteUrl+"/fixtures/index.html" );
+				
+				expect( instance.numActiveLinks() ).to.equal(0);
+			});
 		});
 	});
 	
@@ -206,7 +229,7 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 					expect(itemCalled).to.be.true;
 					done();
 				}
-			}).enqueue( conn.absoluteUrl+"/fixture/index.html", {test:"value"} );
+			}).enqueue( conn.absoluteUrl+"/fixtures/index.html", {test:"value"} );
 		});
 		
 		
@@ -242,8 +265,8 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 				}
 			});
 			
-			instance.enqueue( conn.absoluteUrl+"/fixture/index.html", {index:0} );
-			instance.enqueue( conn.absoluteUrl+"/fixture/index.html", {index:1} );
+			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html", {index:0} );
+			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html", {index:1} );
 		});
 		
 		
@@ -269,7 +292,7 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 					expect(count).to.equal(0);
 					done();
 				}
-			}).enqueue( conn.absoluteUrl+"/fixture/link-real.html" );
+			}).enqueue( conn.absoluteUrl+"/fixtures/link-real.html" );
 		});
 		
 		
@@ -291,7 +314,7 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 					expect(itemCalled).to.be.true;
 					done();
 				}
-			}).enqueue( conn.absoluteUrl+"/fixture/link-fake.html", {test:"value"} );
+			}).enqueue( conn.absoluteUrl+"/fixtures/link-fake.html", {test:"value"} );
 		});
 	});
 });

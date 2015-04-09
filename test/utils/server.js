@@ -46,17 +46,17 @@ function startHttpServer(callback)
 			{
 				switch (request.url)
 				{
-					case "/fixture/redirect.html":
+					case "/fixtures/redirect.html":
 					{
 						// Redirect
-						response.writeHead(302, { "Location":"/fixture/redirect2.html" });
+						response.writeHead(302, { "Location":"/fixtures/redirect2.html" });
 						response.end();
 						break;
 					}
-					case "/fixture/redirect2.html":
+					case "/fixtures/redirect2.html":
 					{
 						// Redirect
-						response.writeHead(301, { "Location":"/fixture/index.html" });
+						response.writeHead(301, { "Location":"/fixtures/index.html" });
 						response.end();
 						break;
 					}
