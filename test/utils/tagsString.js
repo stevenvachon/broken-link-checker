@@ -1,11 +1,11 @@
 "use strict";
-var voidElements = require("void-elements");
-
 var tags = require("../../lib/internal/tags");
 
+var voidElements = require("void-elements");
 
 
-function getTagsString(filterLevel, url)
+
+function tagsString(filterLevel, url)
 {
 	var attrName,html,tag,tagName;
 	var filteredTags = tags[filterLevel];
@@ -35,4 +35,4 @@ function getTagsString(filterLevel, url)
 
 
 
-module.exports = getTagsString;
+module.exports = tagsString;

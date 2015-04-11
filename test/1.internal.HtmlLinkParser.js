@@ -6,6 +6,8 @@ var utils = require("./utils");
 
 var expect = require("chai").expect;
 
+var allTagsString = utils.tagsString(3, "http://fakeurl.com/");
+
 
 
 describe("INTERNAL -- HtmlLinkParser", function()
@@ -1023,5 +1025,72 @@ describe("INTERNAL -- HtmlLinkParser", function()
 				}
 			}).parse("no links here");
 		});
+	});
+	
+	
+	
+	describe("options", function()
+	{
+		it("filterLevel = 0", function(done)
+		{
+			var links = [];
+			
+			new HtmlLinkParser( utils.options({ filterLevel:0 }),
+			{
+				link: function(link)
+				{
+					links[link.html.index] = linkObj.clean(link);
+				},
+				complete: function()
+				{
+					expect(links).to.have.length(2);
+					done();
+				}
+			}).parse(allTagsString);
+		});
+		
+		
+		
+		it("filterLevel = 1", function(done)
+		{
+			var links = [];
+			
+			new HtmlLinkParser( utils.options({ filterLevel:1 }),
+			{
+				link: function(link)
+				{
+					links[link.html.index] = linkObj.clean(link);
+				},
+				complete: function()
+				{
+					expect(links).to.have.length(13);
+					done();
+				}
+			}).parse(allTagsString);
+		});
+		
+		
+		
+		it("filterLevel = 2", function(done)
+		{
+			var links = [];
+			
+			new HtmlLinkParser( utils.options({ filterLevel:2 }),
+			{
+				link: function(link)
+				{
+					links[link.html.index] = linkObj.clean(link);
+				},
+				complete: function()
+				{
+					expect(links).to.have.length(16);
+					done();
+				}
+			}).parse(allTagsString);
+		});
+		
+		
+		
+		// `filterLevel=3` already tested above
 	});
 });

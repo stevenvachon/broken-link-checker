@@ -5,10 +5,11 @@ var server = require("./server");
 
 module.exports = 
 {
-	getTagsString: require("./getTagsString"),
+	logLinkObj: require("./logLinkObj"),
 	options: require("./options"),
 	startConnection:  server.startConnection,
 	startConnections: server.startConnections,
 	stopConnection:   server.stopConnection,
-	stopConnections:  server.stopConnections
+	stopConnections:  server.stopConnections,
+	tagsString: require("./tagsString")
 };

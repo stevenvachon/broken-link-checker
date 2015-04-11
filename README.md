@@ -214,6 +214,7 @@ if (result.error !== null) {
   * provide method to clear cache
 * option to check broken link on archive.org for archived version (using [this lib](https://npmjs.com/archive.org))
 * option to include iframe html source in checking?
+* option to run `HtmlUrlChecker` checks on page load (using [jsdom](https://github.com/tmpvar/jsdom)) to include links added with JavaScript
 * better cli -- table view option that disables default log, spinner like npm?
 * `handlers.log()` for logging requests, parsing html, etc
 * stream html files ([parse5#26](https://github.com/inikulin/parse5/issues/26))

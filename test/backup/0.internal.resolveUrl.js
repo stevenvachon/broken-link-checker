@@ -1,5 +1,5 @@
 "use strict";
-var resolveUrl = require("../lib/internal/resolveUrl");
+//var resolveUrl = require("../lib/internal/resolveUrl");
 
 var acceptedSchemes = require("./utils").options().acceptedSchemes;
 
@@ -7,7 +7,7 @@ var expect = require("chai").expect;
 
 
 
-describe("INTERNAL -- resolveUrl", function()
+describe.skip("INTERNAL -- resolveUrl", function()
 {
 	it("should work with an absolute url", function(done)
 	{

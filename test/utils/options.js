@@ -6,6 +6,8 @@ var objectAssign = require("object-assign");
 
 var testDefaultOptions =
 {
+	// All other options will use default values
+	// as this will ensure that when they change, tests WILL break
 	excludeInternalLinks: false,
 	excludeLinksToSamePage: false,
 	excludeResponseData: false,
@@ -21,6 +23,7 @@ function options(overrides)
 {
 	overrides = objectAssign
 	(
+		{},
 		appDefaultOptions,
 		testDefaultOptions,
 		overrides
