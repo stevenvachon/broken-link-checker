@@ -2,6 +2,8 @@
 var fs = require("fs");
 var path = require("path");
 
+var utils = require("../utils");
+
 var urls = 
 {
 	"remote absolute":    "http://fakeurl2.com/path/link.html?query#hash",
@@ -17,29 +19,9 @@ var urls =
 
 
 
-function a_an(followingWord)
-{
-	// Skip "y" because it's always special cased
-	var vowels = ["a","e","i","o","u"];
-	
-	var firstChar = followingWord[0].toLowerCase();
-	
-	for (var i=0; i<vowels.length; i++)
-	{
-		if (firstChar === vowels[i])
-		{
-			return "an";
-		}
-	}
-	
-	return "a";
-}
-
-
-
 function generate()
 {
-	saveFile( path.normalize( __dirname + "/../generated/linkObj.json" ) );
+	saveFile( path.normalize( __dirname + "/../json/linkObj.json" ) );
 }
 
 
@@ -57,14 +39,14 @@ function generateData()
 			{
 				output[
 					url.toUpperCase() +" url"+ 
-					" with "+ a_an(base) +" "+ base.toUpperCase() +" base"+ 
+					" with "+ utils.a_an(base) +" "+ base.toUpperCase() +" base"+ 
 					" and "+ htmlBase.toUpperCase() +" html base"
 				] = {
 					linkUrl: urls[url],
 					baseUrl: urls[base],
 					htmlBaseUrl: urls[htmlBase],
 					
-					skip: true,
+					skipOrOnly: "skip",
 					shouldWork: null,
 					resolvedLinkUrl: "",
 					resolvedBaseUrl: "",

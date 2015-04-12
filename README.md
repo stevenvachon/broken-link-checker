@@ -2,7 +2,7 @@
 > Find broken links, missing images, etc in your HTML.
 
 Features:
-* Requests urls, html files, urls to html files
+* Parses local and remote html strings
 * Parses various html tags/attributes, not just `<a href>`
 * Supports redirects, absolute urls, relative urls and `<base>`
 * Provides detailed information about each link (http and html)

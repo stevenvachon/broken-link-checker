@@ -1,10 +1,12 @@
 "use strict";
 var linkObj = require("../lib/internal/linkObj");
 
-var options  = require("./utils").options();
-var urlTests = require("./generated/linkObj.json");
+var urlTests = require("./json/linkObj.json");
+var utils    = require("./utils");
 
 var expect = require("chai").expect;
+
+var options = utils.options();
 
 
 
@@ -47,20 +49,20 @@ describe("INTERNAL -- linkObj", function()
 	{
 		it("should work", function(done)
 		{
-			var url = "http://fakeurl.com";
-			var link = linkObj(url);
+			var linkUrl = "http://fakeurl.com";
+			var link = linkObj(linkUrl);
 			
-			linkObj.resolve(link, url, options);
+			linkObj.resolve(link, linkUrl, options);
 			
-			expect(link.url.original).to.equal(url);
-			expect(link.url.resolved).to.equal(url+"/");
+			expect(link.url.original).to.equal(linkUrl);
+			expect(link.url.resolved).to.equal(linkUrl+"/");
 			expect(link.url.redirected).to.be.null;
 			expect(link.url.parsed).to.be.instanceOf(Object);
 			expect(link.url.parsed.protocol).to.equal("http:");
 			expect(link.url.parsed.protocolTruncated).to.equal("http");
 			
-			expect(link.base.original).to.equal(url);
-			expect(link.base.resolved).to.equal(url+"/");
+			expect(link.base.original).to.equal(linkUrl);
+			expect(link.base.resolved).to.equal(linkUrl+"/");
 			expect(link.base.parsed).to.be.instanceOf(Object);
 			
 			expect(link.html.tag).to.be.null;	// No HTML has been parsed
@@ -76,40 +78,18 @@ describe("INTERNAL -- linkObj", function()
 		
 		
 		
-		function format(input)
-		{
-			if (typeof input==="string" || input instanceof String)
-			{
-				var match = /{{([^}]+)}}/.exec(input);
-				
-				if (match !== null)
-				{
-					// Variable
-					return match[1];
-				}
-				
-				// String
-				return '"'+input+'"';
-			}
-			
-			// Rely on JavaScript's internal stringification
-			return input;
-		}
-		
-		
-		
 		for (var test in urlTests)
 		{
 			var data = urlTests[test];
-			var skip = data.skip ? ".skip" : "";
-			var title = test +" should "+ (data.shouldWork ? "work" : "not work");
+			var skipOrOnly = data.skipOrOnly ? "."+data.skipOrOnly : "";
+			var title = "should "+ (data.shouldWork ? "accept " : "reject ") + utils.a_an(test) + " "+test;	// TODO :: remove `shouldWork` and use data.resolvedUrl!==null
 			
 			var code = "";
-			code  = 'it'+skip+'("'+title+'", function(done)\n';
+			code  = 'it'+skipOrOnly+'("'+title+'", function(done)\n';
 			code += '{\n';
-			code += '	var baseUrl     = '+format(data.baseUrl)+';\n';
-			code += '	var htmlBaseUrl = '+format(data.htmlBaseUrl)+';\n';
-			code += '	var linkUrl     = '+format(data.linkUrl)+';\n';
+			code += '	var baseUrl     = '+utils.format(data.baseUrl)+';\n';
+			code += '	var htmlBaseUrl = '+utils.format(data.htmlBaseUrl)+';\n';
+			code += '	var linkUrl     = '+utils.format(data.linkUrl)+';\n';
 			code += '	\n';
 			code += '	var link = linkObj(linkUrl);\n';
 			code += '	if (typeof htmlBaseUrl==="string") link.html.base = htmlBaseUrl;\n';
@@ -117,10 +97,10 @@ describe("INTERNAL -- linkObj", function()
 			code += '	linkObj.resolve(link, baseUrl, options);\n';
 			code += '	\n';
 			code += '	expect(link.url.original).to.equal(linkUrl);\n';
-			code += '	expect(link.url.resolved).to.equal('+format(data.resolvedLinkUrl)+');\n';
+			code += '	expect(link.url.resolved).to.equal('+utils.format(data.resolvedLinkUrl)+');\n';
 			code += '	\n';
 			code += '	expect(link.base.original).to.equal(baseUrl);\n';
-			code += '	expect(link.base.resolved).to.equal('+format(data.resolvedBaseUrl)+');\n';
+			code += '	expect(link.base.resolved).to.equal('+utils.format(data.resolvedBaseUrl)+');\n';
 			code += '	\n';
 			code += '	if (typeof htmlBaseUrl==="string") expect(link.html.base).to.equal(htmlBaseUrl);\n';
 			code += '	\n';
@@ -132,5 +112,72 @@ describe("INTERNAL -- linkObj", function()
 			
 			eval(code);
 		}
+		
+		
+		
+		it("should accept a base with a scheme/protocol not specified as accepted", function(done)
+		{
+			var baseUrl = "smtp://fakeurl.com/";
+			var linkUrl = "http://fakeurl.com/";
+			var link = linkObj(linkUrl);
+			
+			linkObj.resolve(link, baseUrl, options);
+			
+			expect(link.base.original).to.equal(baseUrl);
+			expect(link.base.resolved).to.equal(baseUrl);
+			expect(link.url.resolved).to.equal(linkUrl);
+			done();
+		});
+		
+		
+		
+		it("should accept an html base with a scheme/protocol not specified as accepted", function(done)
+		{
+			var baseUrl     = "http://fakeurl.com/";
+			var htmlBaseUrl = "smtp://fakeurl.com/";
+			var linkUrl     = "http://fakeurl.com/";
+			
+			var link = linkObj(linkUrl);
+			link.html.base = htmlBaseUrl;
+			
+			linkObj.resolve(link, baseUrl, options);
+			
+			expect(link.base.original).to.equal(baseUrl);
+			expect(link.base.resolved).to.equal(htmlBaseUrl);
+			expect(link.url.resolved).to.equal(linkUrl);
+			done();
+		});
+		
+		
+		
+		it("should reject an absolute url with a scheme/protocol not specified as accepted", function(done)
+		{
+			var baseUrl = "http://fakeurl.com/";
+			var linkUrl = "smtp://fakeurl.com/";
+			var link = linkObj(linkUrl);
+			
+			linkObj.resolve(link, baseUrl, options);
+			
+			expect(link.url.original).to.equal(linkUrl);
+			expect(link.url.resolved).to.be.null;
+			done();
+		});
+		
+		
+		
+		it("should reject a relative url with a base containing a scheme/protocol not specified as accepted", function(done)
+		{
+			var baseUrl = "smtp://fakeurl.com/";
+			var linkUrl = "path/resource.html?query#hash";
+			var link = linkObj(linkUrl);
+			
+			linkObj.resolve(link, baseUrl, options);
+			
+			expect(link.base.original).to.equal(baseUrl);
+			expect(link.base.resolved).to.equal(baseUrl);
+			expect(link.url.original).to.equal(linkUrl);
+			expect(link.url.resolved).to.be.null;
+			done();
+		});
 	});
 });
