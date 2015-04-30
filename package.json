@@ -11,7 +11,7 @@
   "main": "lib",
   "bin": {
     "blc": "bin/broken-link-checker",
-    "broken-link-checker": "blc/broken-link-checker"
+    "broken-link-checker": "bin/broken-link-checker"
   },
   "repository": {
     "type": "git",
@@ -48,7 +48,8 @@
     "test": "mocha test/ --reporter spec --check-leaks --bail"
   },
   "files": [
-    "lib"
+    "lib",
+    "bin"
   ],
   "keywords": [
     "uri",
