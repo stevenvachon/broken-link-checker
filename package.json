@@ -31,15 +31,14 @@
     "default-user-agent": "~0.0.1",
     "limited-request-queue": "git://github.com/stevenvachon/limited-request-queue.git",
     "object-assign": "^2.0.0",
-    "parse5": "^1.4.1",
-    "request": "^2.54.0",
+    "parse5": "^1.4.2",
+    "request": "^2.55.0",
     "void-elements": "^2.0.1"
   },
   "devDependencies": {
-    "chai": "^2.2.0",
-    "mocha": "^2.2.1",
-    "node-static": "~0.7.6",
-    "portscanner": "^1.0.0"
+    "chai": "^2.3.0",
+    "mocha": "^2.2.5",
+    "node-static": "~0.7.6"
   },
   "engines": {
     "node": ">= 0.10"

@@ -3,7 +3,6 @@ var http = require("http");
 var https = require("https");
 var nodeStatic = require("node-static");
 var path = require("path");
-var portscanner = require("portscanner");
 
 var fileServer = new nodeStatic.Server( path.join(__dirname,"../") );
 var host = "127.0.0.1";
@@ -13,11 +12,16 @@ var httpServers = {};
 
 function getAvailablePort(callback)
 {
-	portscanner.findAPortNotInUse(3000, 3030, host, function(error, port)
+	var port;
+	var server = http.createServer();
+	
+	// OS will return availabe port by point to port 0
+	server.listen(0, host, function()
 	{
-		if (error) throw error;
+		port = server.address().port;
+		server.close();
 		callback(port);
-	})
+	});
 }
 
 
@@ -38,46 +42,55 @@ function getUrl(port, schemeRelative)
 
 function startHttpServer(callback)
 {
-	getAvailablePort( function(port)
+	var port;
+	var server = http.createServer(startHttpServer_callback);
+	
+	// OS will return availabe port by point to port 0
+	server.listen(0, host, function()
 	{
-		httpServers[port] = http.createServer( function(request, response)
-		{
-			request.addListener("end", function()
-			{
-				switch (request.url)
-				{
-					case "/fixtures/redirect.html":
-					{
-						// Redirect
-						response.writeHead(302, { "Location":"/fixtures/redirect2.html" });
-						response.end();
-						break;
-					}
-					case "/fixtures/redirect2.html":
-					{
-						// Redirect
-						response.writeHead(301, { "Location":"/fixtures/index.html" });
-						response.end();
-						break;
-					}
-					default:
-					{
-						// Serve file
-						fileServer.serve(request, response, function(error, result)
-						{
-							if (error !== null)
-							{
-								response.writeHead(error.status, error.headers);
-								response.end();
-							}
-						});
-					}
-				}
-			}).resume();
-		}).listen(port, host);
-		
+		port = server.address().port;
+		console.log(port)
+		httpServers[port] = server;
 		callback(port);
 	});
+}
+
+
+
+function startHttpServer_callback(request, response)
+{
+	request.addListener("end", function()
+	{
+		switch (request.url)
+		{
+			case "/fixtures/redirect.html":
+			{
+				// Redirect
+				response.writeHead(302, { "Location":"/fixtures/redirect2.html" });
+				response.end();
+				break;
+			}
+			case "/fixtures/redirect2.html":
+			{
+				// Redirect
+				response.writeHead(301, { "Location":"/fixtures/index.html" });
+				response.end();
+				break;
+			}
+			default:
+			{
+				// Serve file
+				fileServer.serve(request, response, function(error, result)
+				{
+					if (error !== null)
+					{
+						response.writeHead(error.status, error.headers);
+						response.end();
+					}
+				});
+			}
+		}
+	}).resume();
 }
 
 
