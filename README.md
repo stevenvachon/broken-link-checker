@@ -143,7 +143,14 @@ This option only applies to `HtmlChecker` and `HtmlUrlChecker`.
 ### options.excludeInternalLinks
 Type: `Boolean`  
 Default value: `false`  
-Will only check and output external links when `true`.
+Will not check internal links when `true`.
+
+This option only applies to `HtmlChecker` and `HtmlUrlChecker`.
+
+### options.excludeExternalLinks
+Type: `Boolean`  
+Default value: `false`  
+Will not check external links when `true`.
 
 This option only applies to `HtmlChecker` and `HtmlUrlChecker`.
 
