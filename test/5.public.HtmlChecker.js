@@ -332,7 +332,43 @@ describe("PUBLIC -- HtmlChecker", function()
 			}).scan(htmlString, baseUrl);
 		});
 		
-		
+		it("excludeExternalLinks = false", function(done)
+		{
+			var results = [];
+
+			var htmlString = '<a href="http://example.com">link</a>';
+
+			new HtmlChecker( utils.options(),
+			{
+				link: function(result)
+				{
+					results[result.html.index] = result;
+				},
+				complete: function()
+				{
+					expect(results).to.have.length(1);
+					expect(results[0].internal).to.be.false;
+					done();
+				}
+			}).scan(htmlString, conn.absoluteUrl+"/fixtures/index.html");
+		});
+
+		it("excludeExternalLinks = true", function(done)
+		{
+			var htmlString = '<a href="http://example.com">link</a>';
+
+			new HtmlChecker( utils.options({ excludeExternalLinks:true }),
+			{
+				link: function(result)
+				{
+					done( new Error("this should not have been called") );
+				},
+				complete: function()
+				{
+					done();
+				}
+			}).scan(htmlString, baseUrl);
+		});
 		
 		it("excludeLinksToSamePage = true", function(done)
 		{
