@@ -49,7 +49,6 @@ function startHttpServer(callback)
 	server.listen(0, host, function()
 	{
 		port = server.address().port;
-		console.log(port)
 		httpServers[port] = server;
 		callback(port);
 	});

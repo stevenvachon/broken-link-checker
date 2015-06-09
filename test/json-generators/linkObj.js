@@ -47,7 +47,6 @@ function generateData()
 					htmlBaseUrl: urls[htmlBase],
 					
 					skipOrOnly: "skip",
-					shouldWork: null,
 					resolvedLinkUrl: "",
 					resolvedBaseUrl: "",
 					internal: null,

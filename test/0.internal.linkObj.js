@@ -4,7 +4,10 @@ var linkObj = require("../lib/internal/linkObj");
 var urlTests = require("./json/linkObj.json");
 var utils    = require("./utils");
 
-var expect = require("chai").expect;
+var chai = require("chai");
+
+var expect = chai.expect;
+chai.config.includeStack = true;
 
 var options = utils.options();
 
@@ -59,14 +62,13 @@ describe("INTERNAL -- linkObj", function()
 			expect(link.url.redirected).to.be.null;
 			expect(link.url.parsed).to.be.instanceOf(Object);
 			expect(link.url.parsed.protocol).to.equal("http:");
-			expect(link.url.parsed.protocolTruncated).to.equal("http");
 			
 			expect(link.base.original).to.equal(linkUrl);
 			expect(link.base.resolved).to.equal(linkUrl+"/");
 			expect(link.base.parsed).to.be.instanceOf(Object);
 			
-			expect(link.html.tag).to.be.null;	// No HTML has been parsed
-			expect(link.http.statusCode).to.be.null;	// No request has been made
+			expect(link.html.tag).to.be.null;  // No HTML has been parsed
+			expect(link.http.statusCode).to.be.null;  // No request has been made
 			
 			expect(link.internal).to.be.true;
 			expect(link.samePage).to.be.true;
@@ -81,8 +83,8 @@ describe("INTERNAL -- linkObj", function()
 		for (var test in urlTests)
 		{
 			var data = urlTests[test];
-			var skipOrOnly = data.skipOrOnly ? "."+data.skipOrOnly : "";
-			var title = "should "+ (data.shouldWork ? "accept " : "reject ") + utils.a_an(test) + " "+test;	// TODO :: remove `shouldWork` and use data.resolvedUrl!==null
+			var skipOrOnly = data.skipOrOnly==null ? "" : "."+data.skipOrOnly;
+			var title = "should "+ (data.resolvedUrl!==null ? "accept " : "reject ") + utils.a_an(test) + " "+test;
 			
 			var code = "";
 			code  = 'it'+skipOrOnly+'("'+title+'", function(done)\n';

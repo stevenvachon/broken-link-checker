@@ -4,7 +4,7 @@
 
 function logLinkObj(link)
 {
-	link.response = {};	// for easier logging
+	link.response = {};  // for easier logging
 	console.log(link);
 }
 
