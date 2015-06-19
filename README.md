@@ -239,6 +239,7 @@ if (result.error !== null) {
   * options renamed: `maxSockets`->`maxSocketsPerHost`
   * linkObj added: `http`
   * linkObj moved: `response`->`http.response`
+  * linkObj changed: `internal` and `samePage` now compares the base URL (ignoring `<base>`) with links that may have `<base>` applied
   * switched from [request](https://npmjs.com/request) to [bhttp](https://npmjs.com/bhttp)
 * 0.4.3 added `rateLimit` option, cleanup
 * 0.4.2 added `url.redirected` to linkObj, bug fixes
