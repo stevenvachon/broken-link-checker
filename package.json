@@ -11,8 +11,8 @@
   },
   "main": "lib",
   "bin": {
-    "blc": "bin/broken-link-checker",
-    "broken-link-checker": "bin/broken-link-checker"
+    "blc": "bin/blc",
+    "broken-link-checker": "bin/blc"
   },
   "repository": {
     "type": "git",
@@ -27,7 +27,8 @@
     "default-user-agent": "~0.0.1",
     "limited-request-queue": "^1.0.0",
     "object-assign": "^3.0.0",
-    "parse5": "^1.4.2",
+    "nopter": "~0.3.0",
+    "parse5": "^1.5.0",
     "urlobj": "0.0.7",
     "void-elements": "^2.0.1"
   },

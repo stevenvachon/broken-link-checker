@@ -235,6 +235,7 @@ if (result.error !== null) {
 ## Changelog
 * 0.5.0
   * API change
+  * CLI options
   * options added: `excludeExternalLinks`, `excludeResponseData`, `maxSockets`
   * options renamed: `maxSockets`->`maxSocketsPerHost`
   * linkObj added: `http`
