@@ -227,12 +227,13 @@ if (result.error !== null) {
 * option to include iframe html source in checking?
 * option to run `HtmlUrlChecker` checks on page load (using [jsdom](https://npmjs.com/jsdom)) to include links added with JavaScript
 * add throttle profiles (0–9, -1 for "custom") for easy configuring
-* better cli -- table view option that disables default log, spinner like npm?
+* cli table view option that disables default log?
 * `handlers.log()` for logging requests, parsing html, etc?
 * stream html files ([parse5#26](https://github.com/inikulin/parse5/issues/26))
 * `MarkdownChecker`,`MarkdownUrlChecker`,`HtmlMarkdownChecker`,`HtmlMarkdownUrlChecker`
 
 ## Changelog
+* 0.5.1 fun CLI spinner
 * 0.5.0
   * API change
   * CLI options
