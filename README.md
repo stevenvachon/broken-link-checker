@@ -195,6 +195,11 @@ Type: `Number`
 Default value: `0`  
 The number of milliseconds to wait before each request.
 
+### options.checkUniqueUrlOnce
+Type: 'Boolean'
+Default Value: 'false'
+When enabled, url request results will be cached. This will ensure that each unique url will only be checked once.
+
 
 ## Handling link errors
 Each result will have its own `error` key for which you can compare against:

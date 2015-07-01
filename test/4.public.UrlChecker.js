@@ -199,5 +199,32 @@ describe("PUBLIC -- UrlChecker", function()
 			instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:1} );
 			instance.enqueue( conn.absoluteUrl+"/fixtures/link-fake.html", null, {index:2} );
 		});
+
+		it("should check unique url only once", function(done)
+		{
+			var results = [];
+			
+			var options = utils.options();
+			options.checkUniqueUrlOnce = true;
+
+			var instance = new UrlChecker( options,
+			{
+				link: function(result, customData)
+				{
+					results.push(result);
+				},
+				end: function()
+				{
+					expect(results).to.have.length(2);
+					expect(results[0].url.original).to.equal( conn.absoluteUrl+"/fixtures/index.html" );
+					expect(results[1].url.original).to.equal( conn.absoluteUrl+"/fixtures/link-real.html" );
+					done();
+				}
+			});
+			
+			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html",     null, {index:0} );
+			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html", 		 null, {index:1} );
+			instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:2} );
+		});
 	});
 });
