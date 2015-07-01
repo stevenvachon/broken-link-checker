@@ -205,7 +205,7 @@ describe("PUBLIC -- UrlChecker", function()
 			var results = [];
 			
 			var options = utils.options();
-			options.checkUniqueUrlOnce = true;
+			options.cacheResponses = true;
 
 			var instance = new UrlChecker( options,
 			{
@@ -223,7 +223,7 @@ describe("PUBLIC -- UrlChecker", function()
 			});
 			
 			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html",     null, {index:0} );
-			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html", 		 null, {index:1} );
+			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html",     null, {index:1} );
 			instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:2} );
 		});
 	});

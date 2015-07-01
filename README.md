@@ -134,6 +134,11 @@ Type: `Array`
 Default value: `["http","https"]`  
 Will only check links with schemes/protocols mentioned in this list. Any others will output an "Invalid URL" error.
 
+### options.cacheResponses
+Type: 'Boolean'
+Default Value: 'false'
+When enabled, url request results will be cached. This will ensure that each unique url will only be checked once.
+
 ### options.excludedSchemes
 Type: `Array`  
 Default value: `["data","geo","mailto","sms","tel"]`  
@@ -194,11 +199,6 @@ The maximum number of links per host/port to check at any given time. This avoid
 Type: `Number`  
 Default value: `0`  
 The number of milliseconds to wait before each request.
-
-### options.checkUniqueUrlOnce
-Type: 'Boolean'
-Default Value: 'false'
-When enabled, url request results will be cached. This will ensure that each unique url will only be checked once.
 
 
 ## Handling link errors
