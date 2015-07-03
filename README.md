@@ -3,10 +3,10 @@
 > Find broken links, missing images, etc in your HTML.
 
 Features:
-* Parses local and remote html strings
-* Supports various html tags/attributes, not just `<a href>`
-* Supports redirects, absolute urls, relative urls and `<base>`
-* Provides detailed information about each link (http and html)
+* Parses local and remote HTML strings
+* Supports various HTML tags/attributes, not just `<a href>`
+* Supports redirects, absolute URLs, relative URLs and `<base>`
+* Provides detailed information about each link (HTTP and HTML)
 * Pause/Resume at any time
 
 ```js
@@ -132,7 +132,7 @@ urlChecker.enqueue(url, baseUrl, customData);
 ### options.acceptedSchemes
 Type: `Array`  
 Default value: `["http","https"]`  
-Will only check links with schemes/protocols mentioned in this list. Any others will output an "Invalid URL" error.
+Will only check links with schemes/protocols mentioned in this list. Any others (except those in `excludedSchemes`) will output an "Invalid URL" error.
 
 ### options.excludedSchemes
 Type: `Array`  
@@ -141,24 +141,24 @@ Will not check or output links with schemes/protocols mentioned in this list. Th
 
 This option only applies to `HtmlChecker` and `HtmlUrlChecker`.
 
-### options.excludeInternalLinks
-Type: `Boolean`  
-Default value: `false`  
-Will not check internal links when `true`.
-
-This option only applies to `HtmlChecker` and `HtmlUrlChecker`.
-
 ### options.excludeExternalLinks
 Type: `Boolean`  
 Default value: `false`  
-Will not check external links when `true`.
+Will not check or output external links when `true`; relative links with a remote `<base>` included.
+
+This option only applies to `HtmlChecker` and `HtmlUrlChecker`.
+
+### options.excludeInternalLinks
+Type: `Boolean`  
+Default value: `false`  
+Will not check or output internal links when `true`.
 
 This option only applies to `HtmlChecker` and `HtmlUrlChecker`.
 
 ### options.excludeLinksToSamePage
 Type: `Boolean`  
 Default value: `true`  
-As the name suggests, it will not check or output links to the same page; relative and absolute fragments/hashes included.
+Will not check or output links to the same page; relative and absolute fragments/hashes included.
 
 This option only applies to `HtmlChecker` and `HtmlUrlChecker`.
 
@@ -213,8 +213,7 @@ if (result.error !== null) {
 
 
 ## Roadmap Features
-* add `linkObj.id` using [puid](https://www.npmjs.com/puid)?
-* start/end string locations for url attribute values ([parse5#43](https://github.com/inikulin/parse5/issues/43))
+* start/end string locations for URL attribute values ([parse5#43](https://github.com/inikulin/parse5/issues/43))
 * option to exclude keywords from URLs (facebook.com, etc)
 * response cache to avoid checking same URL twice (even with different hashes)?
   * per class instance?
@@ -224,12 +223,16 @@ if (result.error !== null) {
 * option to scrape `response.body` for erroneous sounding text (since an error page could be presented but still have code 200)
 * option to check using GET instead of HEAD as it's more reliable (some sites do not respond correctly--like "method not supported" or always 200--to HEAD)
 * option to check broken link on archive.org for archived version (using [this lib](https://npmjs.com/archive.org))
-* option to include iframe html source in checking?
+* option to include iframe HTML source in checking?
 * option to run `HtmlUrlChecker` checks on page load (using [jsdom](https://npmjs.com/jsdom)) to include links added with JavaScript
 * add throttle profiles (0–9, -1 for "custom") for easy configuring
+* check [ftp:](https://nmjs.com/ftp), [sftp:](https://npmjs.com/ssh2) (for downloadable files)
+* check ~~mailto:~~, news:, nntp:, telnet:?
+* check local files if URL is relative and has no base URL?
+* full-site checker (honoring robots.txt)
 * cli table view option that disables default log?
-* `handlers.log()` for logging requests, parsing html, etc?
-* stream html files ([parse5#26](https://github.com/inikulin/parse5/issues/26))
+* `handlers.log()` for logging requests, parsing HTML, etc?
+* stream HTML files ([parse5#26](https://github.com/inikulin/parse5/issues/26))
 * `MarkdownChecker`,`MarkdownUrlChecker`,`HtmlMarkdownChecker`,`HtmlMarkdownUrlChecker`
 
 ## Changelog

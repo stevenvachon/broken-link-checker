@@ -1044,6 +1044,17 @@ describe("INTERNAL -- checkUrl", function()
 	
 	
 	
+	describe("url object input", function()
+	{
+		it.skip("should work", function(done)
+		{
+			
+			done();
+		});
+	});
+	
+	
+	
 	describe("options", function()
 	{
 		it.skip("acceptedSchemes = []", function(done)
