@@ -694,6 +694,7 @@ describe("INTERNAL -- HtmlLinkParser", function()
 				},
 				complete: function()
 				{
+					expect(links.length).to.equal(1);
 					expect(links[0].url.original).to.equal("fake.html");
 					expect(links[0].html.attrName).to.equal("href");
 					expect(links[0].html.tag).to.equal('<a href="fake.html">');
