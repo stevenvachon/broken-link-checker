@@ -137,7 +137,7 @@ Will only check links with schemes/protocols mentioned in this list. Any others 
 ### options.cacheResponses
 Type: 'Boolean'
 Default Value: 'false'
-When enabled, url request results will be cached. This will ensure that each unique url will only be checked once.
+When enabled, URL request results will be cached. This will ensure that each unique URL will only be checked once.
 
 ### options.excludedSchemes
 Type: `Array`  
