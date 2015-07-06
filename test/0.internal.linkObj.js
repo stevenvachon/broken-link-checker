@@ -128,6 +128,8 @@ describe("INTERNAL -- linkObj", function()
 			expect(link.base.original).to.equal(baseUrl);
 			expect(link.base.resolved).to.equal(baseUrl);
 			expect(link.url.resolved).to.equal(linkUrl);
+			expect(link.internal).to.be.false;
+			expect(link.samePage).to.be.false;
 			done();
 		});
 		
@@ -147,6 +149,8 @@ describe("INTERNAL -- linkObj", function()
 			expect(link.base.original).to.equal(baseUrl);
 			expect(link.base.resolved).to.equal(htmlBaseUrl);
 			expect(link.url.resolved).to.equal(linkUrl);
+			expect(link.internal).to.be.true;
+			expect(link.samePage).to.be.true;
 			done();
 		});
 		
@@ -162,6 +166,8 @@ describe("INTERNAL -- linkObj", function()
 			
 			expect(link.url.original).to.equal(linkUrl);
 			expect(link.url.resolved).to.be.null;
+			expect(link.internal).to.be.false;
+			expect(link.samePage).to.be.false;
 			done();
 		});
 		
@@ -179,6 +185,8 @@ describe("INTERNAL -- linkObj", function()
 			expect(link.base.resolved).to.equal(baseUrl);
 			expect(link.url.original).to.equal(linkUrl);
 			expect(link.url.resolved).to.be.null;
+			expect(link.internal).to.be.null;
+			expect(link.samePage).to.be.null;
 			done();
 		});
 	});
