@@ -136,7 +136,7 @@ Will only check links with schemes/protocols mentioned in this list. Any others 
 
 ### options.excludedSchemes
 Type: `Array`  
-Default value: `["data","geo","mailto","sms","tel"]`  
+Default value: `["data","geo","javascript","mailto","sms","tel"]`  
 Will not check or output links with schemes/protocols mentioned in this list. This avoids the output of "Invalid URL" errors with links that cannot be checked.
 
 This option only applies to `HtmlChecker` and `HtmlUrlChecker`.
