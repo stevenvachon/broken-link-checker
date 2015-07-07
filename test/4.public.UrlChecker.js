@@ -180,32 +180,37 @@ describe("PUBLIC -- UrlChecker", function()
 
 		it("should re-check url after clearing cache", function(done)
 		{
-			var results = [];
+			var results = [],
+				finalFired;
 			
 
 			var instance = new UrlChecker( options,
 			{
 				link: function(result, customData)
 				{
-					if ( result.url.original === conn.absoluteUrl+"/fixtures/index.html" )
-					{
-						instance.clearCache();
-					};
 					results.push(result);
 				},
 				end: function()
 				{
-					expect(results).to.have.length(3);
-					expect(results[0].url.original).to.equal( conn.absoluteUrl+"/fixtures/index.html" );
-					expect(results[1].url.original).to.equal( conn.absoluteUrl+"/fixtures/index.html" );
-					expect(results[2].url.original).to.equal( conn.absoluteUrl+"/fixtures/link-real.html" );
-					done();
+					if (finalFired === true)
+					{
+						expect(results).to.have.length(3);
+						expect(results[0].url.original).to.equal( conn.absoluteUrl+"/fixtures/index.html" );
+						expect(results[1].url.original).to.equal( conn.absoluteUrl+"/fixtures/link-real.html" );
+						expect(results[2].url.original).to.equal( conn.absoluteUrl+"/fixtures/link-real.html" );
+						done();
+					}
+					else
+					{
+						instance.clearCache();
+						instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:2} );
+						finalFired = true;
+					}
 				}
 			});
 			
 			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html",     null, {index:0} );
-			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html",     null, {index:1} );
-			instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:2} );
+			instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:1} );
 		});
 	});
 
