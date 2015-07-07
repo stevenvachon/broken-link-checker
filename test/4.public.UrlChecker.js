@@ -139,9 +139,83 @@ describe("PUBLIC -- UrlChecker", function()
 			}).enqueue( conn.absoluteUrl );
 		});
 	});
-	
-	
-	
+
+
+
+	describe("caching", function()
+	{
+		var options;
+		beforeEach(function()
+		{
+			options = utils.options();
+			options.cacheResponses = true;
+		});
+
+		it("should check unique url only once", function(done)
+		{
+			var results = [];
+			
+
+			var instance = new UrlChecker( options,
+			{
+				link: function(result, customData)
+				{
+					results.push(result);
+				},
+				end: function()
+				{
+					expect(results).to.have.length(2);
+					expect(results[0].url.original).to.equal( conn.absoluteUrl+"/fixtures/index.html" );
+					expect(results[1].url.original).to.equal( conn.absoluteUrl+"/fixtures/link-real.html" );
+					done();
+				}
+			});
+			
+			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html",     null, {index:0} );
+			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html",     null, {index:1} );
+			instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:2} );
+		});
+
+
+
+		it("should re-check url after clearing cache", function(done)
+		{
+			var results = [],
+				finalFired;
+			
+
+			var instance = new UrlChecker( options,
+			{
+				link: function(result, customData)
+				{
+					results.push(result);
+				},
+				end: function()
+				{
+					if (finalFired === true)
+					{
+						expect(results).to.have.length(3);
+						expect(results[0].url.original).to.equal( conn.absoluteUrl+"/fixtures/index.html" );
+						expect(results[1].url.original).to.equal( conn.absoluteUrl+"/fixtures/link-real.html" );
+						expect(results[2].url.original).to.equal( conn.absoluteUrl+"/fixtures/link-real.html" );
+						done();
+					}
+					else
+					{
+						instance.clearCache();
+						instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:2} );
+						finalFired = true;
+					}
+				}
+			});
+			
+			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html",     null, {index:0} );
+			instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:1} );
+		});
+	});
+
+
+
 	describe("edge cases", function()
 	{
 		it("should support a relative url", function(done)
@@ -198,33 +272,6 @@ describe("PUBLIC -- UrlChecker", function()
 			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html",     null, {index:0} );
 			instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:1} );
 			instance.enqueue( conn.absoluteUrl+"/fixtures/link-fake.html", null, {index:2} );
-		});
-
-		it("should check unique url only once", function(done)
-		{
-			var results = [];
-			
-			var options = utils.options();
-			options.cacheResponses = true;
-
-			var instance = new UrlChecker( options,
-			{
-				link: function(result, customData)
-				{
-					results.push(result);
-				},
-				end: function()
-				{
-					expect(results).to.have.length(2);
-					expect(results[0].url.original).to.equal( conn.absoluteUrl+"/fixtures/index.html" );
-					expect(results[1].url.original).to.equal( conn.absoluteUrl+"/fixtures/link-real.html" );
-					done();
-				}
-			});
-			
-			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html",     null, {index:0} );
-			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html",     null, {index:1} );
-			instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:2} );
 		});
 	});
 });

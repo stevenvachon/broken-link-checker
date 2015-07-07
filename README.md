@@ -117,6 +117,7 @@ Requests each queued URL to determine if they are broken.
 * `.numActive()` returns the number of active requests.
 * `.pause()` will pause the queue, but will not pause any active requests.
 * `.resume()` will resume the queue.
+* `.clearCache()` will remove any cached URL responses. This only is relevant if the `cacheResponses` option is selected.
 
 ```js
 var urlChecker = new blc.UrlChecker(options, {
