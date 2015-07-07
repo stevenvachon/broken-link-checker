@@ -135,9 +135,9 @@ Default value: `["http","https"]`
 Will only check links with schemes/protocols mentioned in this list. Any others (except those in `excludedSchemes`) will output an "Invalid URL" error.
 
 ### options.cacheResponses
-Type: 'Boolean'
-Default Value: 'false'
-When enabled, URL request results will be cached. This will ensure that each unique URL will only be checked once.
+Type: `Boolean`  
+Default Value: `false`  
+URL request results will be cached when `true`. This will ensure that each unique URL will only be checked once.
 
 ### options.excludedSchemes
 Type: `Array`  
