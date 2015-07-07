@@ -237,9 +237,9 @@ describe("PUBLIC -- HtmlChecker", function()
 		{
 			var htmlString = '<a href="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACH/C1hNUCBEYXRhWE1QAz94cAAsAAAAAAEAAQAAAgJEAQA7">link1</a>';
 			htmlString += '<a href="geo:0,0">link2</a>';
-			htmlString += '<a href="javascript:void(0);">link5</a>';
-			htmlString += '<a href="mailto:address@email.com?subject=hello">link3</a>';
-			htmlString += '<a href="sms:+5-555-555-5555?body=hello">link4</a>';
+			htmlString += '<a href="javascript:void(0);">link3</a>';
+			htmlString += '<a href="mailto:address@email.com?subject=hello">link4</a>';
+			htmlString += '<a href="sms:+5-555-555-5555?body=hello">link5</a>';
 			htmlString += '<a href="tel:+5-555-555-5555">link6</a>';
 			
 			// Uses default `excludedSchemes` value to ensure that any change to it will break this test
