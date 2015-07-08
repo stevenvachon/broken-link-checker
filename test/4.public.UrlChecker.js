@@ -160,7 +160,7 @@ describe("PUBLIC -- UrlChecker", function()
 			{
 				link: function(result, customData)
 				{
-					results.push(result);
+					results[customData.index] = result;
 				},
 				end: function()
 				{
@@ -180,15 +180,15 @@ describe("PUBLIC -- UrlChecker", function()
 
 		it("should re-check url after clearing cache", function(done)
 		{
-			var results = [],
-				finalFired;
+			var finalFired;
+			var results = [];
 			
 
 			var instance = new UrlChecker( options,
 			{
 				link: function(result, customData)
 				{
-					results.push(result);
+					results[customData.index] = result;
 				},
 				end: function()
 				{

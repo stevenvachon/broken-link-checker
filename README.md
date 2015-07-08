@@ -109,6 +109,7 @@ Requests each queued URL to determine if they are broken.
 * `handlers.link` is fired for each result (broken or not).
 * `handlers.end` is fired when the end of the queue has been reached.
 
+* `.clearCache()` will remove any cached URL responses. This only is relevant if the `cacheResponses` option is enabled.
 * `.dequeue(id)` removes an item from the queue. Returns `true` on success or an `Error` on failure.
 * `.enqueue(url, baseUrl, customData)` adds an item to the queue. Items are auto-dequeued when their requests are completed. Returns a queue ID on success or an `Error` on failure.
   * `baseUrl` is the address to which all relative URLs will be made absolute. Without a value, links to relative URLs will output an "Invalid URL" error.
@@ -117,7 +118,6 @@ Requests each queued URL to determine if they are broken.
 * `.numActive()` returns the number of active requests.
 * `.pause()` will pause the queue, but will not pause any active requests.
 * `.resume()` will resume the queue.
-* `.clearCache()` will remove any cached URL responses. This only is relevant if the `cacheResponses` option is selected.
 
 ```js
 var urlChecker = new blc.UrlChecker(options, {
