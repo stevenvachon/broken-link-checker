@@ -62,6 +62,7 @@ Scans an HTML string to find broken links.
 * `handlers.link` is fired with the result of each discovered link (broken or not).
 * `handlers.complete` is fired after the last result or zero results.
 
+* `.clearCache()` will remove any cached URL responses. This only is relevant if the `cacheResponses` option is enabled.
 * `.numActive()` returns the number of active requests.
 * `.pause()` will pause the internal link queue, but will not pause any active requests.
 * `.resume()` will resume the internal link queue.
@@ -84,6 +85,7 @@ Scans the HTML content at each queued URL to find broken links.
 * `handlers.item` is fired after a queue item's last result, on zero results, or if the HTML could not be retreived.
 * `handlers.end` is fired when the end of the queue has been reached.
 
+* `.clearCache()` will remove any cached URL responses. This only is relevant if the `cacheResponses` option is enabled.
 * `.dequeue(id)` removes an item from the queue. Returns `true` on success or an `Error` on failure.
 * `.enqueue(htmlUrl, customData)` adds an item to the queue. Items are auto-dequeued when their requests are complete. Returns a queue ID on success or an `Error` on failure.
   * `customData` is optional data that is stored in the queue item.
