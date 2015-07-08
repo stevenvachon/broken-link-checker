@@ -144,15 +144,9 @@ describe("PUBLIC -- UrlChecker", function()
 
 	describe("caching", function()
 	{
-		var options;
-		beforeEach(function()
-		{
-			options = utils.options();
-			options.cacheResponses = true;
-		});
-
 		it("should check unique url only once", function(done)
 		{
+			var options = utils.options({cacheResponses: true});
 			var results = [];
 			
 
@@ -181,6 +175,7 @@ describe("PUBLIC -- UrlChecker", function()
 		it("should re-check url after clearing cache", function(done)
 		{
 			var finalFired;
+			var options = utils.options({cacheResponses: true});
 			var results = [];
 			
 
