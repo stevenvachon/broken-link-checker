@@ -300,7 +300,7 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 		it("should support pages after html with no links", function(done)
 		{
 			var count = 0;
-			var itemCalled = false;
+			var itemCalled = 0;
 			
 			var instance = new HtmlUrlChecker( utils.options(),
 			{
@@ -310,12 +310,12 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 				},
 				item: function()
 				{
-					itemCalled = true;
+					itemCalled++;
 				},
 				end: function()
 				{
-					expect(itemCalled).to.be.true;
-					expect(count).to.equal(0);
+					expect(count).to.equal(2);
+					expect(itemCalled).to.equal(2);
 					done();
 				}
 			});
