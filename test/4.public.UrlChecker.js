@@ -148,19 +148,23 @@ describe("PUBLIC -- UrlChecker", function()
 		{
 			var options = utils.options({cacheResponses: true});
 			var results = [];
-			
+			var success = false;
 
 			var instance = new UrlChecker( options,
 			{
 				link: function(result, customData)
 				{
+					console.log(result == undefined);
+					if (result.decorated === true) {
+						success = true;
+					}
+					result.decorated = true;
 					results[customData.index] = result;
 				},
 				end: function()
 				{
-					expect(results).to.have.length(2);
-					expect(results[0].url.original).to.equal( conn.absoluteUrl+"/fixtures/index.html" );
-					expect(results[1].url.original).to.equal( conn.absoluteUrl+"/fixtures/link-real.html" );
+					expect(success).to.equal(true);
+					expect(results).to.have.length(3);
 					done();
 				}
 			});
@@ -174,15 +178,19 @@ describe("PUBLIC -- UrlChecker", function()
 
 		it("should re-check url after clearing cache", function(done)
 		{
+			var failure = false;
 			var finalFired;
 			var options = utils.options({cacheResponses: true});
 			var results = [];
-			
 
 			var instance = new UrlChecker( options,
 			{
 				link: function(result, customData)
 				{
+					if (result.decorated === true) {
+						failure = true;
+					}
+					result.decorated = true;
 					results[customData.index] = result;
 				},
 				end: function()
@@ -190,9 +198,7 @@ describe("PUBLIC -- UrlChecker", function()
 					if (finalFired === true)
 					{
 						expect(results).to.have.length(3);
-						expect(results[0].url.original).to.equal( conn.absoluteUrl+"/fixtures/index.html" );
-						expect(results[1].url.original).to.equal( conn.absoluteUrl+"/fixtures/link-real.html" );
-						expect(results[2].url.original).to.equal( conn.absoluteUrl+"/fixtures/link-real.html" );
+						expect(failure).to.equal(false);
 						done();
 					}
 					else
