@@ -223,10 +223,6 @@ if (result.error !== null) {
 ## Roadmap Features
 * start/end string locations for URL attribute values ([parse5#43](https://github.com/inikulin/parse5/issues/43))
 * option to exclude keywords from URLs (facebook.com, etc)
-* response cache to avoid checking same URL twice (even with different hashes)?
-  * per class instance?
-  * could copy response from first checked link for each successive link's completeness
-  * provide method to clear cache
 * change order of checking to: tcp error, 4xx code (broken), 5xx code (undetermined), 200
 * option to scrape `response.body` for erroneous sounding text (since an error page could be presented but still have code 200)
 * option to check using GET instead of HEAD as it's more reliable (some sites do not respond correctly--like "method not supported" or always 200--to HEAD)
