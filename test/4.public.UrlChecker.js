@@ -146,7 +146,7 @@ describe("PUBLIC -- UrlChecker", function()
 	{
 		it("should check unique url only once", function(done)
 		{
-			var options = utils.options({cacheResponses: true});
+			var options = utils.options({ cacheResponses:true });
 			var results = [];
 			var success = false;
 
@@ -154,11 +154,11 @@ describe("PUBLIC -- UrlChecker", function()
 			{
 				link: function(result, customData)
 				{
-					console.log(result == undefined);
-					if (result.decorated === true) {
+					if (result._cached === true)
+                    {
 						success = true;
 					}
-					result.decorated = true;
+					result._cached = true;
 					results[customData.index] = result;
 				},
 				end: function()
@@ -178,9 +178,8 @@ describe("PUBLIC -- UrlChecker", function()
 
 		it("should re-check url after clearing cache", function(done)
 		{
-			var failure = false;
 			var finalFired;
-			var options = utils.options({cacheResponses: true});
+			var options = utils.options({ cacheResponses:true });
 			var results = [];
 
 			var instance = new UrlChecker( options,
@@ -188,7 +187,7 @@ describe("PUBLIC -- UrlChecker", function()
 				link: function(result, customData)
 				{
 					if (result.decorated === true) {
-						failure = true;
+                        done( new Error("this should not have been a cached result") )
 					}
 					result.decorated = true;
 					results[customData.index] = result;
@@ -198,7 +197,6 @@ describe("PUBLIC -- UrlChecker", function()
 					if (finalFired === true)
 					{
 						expect(results).to.have.length(3);
-						expect(failure).to.equal(false);
 						done();
 					}
 					else

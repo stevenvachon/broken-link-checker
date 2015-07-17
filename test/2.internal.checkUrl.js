@@ -55,7 +55,7 @@ describe("INTERNAL -- checkUrl", function()
 		checkUrl(
 			conn.absoluteUrls[0]+"/fixtures/link-real.html",
 			conn.absoluteUrls[0],
-			utils.options({cacheResponses: true}),
+			utils.options({ cacheResponses:true }),
 			function(result)
 			{
 				expect(result).to.be.instanceOf(Object);
