@@ -299,8 +299,8 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 		
 		it("should support pages after html with no links", function(done)
 		{
-			var linkCount = 0;
 			var itemCount = 0;
+			var linkCount = 0;
 			
 			var instance = new HtmlUrlChecker( utils.options(),
 			{
@@ -314,8 +314,8 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 				},
 				end: function()
 				{
-					expect(linkCount).to.equal(2);
 					expect(itemCount).to.equal(2);
+					expect(linkCount).to.equal(2);
 					done();
 				}
 			});
