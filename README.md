@@ -195,6 +195,11 @@ Type: `Number`
 Default value: `0`  
 The number of milliseconds to wait before each request.
 
+### options.retrievalVerb
+Type: `String`  
+Default value: `"head"`  
+The http verb to use in checking links. Some sites do not respond correctly to `"head"` so `"get"` can work better.
+
 
 ## Handling link errors
 Each result will have its own `error` key for which you can compare against:
@@ -221,7 +226,6 @@ if (result.error !== null) {
   * provide method to clear cache
 * change order of checking to: tcp error, 4xx code (broken), 5xx code (undetermined), 200
 * option to scrape `response.body` for erroneous sounding text (since an error page could be presented but still have code 200)
-* option to check using GET instead of HEAD as it's more reliable (some sites do not respond correctly--like "method not supported" or always 200--to HEAD)
 * option to check broken link on archive.org for archived version (using [this lib](https://npmjs.com/archive.org))
 * option to include iframe HTML source in checking?
 * option to run `HtmlUrlChecker` checks on page load (using [jsdom](https://npmjs.com/jsdom)) to include links added with JavaScript
