@@ -297,6 +297,35 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 		
 		
 		
+		it("should support pages after html with no links", function(done)
+		{
+			var itemCount = 0;
+			var linkCount = 0;
+			
+			var instance = new HtmlUrlChecker( utils.options(),
+			{
+				link: function()
+				{
+					linkCount++;
+				},
+				item: function()
+				{
+					itemCount++;
+				},
+				end: function()
+				{
+					expect(itemCount).to.equal(2);
+					expect(linkCount).to.equal(2);
+					done();
+				}
+			});
+
+			instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html" );
+			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html" );
+		});
+		
+		
+		
 		it("should report error when html could not be retrieved", function(done)
 		{
 			var itemCalled = false;
