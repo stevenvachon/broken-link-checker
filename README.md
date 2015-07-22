@@ -238,6 +238,8 @@ if (result.error !== null) {
 * `handlers.log()` for logging requests, parsing HTML, etc?
 * stream HTML files ([parse5#26](https://github.com/inikulin/parse5/issues/26))
 * `MarkdownChecker`,`MarkdownUrlChecker`,`HtmlMarkdownChecker`,`HtmlMarkdownUrlChecker`
+* strip hash/fragment from response cache URLs when storing and checking
+* add "age" feature to response cache's `contains()` -- if response is older than `options.responseAgeLimit=3600000` (1 hour by default), return `false` so that a request is made for a new response
 
 ## Changelog
 * 0.5.1 fun CLI spinner
