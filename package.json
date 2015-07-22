@@ -42,7 +42,8 @@
     "node": ">= 0.10"
   },
   "scripts": {
-    "test": "mocha test/ --reporter spec --check-leaks --bail"
+    "test": "mocha test/ --reporter spec --check-leaks --bail",
+    "test-watch": "mocha test/ --reporter spec --check-leaks --bail -w"
   },
   "files": [
     "bin",
