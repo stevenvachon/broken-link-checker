@@ -12,7 +12,7 @@ describe("INTERNAL -- urlCache", function()
 		it("reports that it is retrieving", function()
 		{
 			var cache = new urlCache();
-			var url = 'some url';
+			var url = "some url";
 
 			cache.startRetrieving(url);
 
@@ -22,20 +22,20 @@ describe("INTERNAL -- urlCache", function()
 		it("reports when it is not retrieving", function()
 		{
 			var cache = new urlCache();
-			var url = 'some url';
+			var url = "some url";
 
 			cache.startRetrieving(url);
 
-			expect(cache.isRetrieving('another url')).to.be.false;
+			expect(cache.isRetrieving("another url")).to.be.false;
 		});
 
 		it("is finished after being stored", function()
 		{
 			var cache = new urlCache();
-			var url = 'some url';
+			var url = "some url";
 
 			cache.startRetrieving(url);
-			cache.store(url, 'something');
+			cache.store(url, "something");
 
 			expect(cache.isRetrieving(url)).to.be.false;
 		});
@@ -43,7 +43,7 @@ describe("INTERNAL -- urlCache", function()
 		it("can be cleared", function()
 		{
 			var cache = new urlCache();
-			var url = 'some url';
+			var url = "some url";
 
 			cache.startRetrieving(url);
 			cache.clear();
@@ -57,8 +57,8 @@ describe("INTERNAL -- urlCache", function()
 		it("can be retrieved", function()
 		{
 			var cache = new urlCache();
-			var content = 'some content';
-			var url = 'some url';
+			var content = "some content";
+			var url = "some url";
 
 			cache.store(url, content);
 
@@ -68,9 +68,9 @@ describe("INTERNAL -- urlCache", function()
 		it("is then contained", function()
 		{
 			var cache = new urlCache();
-			var url = 'some url';
+			var url = "some url";
 
-			cache.store(url, 'anything');
+			cache.store(url, "anything");
 
 			expect(cache.contains(url)).to.be.true;
 		});
@@ -78,9 +78,9 @@ describe("INTERNAL -- urlCache", function()
 		it("can be cleared", function()
 		{
 			var cache = new urlCache();
-			var url = 'some url';
+			var url = "some url";
 
-			cache.store(url, 'anything');
+			cache.store(url, "anything");
 			cache.clear();
 
 			expect(cache.retrieve(url)).to.equal(undefined);
@@ -93,8 +93,8 @@ describe("INTERNAL -- urlCache", function()
 		it("is executed after cache is stored", function()
 		{
 			var cache = new urlCache();
-			var callback = 'some item';
-			var url = 'some url';
+			var callback = "some item";
+			var url = "some url";
 			var success = false;
 
 			cache.addCallback(url, callback);
@@ -110,8 +110,8 @@ describe("INTERNAL -- urlCache", function()
 		it("is not overwritten by starting retrieval", function()
 		{
 			var cache = new urlCache();
-			var callback = 'some item';
-			var url = 'some url';
+			var callback = "some item";
+			var url = "some url";
 			var success = false;
 
 			cache.addCallback(url, callback);
