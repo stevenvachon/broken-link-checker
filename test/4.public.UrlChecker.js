@@ -155,7 +155,7 @@ describe("PUBLIC -- UrlChecker", function()
 				link: function(result, customData)
 				{
 					if (result._cached === true)
-                    {
+					{
 						success = true;
 					}
 					result._cached = true;
@@ -187,7 +187,7 @@ describe("PUBLIC -- UrlChecker", function()
 				link: function(result, customData)
 				{
 					if (result.decorated === true) {
-                        done( new Error("this should not have been a cached result") )
+						done( new Error("this should not have been a cached result") )
 					}
 					result.decorated = true;
 					results[customData.index] = result;
