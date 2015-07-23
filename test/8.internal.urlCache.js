@@ -16,7 +16,7 @@ describe("INTERNAL -- urlCache", function()
 
 			cache.startRetrieving(url);
 
-			expect(cache.isRetrieving(url)).to.be.true;
+			expect( cache.isRetrieving(url) ).to.be.true;
 		});
 
 
@@ -28,7 +28,7 @@ describe("INTERNAL -- urlCache", function()
 
 			cache.startRetrieving(url);
 
-			expect(cache.isRetrieving("another url")).to.be.false;
+			expect( cache.isRetrieving("another url") ).to.be.false;
 		});
 
 
@@ -41,7 +41,7 @@ describe("INTERNAL -- urlCache", function()
 			cache.startRetrieving(url);
 			cache.store(url, "something");
 
-			expect(cache.isRetrieving(url)).to.be.false;
+			expect( cache.isRetrieving(url) ).to.be.false;
 		});
 
 
@@ -54,7 +54,7 @@ describe("INTERNAL -- urlCache", function()
 			cache.startRetrieving(url);
 			cache.clear();
 
-			expect(cache.isRetrieving(url)).to.be.false;
+			expect( cache.isRetrieving(url) ).to.be.false;
 		});
 	});
 
@@ -70,7 +70,7 @@ describe("INTERNAL -- urlCache", function()
 
 			cache.store(url, content);
 
-			expect(cache.retrieve(url)).to.equal(content);
+			expect( cache.retrieve(url) ).to.equal(content);
 		});
 
 
@@ -82,7 +82,7 @@ describe("INTERNAL -- urlCache", function()
 
 			cache.store(url, "anything");
 
-			expect(cache.contains(url)).to.be.true;
+			expect( cache.contains(url) ).to.be.true;
 		});
 
 
@@ -95,8 +95,8 @@ describe("INTERNAL -- urlCache", function()
 			cache.store(url, "anything");
 			cache.clear();
 
-			expect(cache.retrieve(url)).to.equal(undefined);
-			expect(cache.contains(url)).to.be.false;
+			expect( cache.retrieve(url) ).to.equal(undefined);
+			expect( cache.contains(url) ).to.be.false;
 		});
 	});
 
@@ -115,7 +115,8 @@ describe("INTERNAL -- urlCache", function()
 
 			expect(success).to.be.false;
 
-			cache.store(url, function(item) {
+			cache.store(url, function(item)
+			{
 
 				expect(item).to.equal(callback);
 
@@ -136,7 +137,8 @@ describe("INTERNAL -- urlCache", function()
 
 			cache.addCallback(url, callback);
 			cache.startRetrieving(url);
-			cache.store(url, function(item) {
+			cache.store(url, function(item)
+			{
 
 				expect(item).to.equal(callback);
 
