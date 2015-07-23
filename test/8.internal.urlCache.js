@@ -112,9 +112,13 @@ describe("INTERNAL -- urlCache", function()
 			var url = "some url";
 
 			cache.addCallback(url, callback);
+
 			expect(success).to.be.false;
+
 			cache.store(url, function(item) {
+
 				expect(item).to.equal(callback);
+
 				success = true;
 			});
 
@@ -133,7 +137,9 @@ describe("INTERNAL -- urlCache", function()
 			cache.addCallback(url, callback);
 			cache.startRetrieving(url);
 			cache.store(url, function(item) {
+
 				expect(item).to.equal(callback);
+
 				success = true;
 			});
 
