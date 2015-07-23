@@ -19,6 +19,8 @@ describe("INTERNAL -- urlCache", function()
 			expect(cache.isRetrieving(url)).to.be.true;
 		});
 
+
+
 		it("reports when it is not retrieving", function()
 		{
 			var cache = new urlCache();
@@ -28,6 +30,8 @@ describe("INTERNAL -- urlCache", function()
 
 			expect(cache.isRetrieving("another url")).to.be.false;
 		});
+
+
 
 		it("is finished after being stored", function()
 		{
@@ -40,6 +44,8 @@ describe("INTERNAL -- urlCache", function()
 			expect(cache.isRetrieving(url)).to.be.false;
 		});
 
+
+
 		it("can be cleared", function()
 		{
 			var cache = new urlCache();
@@ -51,6 +57,8 @@ describe("INTERNAL -- urlCache", function()
 			expect(cache.isRetrieving(url)).to.be.false;
 		});
 	});
+
+
 
 	describe("store()", function()
 	{
@@ -65,6 +73,8 @@ describe("INTERNAL -- urlCache", function()
 			expect(cache.retrieve(url)).to.equal(content);
 		});
 
+
+
 		it("is then contained", function()
 		{
 			var cache = new urlCache();
@@ -74,6 +84,8 @@ describe("INTERNAL -- urlCache", function()
 
 			expect(cache.contains(url)).to.be.true;
 		});
+
+
 
 		it("can be cleared", function()
 		{
@@ -88,14 +100,16 @@ describe("INTERNAL -- urlCache", function()
 		});
 	});
 
+
+
 	describe("addCallback()", function()
 	{
 		it("is executed after cache is stored", function()
 		{
 			var cache = new urlCache();
 			var callback = "some item";
-			var url = "some url";
 			var success = false;
+			var url = "some url";
 
 			cache.addCallback(url, callback);
 			expect(success).to.be.false;
@@ -107,12 +121,14 @@ describe("INTERNAL -- urlCache", function()
 			expect(success).to.be.true;
 		});
 
+
+
 		it("is not overwritten by starting retrieval", function()
 		{
 			var cache = new urlCache();
 			var callback = "some item";
-			var url = "some url";
 			var success = false;
+			var url = "some url";
 
 			cache.addCallback(url, callback);
 			cache.startRetrieving(url);
