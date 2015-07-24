@@ -139,9 +139,82 @@ describe("PUBLIC -- UrlChecker", function()
 			}).enqueue( conn.absoluteUrl );
 		});
 	});
-	
-	
-	
+
+
+
+	describe("caching", function()
+	{
+		it("should check unique url only once", function(done)
+		{
+			var options = utils.options({ cacheResponses:true });
+			var results = [];
+			var success = false;
+
+			var instance = new UrlChecker( options,
+			{
+				link: function(result, customData)
+				{
+					if (result._cached === true)
+					{
+						success = true;
+					}
+					result._cached = true;
+					results[customData.index] = result;
+				},
+				end: function()
+				{
+					expect(success).to.equal(true);
+					expect(results).to.have.length(3);
+					done();
+				}
+			});
+			
+			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html",     null, {index:0} );
+			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html",     null, {index:1} );
+			instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:2} );
+		});
+
+
+
+		it("should re-check url after clearing cache", function(done)
+		{
+			var finalFired;
+			var options = utils.options({ cacheResponses:true });
+			var results = [];
+
+			var instance = new UrlChecker( options,
+			{
+				link: function(result, customData)
+				{
+					if (result.decorated === true) {
+						done( new Error("this should not have been a cached result") )
+					}
+					result.decorated = true;
+					results[customData.index] = result;
+				},
+				end: function()
+				{
+					if (finalFired === true)
+					{
+						expect(results).to.have.length(3);
+						done();
+					}
+					else
+					{
+						instance.clearCache();
+						instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:2} );
+						finalFired = true;
+					}
+				}
+			});
+			
+			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html",     null, {index:0} );
+			instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:1} );
+		});
+	});
+
+
+
 	describe("edge cases", function()
 	{
 		it("should support a relative url", function(done)
