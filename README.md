@@ -203,10 +203,10 @@ Type: `Number`
 Default value: `0`  
 The number of milliseconds to wait before each request.
 
-### options.retrievalVerb
+### options.requestMethod
 Type: `String`  
 Default value: `"head"`  
-The http verb to use in checking links. Some sites do not respond correctly to `"head"` so `"get"` can work better.
+The HTTP request method used in checking links. Some sites do not respond correctly to `"head"`, while `"get"` can provide more consistent and accurate results, albeit slower.
 
 
 ## Handling link errors
