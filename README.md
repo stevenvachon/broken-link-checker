@@ -221,6 +221,9 @@ if (result.error !== null) {
 
 
 ## Roadmap Features
+* strip hash/fragment from response cache URLs when storing and checking
+* add "age" feature to response cache's `contains()` -- if response is older than `options.responseAgeLimit=3600000` (1 hour by default), return `false` so that a request is made for a new response
+* add ability to pass response from `HtmlUrlChecker` to `UrlChecker` to avoid requesting that URL twice
 * start/end string locations for URL attribute values ([parse5#43](https://github.com/inikulin/parse5/issues/43))
 * option to exclude keywords from URLs (facebook.com, etc)
 * change order of checking to: tcp error, 4xx code (broken), 5xx code (undetermined), 200
@@ -234,14 +237,20 @@ if (result.error !== null) {
 * check ~~mailto:~~, news:, nntp:, telnet:?
 * check local files if URL is relative and has no base URL?
 * full-site checker (honoring robots.txt)
+* cli verbose mode -- log skipped/excluded/cached links
 * cli table view option that disables default log?
+* use [ineed](https://npmjs.com/ineed)?
 * `handlers.log()` for logging requests, parsing HTML, etc?
 * stream HTML files ([parse5#26](https://github.com/inikulin/parse5/issues/26))
 * `MarkdownChecker`,`MarkdownUrlChecker`,`HtmlMarkdownChecker`,`HtmlMarkdownUrlChecker`
-* strip hash/fragment from response cache URLs when storing and checking
-* add "age" feature to response cache's `contains()` -- if response is older than `options.responseAgeLimit=3600000` (1 hour by default), return `false` so that a request is made for a new response
+
 
 ## Changelog
+* 0.6.0
+  * methods added: `clearCache()`
+  * options added: `cacheResponses`
+  * CLI options added: `--filter-level`, `--ordered`, `--uncached`
+  * `"javascript:"` links now excluded
 * 0.5.1 fun CLI spinner
 * 0.5.0
   * API change

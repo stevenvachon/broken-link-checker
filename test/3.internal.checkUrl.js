@@ -1,5 +1,6 @@
 "use strict";
 var checkUrl = require("../lib/internal/checkUrl");
+var UrlCache = require("../lib/internal/UrlCache");
 
 var utils = require("./utils");
 
@@ -51,21 +52,18 @@ describe("INTERNAL -- checkUrl", function()
 	
 	
 	
-	it("should store the result in the cache", function(done)
+	it("should store the response in cache", function(done)
 	{
+		var cache = new UrlCache();
+		
 		checkUrl(
 			conn.absoluteUrls[0]+"/fixtures/link-real.html",
 			conn.absoluteUrls[0],
 			utils.options({ cacheResponses:true }),
-			null,
+			cache,
 			function(result)
 			{
-				expect(result).to.be.instanceOf(Object);
-				expect(result.url).to.be.instanceOf(Object);
-				expect(result.base).to.be.instanceOf(Object);
-				expect(result.http).to.be.instanceOf(Object);
-				expect(result.http.response).to.be.instanceOf(Object);
-				expect(result.html).to.be.instanceOf(Object);
+				expect( cache.get( conn.absoluteUrls[0]+"/fixtures/link-real.html" )).to.be.an("object");
 				done();
 			}
 		);
