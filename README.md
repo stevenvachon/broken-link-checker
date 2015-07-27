@@ -62,6 +62,7 @@ Scans an HTML string to find broken links.
 * `handlers.link` is fired with the result of each discovered link (broken or not).
 * `handlers.complete` is fired after the last result or zero results.
 
+* `.clearCache()` will remove any cached URL responses. This is only relevant if the `cacheResponses` option is enabled.
 * `.numActive()` returns the number of active requests.
 * `.pause()` will pause the internal link queue, but will not pause any active requests.
 * `.resume()` will resume the internal link queue.
@@ -84,6 +85,7 @@ Scans the HTML content at each queued URL to find broken links.
 * `handlers.item` is fired after a queue item's last result, on zero results, or if the HTML could not be retreived.
 * `handlers.end` is fired when the end of the queue has been reached.
 
+* `.clearCache()` will remove any cached URL responses. This is only relevant if the `cacheResponses` option is enabled.
 * `.dequeue(id)` removes an item from the queue. Returns `true` on success or an `Error` on failure.
 * `.enqueue(htmlUrl, customData)` adds an item to the queue. Items are auto-dequeued when their requests are complete. Returns a queue ID on success or an `Error` on failure.
   * `customData` is optional data that is stored in the queue item.
@@ -109,6 +111,7 @@ Requests each queued URL to determine if they are broken.
 * `handlers.link` is fired for each result (broken or not).
 * `handlers.end` is fired when the end of the queue has been reached.
 
+* `.clearCache()` will remove any cached URL responses. This is only relevant if the `cacheResponses` option is enabled.
 * `.dequeue(id)` removes an item from the queue. Returns `true` on success or an `Error` on failure.
 * `.enqueue(url, baseUrl, customData)` adds an item to the queue. Items are auto-dequeued when their requests are completed. Returns a queue ID on success or an `Error` on failure.
   * `baseUrl` is the address to which all relative URLs will be made absolute. Without a value, links to relative URLs will output an "Invalid URL" error.
@@ -133,6 +136,11 @@ urlChecker.enqueue(url, baseUrl, customData);
 Type: `Array`  
 Default value: `["http","https"]`  
 Will only check links with schemes/protocols mentioned in this list. Any others (except those in `excludedSchemes`) will output an "Invalid URL" error.
+
+### options.cacheResponses
+Type: `Boolean`  
+Default Value: `false`  
+URL request results will be cached when `true`. This will ensure that each unique URL will only be checked once.
 
 ### options.excludedSchemes
 Type: `Array`  
@@ -218,12 +226,11 @@ if (result.error !== null) {
 
 
 ## Roadmap Features
+* strip hash/fragment from response cache URLs when storing and checking
+* add "age" feature to response cache's `contains()` -- if response is older than `options.responseAgeLimit=3600000` (1 hour by default), return `false` so that a request is made for a new response
+* add ability to pass response from `HtmlUrlChecker` to `UrlChecker` to avoid requesting that URL twice
 * start/end string locations for URL attribute values ([parse5#43](https://github.com/inikulin/parse5/issues/43))
 * option to exclude keywords from URLs (facebook.com, etc)
-* response cache to avoid checking same URL twice (even with different hashes)?
-  * per class instance?
-  * could copy response from first checked link for each successive link's completeness
-  * provide method to clear cache
 * change order of checking to: tcp error, 4xx code (broken), 5xx code (undetermined), 200
 * option to scrape `response.body` for erroneous sounding text (since an error page could be presented but still have code 200)
 * option to check broken link on archive.org for archived version (using [this lib](https://npmjs.com/archive.org))
@@ -234,12 +241,20 @@ if (result.error !== null) {
 * check ~~mailto:~~, news:, nntp:, telnet:?
 * check local files if URL is relative and has no base URL?
 * full-site checker (honoring robots.txt)
+* cli verbose mode -- log skipped/excluded/cached links
 * cli table view option that disables default log?
+* use [ineed](https://npmjs.com/ineed)?
 * `handlers.log()` for logging requests, parsing HTML, etc?
 * stream HTML files ([parse5#26](https://github.com/inikulin/parse5/issues/26))
 * `MarkdownChecker`,`MarkdownUrlChecker`,`HtmlMarkdownChecker`,`HtmlMarkdownUrlChecker`
 
+
 ## Changelog
+* 0.6.0
+  * methods added: `clearCache()`
+  * options added: `cacheResponses`
+  * CLI options added: `--filter-level`, `--ordered`, `--uncached`
+  * `"javascript:"` links now excluded
 * 0.5.1 fun CLI spinner
 * 0.5.0
   * API change
