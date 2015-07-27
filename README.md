@@ -41,9 +41,9 @@ To install, type this at the command line:
 ```shell
 npm install broken-link-checker -g
 ```
-Typical usage looks like:
+After that, check out the help for available options:
 ```shell
-blc http://website.com/
+blc -?
 ```
 
 ### Programmatic API
@@ -250,6 +250,9 @@ if (result.error !== null) {
 
 
 ## Changelog
+* 0.6.1
+  * options added: `requestMethod`
+  * CLI options added: `--get`
 * 0.6.0
   * methods added: `clearCache()`
   * options added: `cacheResponses`
