@@ -158,6 +158,7 @@ describe("PUBLIC -- UrlChecker", function()
 					{
 						success = true;
 					}
+					
 					result.http.response._cached = true;
 					results[customData.index] = result;
 				},
@@ -178,7 +179,7 @@ describe("PUBLIC -- UrlChecker", function()
 
 		it("should re-request a non-unique url after clearing cache", function(done)
 		{
-			var finalFired;
+			var finalFired = false;
 			var options = utils.options({ cacheResponses:true });
 			var results = [];
 
@@ -188,7 +189,7 @@ describe("PUBLIC -- UrlChecker", function()
 				{
 					if (result.http.response._cached === true)
 					{
-						done( new Error("this should not have been a cached result") )
+						done( new Error("this should not have been a cached result") );
 					}
 					
 					result.http.response._cached = true;
@@ -212,6 +213,48 @@ describe("PUBLIC -- UrlChecker", function()
 			
 			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html",     null, {index:0} );
 			instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:1} );
+		});
+		
+		
+		
+		it("should re-request a non-unique url after expiring in cache", function(done)
+		{
+			var finalFired = false;
+			var options = utils.options({ cacheExpiryTime:50, cacheResponses:true });
+			var results = [];
+	
+			var instance = new UrlChecker( options,
+			{
+				link: function(result, customData)
+				{
+					if (result.http.response._cached === true)
+					{
+						done( new Error("this should not have been a cached result") );
+					}
+					
+					result.http.response._cached = true;
+					results[customData.index] = result;
+				},
+				end: function()
+				{
+					if (finalFired === true)
+					{
+						expect(results).to.have.length(2);
+						done();
+					}
+					else
+					{
+						setTimeout( function()
+						{
+							instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:1} );
+							finalFired = true;
+							
+						}, 100);
+					}
+				}
+			});
+			
+			instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:0} );
 		});
 	});
 

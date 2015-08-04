@@ -137,6 +137,11 @@ Type: `Array`
 Default value: `["http","https"]`  
 Will only check links with schemes/protocols mentioned in this list. Any others (except those in `excludedSchemes`) will output an "Invalid URL" error.
 
+### options.cacheExpiryTime
+Type: `Number`  
+Default Value: `3600000` (1 hour)  
+The number of milliseconds in which a cached response should be considered valid. This is only relevant if the `cacheResponses` option is enabled.
+
 ### options.cacheResponses
 Type: `Boolean`  
 Default Value: `false`  
@@ -226,8 +231,6 @@ if (result.error !== null) {
 
 
 ## Roadmap Features
-* strip hash/fragment from response cache URLs when storing and checking
-* add "age" feature to response cache's `contains()` -- if response is older than `options.responseAgeLimit=3600000` (1 hour by default), return `false` so that a request is made for a new response
 * add ability to pass response from `HtmlUrlChecker` to `UrlChecker` to avoid requesting that URL twice
 * start/end string locations for URL attribute values ([parse5#43](https://github.com/inikulin/parse5/issues/43))
 * option to exclude keywords from URLs (facebook.com, etc)
@@ -250,6 +253,9 @@ if (result.error !== null) {
 
 
 ## Changelog
+* 0.6.2
+  * options added: `cacheExpiryTime`
+  * reduced redundant URLs in cache
 * 0.6.1
   * options added: `requestMethod`
   * CLI options added: `--get`

@@ -1,10 +1,10 @@
 "use strict";
 var checkUrl = require("../lib/internal/checkUrl");
-var UrlCache = require("../lib/internal/UrlCache");
 
 var utils = require("./utils");
 
 var expect = require("chai").expect;
+var UrlCache = require("urlcache");
 
 var conn;
 
@@ -63,8 +63,11 @@ describe("INTERNAL -- checkUrl", function()
 			cache,
 			function(result)
 			{
-				expect( cache.get( conn.absoluteUrls[0]+"/fixtures/link-real.html" )).to.be.an("object");
-				done();
+				cache.get( conn.absoluteUrls[0]+"/fixtures/link-real.html", function(response)
+				{
+					expect(response).to.be.an("object");
+					done();
+				});
 			}
 		);
 	});
