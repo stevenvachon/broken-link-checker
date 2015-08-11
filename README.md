@@ -244,7 +244,7 @@ if (result.error !== null) {
 * check ~~mailto:~~, news:, nntp:, telnet:?
 * check local files if URL is relative and has no base URL?
 * full-site checker (honoring robots.txt)
-* cli verbose mode -- log skipped/excluded/cached links
+* cli (extended) verbose mode -- log skipped/excluded/cached links
 * cli table view option that disables default log?
 * use [ineed](https://npmjs.com/ineed)?
 * `handlers.log()` for logging requests, parsing HTML, etc?
@@ -253,6 +253,10 @@ if (result.error !== null) {
 
 
 ## Changelog
+* 0.6.3
+  * linkObj added: `http.cached`
+  * CLI options added: `--verbose`, `--version`
+  * CLI options removed: `--uncached`
 * 0.6.2
   * options added: `cacheExpiryTime`
   * reduced redundant URLs in cache
