@@ -202,6 +202,53 @@ describe("PUBLIC -- HtmlChecker", function()
 	
 	describe("options", function()
 	{
+		it("excludedKeywords = []", function(done)
+		{
+			var results = [];
+			
+			var htmlString = '<a href="http://example.com/">link1</a>';
+			htmlString += '<a href="http://example-two.com/">link2</a>';
+			htmlString += '<a href="http://example3.com/">link3</a>';
+			
+			new HtmlChecker( utils.options(),
+			{
+				link: function(result)
+				{
+					results[result.html.index] = result;
+				},
+				complete: function()
+				{
+					expect(results).to.have.length(3);
+					done();
+				}
+			}).scan(htmlString);
+		});
+		
+		
+		
+		it('excludedKeywords = ["example.com","example*.com"]', function(done)
+		{
+			var results = [];
+			
+			var htmlString = '<a href="http://example.com/">link1</a>';
+			htmlString += '<a href="http://example-two.com/">link2</a>';
+			htmlString += '<a href="http://example3.com">link3</a>';
+			
+			new HtmlChecker( utils.options({ excludedKeywords:["example.com","*example*.com*"] }),
+			{
+				link: function(result)
+				{
+					done( new Error("this should not have been called") );
+				},
+				complete: function()
+				{
+					done();
+				}
+			}).scan(htmlString);
+		});
+		
+		
+		
 		it("excludedSchemes = []", function(done)
 		{
 			var results = [];

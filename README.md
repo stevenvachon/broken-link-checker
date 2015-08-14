@@ -3,10 +3,11 @@
 > Find broken links, missing images, etc in your HTML.
 
 Features:
-* Parses local and remote HTML strings
+* Parses local and remote HTML documents
 * Supports various HTML tags/attributes, not just `<a href>`
 * Supports redirects, absolute URLs, relative URLs and `<base>`
 * Provides detailed information about each link (HTTP and HTML)
+* URL keyword filtering with wildcards
 * Pause/Resume at any time
 
 ```js
@@ -147,6 +148,13 @@ Type: `Boolean`
 Default Value: `false`  
 URL request results will be cached when `true`. This will ensure that each unique URL will only be checked once.
 
+### options.excludedKeywords
+Type: `Array`  
+Default value: `[]`  
+Will not check or output links that match the keywords and glob patterns in this list. The only wildcard supported is `"*"`.
+
+This option only applies to `HtmlChecker` and `HtmlUrlChecker`.
+
 ### options.excludedSchemes
 Type: `Array`  
 Default value: `["data","geo","javascript","mailto","sms","tel"]`  
@@ -233,17 +241,17 @@ if (result.error !== null) {
 ## Roadmap Features
 * add ability to pass response from `HtmlUrlChecker` to `UrlChecker` to avoid requesting that URL twice
 * start/end string locations for URL attribute values ([parse5#43](https://github.com/inikulin/parse5/issues/43))
-* option to exclude keywords from URLs (facebook.com, etc)
 * change order of checking to: tcp error, 4xx code (broken), 5xx code (undetermined), 200
 * option to scrape `response.body` for erroneous sounding text (since an error page could be presented but still have code 200)
 * option to check broken link on archive.org for archived version (using [this lib](https://npmjs.com/archive.org))
 * option to include iframe HTML source in checking?
 * option to run `HtmlUrlChecker` checks on page load (using [jsdom](https://npmjs.com/jsdom)) to include links added with JavaScript
+* option to check if hashes exist in target url document?
 * add throttle profiles (0–9, -1 for "custom") for easy configuring
 * check [ftp:](https://nmjs.com/ftp), [sftp:](https://npmjs.com/ssh2) (for downloadable files)
 * check ~~mailto:~~, news:, nntp:, telnet:?
 * check local files if URL is relative and has no base URL?
-* full-site checker (honoring robots.txt)
+* full-site checker/crawler (honoring robots.txt, same-domain and optional same-subdomain)
 * cli (extended) verbose mode -- log skipped/excluded/cached links
 * cli table view option that disables default log?
 * use [ineed](https://npmjs.com/ineed)?
@@ -253,6 +261,9 @@ if (result.error !== null) {
 
 
 ## Changelog
+* 0.6.4
+  * options added: `excludedKeywords`
+  * CLI options added: `--exclude`
 * 0.6.3
   * linkObj added: `http.cached`
   * CLI options added: `--verbose`, `--version`
