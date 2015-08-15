@@ -14,9 +14,9 @@ describe("INTERNAL -- getHtmlFromUrl", function()
 {
 	before( function(done)
 	{
-		utils.startConnections( function(connections)
+		utils.startConnection( function(connection)
 		{
-			conn = connections;
+			conn = connection;
 			done();
 		});
 	});
@@ -25,7 +25,7 @@ describe("INTERNAL -- getHtmlFromUrl", function()
 	
 	after( function(done)
 	{
-		utils.stopConnections(conn.realPorts, done);
+		utils.stopConnection(conn.realPort, done);
 	});
 	
 	
@@ -33,13 +33,13 @@ describe("INTERNAL -- getHtmlFromUrl", function()
 	it("should work", function(done)
 	{
 		getHtmlFromUrl(
-			conn.absoluteUrls[0]+"/fixtures/link-real.html",
+			conn.absoluteUrl+"/fixtures/link-real.html",
 			utils.options(),
 			function(error, htmlString, responseUrl)
 			{
 				expect(error).to.be.null;
 				expect(htmlString).to.equal( fs.readFileSync(__dirname+"/fixtures/link-real.html",{encoding:"utf8"}) );
-				expect(responseUrl).to.equal( conn.absoluteUrls[0]+"/fixtures/link-real.html" );
+				expect(responseUrl).to.equal( conn.absoluteUrl+"/fixtures/link-real.html" );
 				done();
 			}
 		);
@@ -50,13 +50,13 @@ describe("INTERNAL -- getHtmlFromUrl", function()
 	it("should report a redirect", function(done)
 	{
 		getHtmlFromUrl(
-			conn.absoluteUrls[0]+"/fixtures/redirect.html",
+			conn.absoluteUrl+"/fixtures/redirect.html",
 			utils.options(),
 			function(error, htmlString, responseUrl)
 			{
 				expect(error).to.be.null;
 				expect(htmlString).to.equal( fs.readFileSync(__dirname+"/fixtures/index.html",{encoding:"utf8"}) );
-				expect(responseUrl).to.equal( conn.absoluteUrls[0]+"/fixtures/index.html" );
+				expect(responseUrl).to.equal( conn.absoluteUrl+"/fixtures/index.html" );
 				done();
 			}
 		);
@@ -67,13 +67,13 @@ describe("INTERNAL -- getHtmlFromUrl", function()
 	it("should report a non-html url", function(done)
 	{
 		getHtmlFromUrl(
-			conn.absoluteUrls[0]+"/fixtures/image.gif",
+			conn.absoluteUrl+"/fixtures/image.gif",
 			utils.options(),
 			function(error, htmlString, responseUrl)
 			{
 				expect(error).to.be.instanceOf(Error);
 				expect(htmlString).to.be.undefined;
-				expect(responseUrl).to.equal( conn.absoluteUrls[0]+"/fixtures/image.gif" );
+				expect(responseUrl).to.equal( conn.absoluteUrl+"/fixtures/image.gif" );
 				done();
 			}
 		);
@@ -84,7 +84,7 @@ describe("INTERNAL -- getHtmlFromUrl", function()
 	it("should report a 404", function(done)
 	{
 		getHtmlFromUrl(
-			conn.absoluteUrls[0]+"/fixtures/link-fake.html",
+			conn.absoluteUrl+"/fixtures/link-fake.html",
 			utils.options(),
 			function(error, htmlString, responseUrl)
 			{

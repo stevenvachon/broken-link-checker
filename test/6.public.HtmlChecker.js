@@ -6,7 +6,7 @@ var utils = require("./utils");
 var expect = require("chai").expect;
 var fs = require("fs");
 
-var baseUrl,commonHtmlString,conn;
+var allTagsString,baseUrl,commonHtmlString,conn;
 
 
 
@@ -14,10 +14,11 @@ describe("PUBLIC -- HtmlChecker", function()
 {
 	before( function(done)
 	{
-		utils.startConnection( function(connection)
+		utils.startConnections( function(connections)
 		{
-			conn = connection;
-			baseUrl = conn.absoluteUrl+"/fixtures/index.html";
+			conn = connections;
+			allTagsString = utils.tagsString(3, conn.absoluteUrls[0]);
+			baseUrl = conn.absoluteUrls[0]+"/fixtures/index.html";
 			commonHtmlString = fs.readFileSync(__dirname+"/fixtures/index.html", {encoding:"utf8"});
 			done();
 		});
@@ -27,7 +28,7 @@ describe("PUBLIC -- HtmlChecker", function()
 	
 	after( function(done)
 	{
-		utils.stopConnection(conn.realPort, done);
+		utils.stopConnections(conn.realPorts, done);
 	});
 	
 	
@@ -64,6 +65,10 @@ describe("PUBLIC -- HtmlChecker", function()
 	
 	describe("handlers", function()
 	{
+		// TODO :: find a way to test "junk" without requiring the use of an option
+		
+		
+		
 		it("link", function(done)
 		{
 			var count = 0;
@@ -165,7 +170,7 @@ describe("PUBLIC -- HtmlChecker", function()
 			{
 				link: function(result)
 				{
-					results[ result.html.index ] = result;
+					results[ result.html.offsetIndex ] = result;
 				},
 				complete: function()
 				{
@@ -194,7 +199,7 @@ describe("PUBLIC -- HtmlChecker", function()
 					expect(count).to.equal(0);
 					done();
 				}
-			}).scan( fs.readFileSync(__dirname+"/fixtures/link-real.html", {encoding:"utf8"}) );
+			}).scan( fs.readFileSync(__dirname+"/fixtures/link-real.html", {encoding:"utf8"}), baseUrl );
 		});
 	});
 	
@@ -204,78 +209,93 @@ describe("PUBLIC -- HtmlChecker", function()
 	{
 		it("excludedKeywords = []", function(done)
 		{
-			var results = [];
+			var htmlString = '<a href="'+conn.absoluteUrls[0]+'">link1</a>';
+			htmlString += '<a href="'+conn.absoluteUrls[1]+'">link2</a>';
 			
-			var htmlString = '<a href="http://example.com/">link1</a>';
-			htmlString += '<a href="http://example-two.com/">link2</a>';
-			htmlString += '<a href="http://example3.com/">link3</a>';
+			var results = [];
 			
 			new HtmlChecker( utils.options(),
 			{
 				link: function(result)
 				{
-					results[result.html.index] = result;
+					results[result.html.offsetIndex] = result;
 				},
-				complete: function()
-				{
-					expect(results).to.have.length(3);
-					done();
-				}
-			}).scan(htmlString);
-		});
-		
-		
-		
-		it('excludedKeywords = ["example.com","example*.com"]', function(done)
-		{
-			var results = [];
-			
-			var htmlString = '<a href="http://example.com/">link1</a>';
-			htmlString += '<a href="http://example-two.com/">link2</a>';
-			htmlString += '<a href="http://example3.com">link3</a>';
-			
-			new HtmlChecker( utils.options({ excludedKeywords:["example.com","*example*.com*"] }),
-			{
-				link: function(result)
+				junk: function(result)
 				{
 					done( new Error("this should not have been called") );
 				},
 				complete: function()
 				{
+					expect(results).to.have.length(2);
 					done();
 				}
-			}).scan(htmlString);
+			}).scan(htmlString, baseUrl);
+		});
+		
+		
+		
+		it("excludedKeywords = […]", function(done)
+		{
+			var htmlString = '<a href="'+conn.absoluteUrls[0]+'">link1</a>';
+			htmlString += '<a href="'+conn.absoluteUrls[1]+'">link2</a>';
+			
+			var junkResults = [];
+			var results = [];
+			
+			new HtmlChecker( utils.options({ excludedKeywords:[conn.absoluteUrls[0]] }),
+			{
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
+				junk: function(result)
+				{
+					junkResults[result.html.offsetIndex] = result;
+				},
+				complete: function()
+				{
+					expect(junkResults).to.have.length(1);
+					expect(results).to.have.length(1);
+					done();
+				}
+			}).scan(htmlString, baseUrl);
 		});
 		
 		
 		
 		it("excludedSchemes = []", function(done)
 		{
-			var results = [];
-			
 			var htmlString = '<a href="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACH/C1hNUCBEYXRhWE1QAz94cAAsAAAAAAEAAQAAAgJEAQA7">link1</a>';
 			htmlString += '<a href="geo:0,0">link2</a>';
-			htmlString += '<a href="mailto:address@email.com?subject=hello">link3</a>';
-			htmlString += '<a href="sms:+5-555-555-5555?body=hello">link4</a>';
-			htmlString += '<a href="tel:+5-555-555-5555">link5</a>';
+			htmlString += '<a href="javascript:void(0);">link3</a>';
+			htmlString += '<a href="mailto:address@email.com?subject=hello">link4</a>';
+			htmlString += '<a href="sms:+5-555-555-5555?body=hello">link5</a>';
+			htmlString += '<a href="tel:+5-555-555-5555">link6</a>';
+			
+			var results = [];
 			
 			new HtmlChecker( utils.options({ excludedSchemes:[] }),
 			{
 				link: function(result)
 				{
-					results[result.html.index] = result;
+					results[result.html.offsetIndex] = result;
+				},
+				junk: function(result)
+				{
+					done( new Error("this should not have been called") );
 				},
 				complete: function()
 				{
-					expect(results).to.have.length(5);
+					expect(results).to.have.length(6);
 					expect(results[0].error).to.be.instanceOf(Error);
 					expect(results[1].error).to.be.instanceOf(Error);
 					expect(results[2].error).to.be.instanceOf(Error);
 					expect(results[3].error).to.be.instanceOf(Error);
 					expect(results[4].error).to.be.instanceOf(Error);
+					expect(results[5].error).to.be.instanceOf(Error);
 					done();
 				}
-			}).scan(htmlString);
+			}).scan(htmlString, baseUrl);
 		});
 		
 		
@@ -289,6 +309,8 @@ describe("PUBLIC -- HtmlChecker", function()
 			htmlString += '<a href="sms:+5-555-555-5555?body=hello">link5</a>';
 			htmlString += '<a href="tel:+5-555-555-5555">link6</a>';
 			
+			var junkResults = [];
+			
 			// Uses default `excludedSchemes` value to ensure that any change to it will break this test
 			new HtmlChecker( utils.options(),
 			{
@@ -296,28 +318,107 @@ describe("PUBLIC -- HtmlChecker", function()
 				{
 					done( new Error("this should not have been called") );
 				},
+				junk: function(result)
+				{
+					junkResults[result.html.offsetIndex] = result;
+				},
 				complete: function()
 				{
+					expect(junkResults).to.have.length(6);
+					expect(junkResults[0].error).to.be.null;
+					expect(junkResults[1].error).to.be.null;
+					expect(junkResults[2].error).to.be.null;
+					expect(junkResults[3].error).to.be.null;
+					expect(junkResults[4].error).to.be.null;
+					expect(junkResults[5].error).to.be.null;
 					done();
 				}
-			}).scan(htmlString);
+			}).scan(htmlString, baseUrl);
+		});
+		
+		
+		
+		it("excludeExternalLinks = false", function(done)
+		{
+			var htmlString = '<a href="'+conn.absoluteUrls[0]+'">link1</a>';
+			htmlString += '<a href="'+conn.absoluteUrls[1]+'">link2</a>';
+			
+			var results = [];
+			
+			new HtmlChecker( utils.options(),
+			{
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
+				junk: function(result)
+				{
+					done( new Error("this should not have been called") );
+				},
+				complete: function()
+				{
+					expect(results).to.have.length(2);
+					expect(results[0].internal).to.be.true;
+					expect(results[1].internal).to.be.false;
+					done();
+				}
+			}).scan(htmlString, baseUrl);
+		});
+		
+		
+		
+		it("excludeExternalLinks = true", function(done)
+		{
+			var htmlString = '<a href="'+conn.absoluteUrls[0]+'">link1</a>';
+			htmlString += '<a href="'+conn.absoluteUrls[1]+'">link2</a>';
+			
+			var junkResults = [];
+			var results = [];
+			
+			new HtmlChecker( utils.options({ excludeExternalLinks:true }),
+			{
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
+				junk: function(result)
+				{
+					junkResults[result.html.offsetIndex] = result;
+				},
+				complete: function()
+				{
+					expect(junkResults).to.have.length(1);
+					expect(junkResults[0].internal).to.be.false;
+					expect(junkResults[0].html.text).to.equal("link2");
+					
+					expect(results).to.have.length(1);
+					expect(results[0].internal).to.be.true;
+					expect(results[0].html.text).to.equal("link1");
+					
+					done();
+				}
+			}).scan(htmlString, baseUrl);
 		});
 		
 		
 		
 		it("excludeInternalLinks = false", function(done)
 		{
-			var results = [];
-			
-			var htmlString = '<a href="'+conn.absoluteUrl+'">link1</a>';
+			var htmlString = '<a href="'+conn.absoluteUrls[0]+'">link1</a>';
 			htmlString += '<a href="/">link2</a>';
 			htmlString += '<a href="#hash">link3</a>';
+			
+			var results = [];
 			
 			new HtmlChecker( utils.options(),
 			{
 				link: function(result)
 				{
-					results[result.html.index] = result;
+					results[result.html.offsetIndex] = result;
+				},
+				junk: function(result)
+				{
+					done( new Error("this should not have been called") );
 				},
 				complete: function()
 				{
@@ -327,16 +428,18 @@ describe("PUBLIC -- HtmlChecker", function()
 					expect(results[2].internal).to.be.true;
 					done();
 				}
-			}).scan(htmlString, conn.absoluteUrl+"/fixtures/index.html");
+			}).scan(htmlString, baseUrl);
 		});
 		
 		
 		
 		it("excludeInternalLinks = true", function(done)
 		{
-			var htmlString = '<a href="'+conn.absoluteUrl+'">link1</a>';
+			var htmlString = '<a href="'+conn.absoluteUrls[0]+'">link1</a>';
 			htmlString += '<a href="/">link2</a>';
 			htmlString += '<a href="#hash">link3</a>';
+			
+			var junkResults = [];
 			
 			new HtmlChecker( utils.options({ excludeInternalLinks:true }),
 			{
@@ -344,8 +447,16 @@ describe("PUBLIC -- HtmlChecker", function()
 				{
 					done( new Error("this should not have been called") );
 				},
+				junk: function(result)
+				{
+					junkResults[result.html.offsetIndex] = result;
+				},
 				complete: function()
 				{
+					expect(junkResults).to.have.length(3);
+					expect(junkResults[0].internal).to.be.true;
+					expect(junkResults[1].internal).to.be.true;
+					expect(junkResults[2].internal).to.be.true;
 					done();
 				}
 			}).scan(htmlString, baseUrl);
@@ -355,18 +466,22 @@ describe("PUBLIC -- HtmlChecker", function()
 		
 		it("excludeLinksToSamePage = false", function(done)
 		{
-			var results = [];
-			
 			var htmlString = '<a href="'+baseUrl+'">link1</a>';
 			htmlString += '<a href="/">link2</a>';
 			htmlString += '<a href="?query">link3</a>';
 			htmlString += '<a href="#hash">link4</a>';
 			
+			var results = [];
+			
 			new HtmlChecker( utils.options(),
 			{
 				link: function(result)
 				{
-					results[result.html.index] = result;
+					results[result.html.offsetIndex] = result;
+				},
+				junk: function(result)
+				{
+					done( new Error("this should not have been called") );
 				},
 				complete: function()
 				{
@@ -380,69 +495,147 @@ describe("PUBLIC -- HtmlChecker", function()
 			}).scan(htmlString, baseUrl);
 		});
 		
-		it("excludeExternalLinks = false", function(done)
-		{
-			var results = [];
-
-			var htmlString = '<a href="http://example.com">link</a>';
-
-			new HtmlChecker( utils.options(),
-			{
-				link: function(result)
-				{
-					results[result.html.index] = result;
-				},
-				complete: function()
-				{
-					expect(results).to.have.length(1);
-					expect(results[0].internal).to.be.false;
-					done();
-				}
-			}).scan(htmlString, conn.absoluteUrl+"/fixtures/index.html");
-		});
-
-		it("excludeExternalLinks = true", function(done)
-		{
-			var htmlString = '<a href="http://example.com">link</a>';
-
-			new HtmlChecker( utils.options({ excludeExternalLinks:true }),
-			{
-				link: function(result)
-				{
-					done( new Error("this should not have been called") );
-				},
-				complete: function()
-				{
-					done();
-				}
-			}).scan(htmlString, baseUrl);
-		});
+		
 		
 		it("excludeLinksToSamePage = true", function(done)
 		{
-			var results = [];
-			
 			var htmlString = '<a href="'+baseUrl+'">link1</a>';
 			htmlString += '<a href="/">link2</a>';
 			htmlString += '<a href="?query">link3</a>';
 			htmlString += '<a href="#hash">link4</a>';
 			
+			var junkResults = [];
+			var results = [];
+			
 			new HtmlChecker( utils.options({ excludeLinksToSamePage:true }),
 			{
 				link: function(result)
 				{
-					results[result.html.index] = result;
+					results[result.html.offsetIndex] = result;
+				},
+				junk: function(result)
+				{
+					junkResults[result.html.offsetIndex] = result;
 				},
 				complete: function()
 				{
+					expect(junkResults).to.have.length(2);
+					expect(junkResults[0].samePage).to.be.true;
+					expect(junkResults[0].html.text).to.equal("link1");
+					expect(junkResults[1].samePage).to.be.true;
+					expect(junkResults[1].html.text).to.equal("link4");
+					
 					expect(results).to.have.length(2);
 					expect(results[0].samePage).to.be.false;
 					expect(results[0].html.text).to.equal("link2");
 					expect(results[1].samePage).to.be.false;
 					expect(results[1].html.text).to.equal("link3");
+					
 					done();
 				}
 			}).scan(htmlString, baseUrl);
+		});
+		
+		
+		
+		it("filterLevel = 0", function(done)
+		{
+			var junkResults = [];
+			var results = [];
+			
+			new HtmlChecker( utils.options({ filterLevel:0 }),
+			{
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
+				junk: function(result)
+				{
+					junkResults[result.html.offsetIndex] = result;
+				},
+				complete: function()
+				{
+					expect(junkResults).to.have.length(20);
+					expect(results).to.have.length(2);
+					done();
+				}
+			}).scan(allTagsString, baseUrl);
+		});
+		
+		
+		
+		it("filterLevel = 1", function(done)
+		{
+			var junkResults = [];
+			var results = [];
+			
+			new HtmlChecker( utils.options({ filterLevel:1 }),
+			{
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
+				junk: function(result)
+				{
+					junkResults[result.html.offsetIndex] = result;
+				},
+				complete: function()
+				{
+					expect(junkResults).to.have.length(9);
+					expect(results).to.have.length(13);
+					done();
+				}
+			}).scan(allTagsString, baseUrl);
+		});
+		
+		
+		
+		it("filterLevel = 2", function(done)
+		{
+			var junkResults = [];
+			var results = [];
+			
+			new HtmlChecker( utils.options({ filterLevel:2 }),
+			{
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
+				junk: function(result)
+				{
+					junkResults[result.html.offsetIndex] = result;
+				},
+				complete: function()
+				{
+					expect(junkResults).to.have.length(6);
+					expect(results).to.have.length(16);
+					done();
+				}
+			}).scan(allTagsString, baseUrl);
+		});
+		
+		
+		
+		it("filterLevel = 3", function(done)
+		{
+			var results = [];
+			
+			new HtmlChecker( utils.options(),
+			{
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
+				junk: function(result)
+				{
+					done( new Error("this should not have been called") );
+				},
+				complete: function()
+				{
+					expect(results).to.have.length(22);
+					done();
+				}
+			}).scan(allTagsString, baseUrl);
 		});
 	});
 });

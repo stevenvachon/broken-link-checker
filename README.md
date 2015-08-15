@@ -61,6 +61,7 @@ The rest of this document will assist you with how to use the API.
 Scans an HTML string to find broken links.
 
 * `handlers.link` is fired with the result of each discovered link (broken or not).
+* `handlers.junk` is fired with the result of each skipped, as configured in options.
 * `handlers.complete` is fired after the last result or zero results.
 
 * `.clearCache()` will remove any cached URL responses. This is only relevant if the `cacheResponses` option is enabled.
@@ -73,6 +74,7 @@ Scans an HTML string to find broken links.
 ```js
 var htmlChecker = new blc.HtmlChecker(options, {
 	link: function(result){},
+	junk: function(result){},
 	complete: function(){}
 });
 
@@ -83,6 +85,7 @@ htmlChecker.scan(htmlString, baseUrl);
 Scans the HTML content at each queued URL to find broken links.
 
 * `handlers.link` is fired with the result of each discovered link (broken or not) within the current queue item.
+* `handlers.junk` is fired with the result of each skipped, as configured in options.
 * `handlers.item` is fired after a queue item's last result, on zero results, or if the HTML could not be retreived.
 * `handlers.end` is fired when the end of the queue has been reached.
 
@@ -99,6 +102,7 @@ Scans the HTML content at each queued URL to find broken links.
 ```js
 var htmlUrlChecker = new blc.HtmlUrlChecker(options, {
 	link: function(result, customData){},
+	junk: function(result, customData){},
 	item: function(error, htmlUrl, customData){},
 	end: function(){}
 });
@@ -252,15 +256,18 @@ if (result.error !== null) {
 * check ~~mailto:~~, news:, nntp:, telnet:?
 * check local files if URL is relative and has no base URL?
 * full-site checker/crawler (honoring robots.txt, same-domain and optional same-subdomain)
-* cli (extended) verbose mode -- log skipped/excluded/cached links
-* cli table view option that disables default log?
+* cli non-tty mode -- change nesting ascii artwork to time stamps?
 * use [ineed](https://npmjs.com/ineed)?
-* `handlers.log()` for logging requests, parsing HTML, etc?
 * stream HTML files ([parse5#26](https://github.com/inikulin/parse5/issues/26))
 * `MarkdownChecker`,`MarkdownUrlChecker`,`HtmlMarkdownChecker`,`HtmlMarkdownUrlChecker`
 
 
 ## Changelog
+* 0.6.5
+  * handlers added: `junk`
+  * linkObj added: `excluded`
+  * CLI options removed: `--include-same`
+  * CLI `--verbose` is now more verbose
 * 0.6.4
   * options added: `excludedKeywords`
   * CLI options added: `--exclude`
