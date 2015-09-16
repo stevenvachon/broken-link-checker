@@ -35,7 +35,7 @@ htmlChecker.scan(html, "https://mywebsite.com");
 
 ## Installation
 
-[Node.js](http://nodejs.org/) `~0.10` is required. There're two ways to use it:
+[Node.js](http://nodejs.org/) `>= 0.10` is required. There're two ways to use it:
 
 ### Command Line Usage
 To install, type this at the command line:
@@ -61,7 +61,7 @@ The rest of this document will assist you with how to use the API.
 Scans an HTML string to find broken links.
 
 * `handlers.link` is fired with the result of each discovered link (broken or not).
-* `handlers.junk` is fired with the result of each skipped, as configured in options.
+* `handlers.junk` is fired with data on each skipped link, as configured in options.
 * `handlers.complete` is fired after the last result or zero results.
 
 * `.clearCache()` will remove any cached URL responses. This is only relevant if the `cacheResponses` option is enabled.
@@ -85,7 +85,7 @@ htmlChecker.scan(htmlString, baseUrl);
 Scans the HTML content at each queued URL to find broken links.
 
 * `handlers.link` is fired with the result of each discovered link (broken or not) within the current queue item.
-* `handlers.junk` is fired with the result of each skipped, as configured in options.
+* `handlers.junk` is fired with data on each skipped link, as configured in options.
 * `handlers.item` is fired after a queue item's last result, on zero results, or if the HTML could not be retreived.
 * `handlers.end` is fired when the end of the queue has been reached.
 
@@ -243,8 +243,8 @@ if (result.error !== null) {
 
 
 ## Roadmap Features
-* add ability to pass response from `HtmlUrlChecker` to `UrlChecker` to avoid requesting that URL twice
 * start/end string locations for URL attribute values ([parse5#43](https://github.com/inikulin/parse5/issues/43))
+* remove `options.excludedSchemes` and handle schemes not in `options.acceptedSchemes` as junk?
 * change order of checking to: tcp error, 4xx code (broken), 5xx code (undetermined), 200
 * option to scrape `response.body` for erroneous sounding text (since an error page could be presented but still have code 200)
 * option to check broken link on archive.org for archived version (using [this lib](https://npmjs.com/archive.org))
@@ -263,6 +263,8 @@ if (result.error !== null) {
 
 
 ## Changelog
+* 0.6.6
+  * bug fix
 * 0.6.5
   * handlers added: `junk`
   * linkObj added: `excluded`

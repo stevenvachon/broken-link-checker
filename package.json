@@ -1,7 +1,7 @@
 {
   "name": "broken-link-checker",
   "description": "Find broken links, missing images, etc in your HTML.",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "license": "MIT",
   "homepage": "https://github.com/stevenvachon/broken-link-checker",
   "author": {
@@ -24,11 +24,11 @@
   "dependencies": {
     "bhttp": "^1.2.1",
     "calmcard": "~0.1.1",
-    "chalk": "^1.1.0",
+    "chalk": "^1.1.1",
     "char-spinner": "^1.0.1",
     "default-user-agent": "^1.0.0",
     "limited-request-queue": "^1.0.0",
-    "object-assign": "^3.0.0",
+    "object-assign": "^4.0.1",
     "nopter": "~0.3.0",
     "parse5": "^1.5.0",
     "urlcache": "~0.3.0",
@@ -36,8 +36,8 @@
     "void-elements": "^2.0.1"
   },
   "devDependencies": {
-    "chai": "^3.2.0",
-    "mocha": "^2.2.5",
+    "chai": "^3.3.0",
+    "mocha": "^2.3.3",
     "node-static": "~0.7.7"
   },
   "engines": {
