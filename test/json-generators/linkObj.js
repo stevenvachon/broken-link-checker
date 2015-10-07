@@ -64,7 +64,7 @@ function generateData()
 function generateString()
 {
 	// Extra line break for unix/git
-	return JSON.stringify(generateData(), null, "	") + "\n";
+	return JSON.stringify(generateData(), null, "\t") + "\n";
 }
 
 

@@ -1,6 +1,8 @@
 "use strict";
-var server       = require("./server");
+var server        = require("./server");
 var testGenerator = require("./testGenerator");
+
+require("es6-promise").polyfill();
 
 
 
