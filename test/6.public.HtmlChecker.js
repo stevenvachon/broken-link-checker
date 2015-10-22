@@ -26,16 +26,16 @@ describe("PUBLIC -- HtmlChecker", function()
 			commonHtmlString = utils.fixture.string("/normal/index.html");
 		});
 	});
-	
-	
-	
+
+
+
 	after( function()
 	{
 		return utils.stopConnections(conn.realPorts);
 	});
-	
-	
-	
+
+
+
 	describe("methods (#1)", function()
 	{
 		describe("scan()", function()
@@ -43,36 +43,36 @@ describe("PUBLIC -- HtmlChecker", function()
 			it("should take a string when ready", function()
 			{
 				var scanning = new HtmlChecker( utils.options() ).scan(commonHtmlString, baseUrl);
-				
+
 				expect(scanning).to.be.true;
 			});
-			
-			
-			
+
+
+
 			it("should take a stream when ready", function()
 			{
 				var scanning = new HtmlChecker( utils.options() ).scan(commonHtmlStream(), baseUrl);
-				
+
 				expect(scanning).to.be.true;
 			});
-			
-			
-			
+
+
+
 			it("should report if not ready", function()
 			{
 				var instance = new HtmlChecker( utils.options() );
-				
+
 				instance.scan(commonHtmlString, baseUrl);
-				
+
 				var concurrentScan = instance.scan(commonHtmlString, baseUrl);
-				
+
 				expect(concurrentScan).to.be.false;
 			});
 		});
 	});
-	
-	
-	
+
+
+
 	// TODO :: find a way to test "junk" without requiring the use of an option
 	describe("handlers", function()
 	{
@@ -88,13 +88,13 @@ describe("PUBLIC -- HtmlChecker", function()
 				}
 			}).scan(commonHtmlString, baseUrl);
 		});
-		
-		
-		
+
+
+
 		it("link", function(done)
 		{
 			var count = 0;
-			
+
 			new HtmlChecker( utils.options(),
 			{
 				link: function(result)
@@ -102,16 +102,16 @@ describe("PUBLIC -- HtmlChecker", function()
 					// HTML has more than one link, so only accept the first
 					// to avoid calling `done()` more than once
 					if (++count > 1) return;
-					
+
 					expect(arguments).to.have.length(1);
 					expect(result).to.be.an.instanceOf(Object);
 					done();
 				}
 			}).scan(commonHtmlString, baseUrl);
 		});
-		
-		
-		
+
+
+
 		it("complete", function(done)
 		{
 			new HtmlChecker( utils.options(),
@@ -124,9 +124,9 @@ describe("PUBLIC -- HtmlChecker", function()
 			}).scan(commonHtmlString, baseUrl);
 		});
 	});
-	
-	
-	
+
+
+
 	describe("methods (#2)", function()
 	{
 		describe("numActiveLinks()", function()
@@ -134,7 +134,7 @@ describe("PUBLIC -- HtmlChecker", function()
 			it("should work", function(done)
 			{
 				var checked = false;
-				
+
 				var instance = new HtmlChecker( utils.options(),
 				{
 					complete: function()
@@ -144,9 +144,9 @@ describe("PUBLIC -- HtmlChecker", function()
 						done();
 					}
 				});
-				
+
 				instance.scan(commonHtmlString, baseUrl);
-				
+
 				// Give time for link checks to start
 				setImmediate( function()
 				{
@@ -155,15 +155,15 @@ describe("PUBLIC -- HtmlChecker", function()
 				});
 			});
 		});
-		
-		
-		
+
+
+
 		describe("pause() / resume()", function()
 		{
 			it("should work", function(done)
 			{
 				var resumed = false;
-				
+
 				var instance = new HtmlChecker( utils.options(),
 				{
 					complete: function()
@@ -172,23 +172,23 @@ describe("PUBLIC -- HtmlChecker", function()
 						done();
 					}
 				});
-				
+
 				instance.pause();
-				
+
 				instance.scan(commonHtmlString, baseUrl);
-				
+
 				// Wait longer than scan should take
 				setTimeout( function()
 				{
 					resumed = true;
 					instance.resume();
-					
+
 				}, 100);
 			});
 		});
-		
-		
-		
+
+
+
 		describe("numQueuedLinks()", function()
 		{
 			it("should work", function(done)
@@ -201,31 +201,31 @@ describe("PUBLIC -- HtmlChecker", function()
 						done();
 					}
 				});
-				
+
 				// Prevent first queued item from immediately starting (and thus being auto-dequeued)
 				instance.pause();
-				
+
 				instance.scan(commonHtmlString, baseUrl);
-				
+
 				// Wait for HTML to be parsed
 				setImmediate( function()
 				{
 					expect( instance.numQueuedLinks() ).to.equal(2);
-					
+
 					instance.resume();
 				});
 			});
 		});
 	});
-	
-	
-	
+
+
+
 	describe("edge cases", function()
 	{
 		it("should support multiple links", function(done)
 		{
 			var results = [];
-			
+
 			new HtmlChecker( utils.options(),
 			{
 				link: function(result)
@@ -241,13 +241,13 @@ describe("PUBLIC -- HtmlChecker", function()
 				}
 			}).scan(commonHtmlString, baseUrl);
 		});
-		
-		
-		
+
+
+
 		it("should support html with no links", function(done)
 		{
 			var count = 0;
-			
+
 			new HtmlChecker( utils.options(),
 			{
 				link: function()
@@ -262,18 +262,18 @@ describe("PUBLIC -- HtmlChecker", function()
 			}).scan( utils.fixture.string("/normal/no-links.html"), baseUrl );
 		});
 	});
-	
-	
-	
+
+
+
 	describe("options", function()
 	{
 		it("excludedKeywords = []", function(done)
 		{
 			var htmlString = '<a href="'+conn.absoluteUrls[0]+'">link1</a>';
 			htmlString += '<a href="'+conn.absoluteUrls[1]+'">link2</a>';
-			
+
 			var results = [];
-			
+
 			new HtmlChecker( utils.options(),
 			{
 				junk: function(result)
@@ -296,17 +296,17 @@ describe("PUBLIC -- HtmlChecker", function()
 				}
 			}).scan(htmlString, baseUrl);
 		});
-		
-		
-		
+
+
+
 		it("excludedKeywords = […]", function(done)
 		{
 			var htmlString = '<a href="'+conn.absoluteUrls[0]+'">link1</a>';
 			htmlString += '<a href="'+conn.absoluteUrls[1]+'">link2</a>';
-			
+
 			var junkResults = [];
 			var results = [];
-			
+
 			new HtmlChecker( utils.options({ excludedKeywords:[conn.absoluteUrls[0]] }),
 			{
 				junk: function(result)
@@ -326,7 +326,7 @@ describe("PUBLIC -- HtmlChecker", function()
 						excluded: true,
 						excludedReason: "BLC_KEYWORD"
 					});
-					
+
 					expect(results).to.have.length(1);
 					expect(results[0]).to.be.like(
 					{
@@ -334,14 +334,14 @@ describe("PUBLIC -- HtmlChecker", function()
 						excluded: false,
 						excludedReason: null
 					});
-					
+
 					done();
 				}
 			}).scan(htmlString, baseUrl);
 		});
-		
-		
-		
+
+
+
 		it("excludedSchemes = []", function(done)
 		{
 			var htmlString = '<a href="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACH/C1hNUCBEYXRhWE1QAz94cAAsAAAAAAEAAQAAAgJEAQA7">link1</a>';
@@ -350,9 +350,9 @@ describe("PUBLIC -- HtmlChecker", function()
 			htmlString += '<a href="mailto:address@email.com?subject=hello">link4</a>';
 			htmlString += '<a href="sms:+5-555-555-5555?body=hello">link5</a>';
 			htmlString += '<a href="tel:+5-555-555-5555">link6</a>';
-			
+
 			var results = [];
-			
+
 			new HtmlChecker( utils.options({ excludedSchemes:[] }),
 			{
 				junk: function(result)
@@ -375,9 +375,9 @@ describe("PUBLIC -- HtmlChecker", function()
 				}
 			}).scan(htmlString, baseUrl);
 		});
-		
-		
-		
+
+
+
 		it('excludedSchemes = ["data","geo","javascript","mailto","sms","tel"]', function(done)
 		{
 			var htmlString = '<a href="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACH/C1hNUCBEYXRhWE1QAz94cAAsAAAAAAEAAQAAAgJEAQA7">link1</a>';
@@ -386,9 +386,9 @@ describe("PUBLIC -- HtmlChecker", function()
 			htmlString += '<a href="mailto:address@email.com?subject=hello">link4</a>';
 			htmlString += '<a href="sms:+5-555-555-5555?body=hello">link5</a>';
 			htmlString += '<a href="tel:+5-555-555-5555">link6</a>';
-			
+
 			var junkResults = [];
-			
+
 			// Uses default `excludedSchemes` value to ensure that any change to it will break this test
 			new HtmlChecker( utils.options(),
 			{
@@ -414,16 +414,16 @@ describe("PUBLIC -- HtmlChecker", function()
 				}
 			}).scan(htmlString, baseUrl);
 		});
-		
-		
-		
+
+
+
 		it("excludeExternalLinks = false", function(done)
 		{
 			var htmlString = '<a href="'+conn.absoluteUrls[0]+'">link1</a>';
 			htmlString += '<a href="'+conn.absoluteUrls[1]+'">link2</a>';
-			
+
 			var results = [];
-			
+
 			new HtmlChecker( utils.options(),
 			{
 				junk: function(result)
@@ -454,17 +454,17 @@ describe("PUBLIC -- HtmlChecker", function()
 				}
 			}).scan(htmlString, baseUrl);
 		});
-		
-		
-		
+
+
+
 		it("excludeExternalLinks = true", function(done)
 		{
 			var htmlString = '<a href="'+conn.absoluteUrls[0]+'">link1</a>';
 			htmlString += '<a href="'+conn.absoluteUrls[1]+'">link2</a>';
-			
+
 			var junkResults = [];
 			var results = [];
-			
+
 			new HtmlChecker( utils.options({ excludeExternalLinks:true }),
 			{
 				junk: function(result)
@@ -486,7 +486,7 @@ describe("PUBLIC -- HtmlChecker", function()
 						excludedReason: "BLC_EXTERNAL",
 						internal: false
 					});
-					
+
 					expect(results).to.have.length(1);
 					expect(results[0]).to.be.like(
 					{
@@ -496,22 +496,22 @@ describe("PUBLIC -- HtmlChecker", function()
 						excludedReason: null,
 						internal: true
 					});
-					
+
 					done();
 				}
 			}).scan(htmlString, baseUrl);
 		});
-		
-		
-		
+
+
+
 		it("excludeInternalLinks = false", function(done)
 		{
 			var htmlString = '<a href="'+conn.absoluteUrls[0]+'">link1</a>';
 			htmlString += '<a href="/">link2</a>';
 			htmlString += '<a href="#hash">link3</a>';
-			
+
 			var results = [];
-			
+
 			new HtmlChecker( utils.options(),
 			{
 				junk: function(result)
@@ -536,17 +536,17 @@ describe("PUBLIC -- HtmlChecker", function()
 				}
 			}).scan(htmlString, baseUrl);
 		});
-		
-		
-		
+
+
+
 		it("excludeInternalLinks = true", function(done)
 		{
 			var htmlString = '<a href="'+conn.absoluteUrls[0]+'">link1</a>';
 			htmlString += '<a href="/">link2</a>';
 			htmlString += '<a href="#hash">link3</a>';
-			
+
 			var junkResults = [];
-			
+
 			new HtmlChecker( utils.options({ excludeInternalLinks:true }),
 			{
 				junk: function(result)
@@ -571,18 +571,18 @@ describe("PUBLIC -- HtmlChecker", function()
 				}
 			}).scan(htmlString, baseUrl);
 		});
-		
-		
-		
+
+
+
 		it("excludeLinksToSamePage = false", function(done)
 		{
 			var htmlString = '<a href="'+baseUrl+'">link1</a>';
 			htmlString += '<a href="/">link2</a>';
 			htmlString += '<a href="?query">link3</a>';
 			htmlString += '<a href="#hash">link4</a>';
-			
+
 			var results = [];
-			
+
 			new HtmlChecker( utils.options(),
 			{
 				junk: function(result)
@@ -631,19 +631,19 @@ describe("PUBLIC -- HtmlChecker", function()
 				}
 			}).scan(htmlString, baseUrl);
 		});
-		
-		
-		
+
+
+
 		it("excludeLinksToSamePage = true", function(done)
 		{
 			var htmlString = '<a href="'+baseUrl+'">link1</a>';
 			htmlString += '<a href="/">link2</a>';
 			htmlString += '<a href="?query">link3</a>';
 			htmlString += '<a href="#hash">link4</a>';
-			
+
 			var junkResults = [];
 			var results = [];
-			
+
 			new HtmlChecker( utils.options({ excludeLinksToSamePage:true }),
 			{
 				junk: function(result)
@@ -676,7 +676,7 @@ describe("PUBLIC -- HtmlChecker", function()
 							samePage: true
 						}
 					]);
-					
+
 					expect(results).to.have.length(2);
 					expect(results).to.be.like(
 					[
@@ -697,19 +697,19 @@ describe("PUBLIC -- HtmlChecker", function()
 							samePage: false
 						}
 					]);
-					
+
 					done();
 				}
 			}).scan(htmlString, baseUrl);
 		});
-		
-		
-		
+
+
+
 		it("filterLevel = 0", function(done)
 		{
 			var junkResults = [];
 			var results = [];
-			
+
 			new HtmlChecker( utils.options({ filterLevel:0 }),
 			{
 				junk: function(result)
@@ -729,7 +729,7 @@ describe("PUBLIC -- HtmlChecker", function()
 						excluded: true,
 						excludedReason: "BLC_HTML"
 					});
-					
+
 					expect(results).to.have.length(2);
 					expect(results).to.all.be.like(
 					{
@@ -737,19 +737,19 @@ describe("PUBLIC -- HtmlChecker", function()
 						excluded: false,
 						excludedReason: null
 					});
-					
+
 					done();
 				}
 			}).scan(allTagsString, baseUrl);
 		});
-		
-		
-		
+
+
+
 		it("filterLevel = 1", function(done)
 		{
 			var junkResults = [];
 			var results = [];
-			
+
 			new HtmlChecker( utils.options({ filterLevel:1 }),
 			{
 				junk: function(result)
@@ -769,7 +769,7 @@ describe("PUBLIC -- HtmlChecker", function()
 						excluded: true,
 						excludedReason: "BLC_HTML"
 					});
-					
+
 					expect(results).to.have.length(14);
 					expect(results).to.all.be.like(
 					{
@@ -777,19 +777,19 @@ describe("PUBLIC -- HtmlChecker", function()
 						excluded: false,
 						excludedReason: null
 					});
-					
+
 					done();
 				}
 			}).scan(allTagsString, baseUrl);
 		});
-		
-		
-		
+
+
+
 		it("filterLevel = 2", function(done)
 		{
 			var junkResults = [];
 			var results = [];
-			
+
 			new HtmlChecker( utils.options({ filterLevel:2 }),
 			{
 				junk: function(result)
@@ -809,7 +809,7 @@ describe("PUBLIC -- HtmlChecker", function()
 						excluded: true,
 						excludedReason: "BLC_HTML"
 					});
-					
+
 					expect(results).to.have.length(17);
 					expect(results).to.all.be.like(
 					{
@@ -817,23 +817,27 @@ describe("PUBLIC -- HtmlChecker", function()
 						excluded: false,
 						excludedReason: null
 					});
-					
+
 					done();
 				}
 			}).scan(allTagsString, baseUrl);
 		});
-		
-		
-		
+
+
+
 		it("filterLevel = 3", function(done)
 		{
 			var results = [];
-			
+
 			new HtmlChecker( utils.options(),
 			{
 				junk: function(result)
 				{
 					done( new Error("this should not have been called") );
+				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
 				},
 				link: function(result)
 				{
@@ -852,17 +856,17 @@ describe("PUBLIC -- HtmlChecker", function()
 				}
 			}).scan(allTagsString, baseUrl);
 		});
-		
-		
-		
+
+
+
 		it("honorRobotExclusions = false (rel)", function(done)
 		{
 			var htmlString = '<a href="'+conn.absoluteUrls[0]+'" rel="nofollow">link1</a>';
 			htmlString += '<a href="'+conn.absoluteUrls[0]+'" rel="tag nofollow">link2</a>';
 			htmlString += '<a href="'+conn.absoluteUrls[0]+'" rel=" TAG  NOFOLLOW ">link3</a>';
-			
+
 			var results = [];
-			
+
 			new HtmlChecker( utils.options(),
 			{
 				junk: function(result)
@@ -886,17 +890,17 @@ describe("PUBLIC -- HtmlChecker", function()
 				}
 			}).scan(htmlString, baseUrl);
 		});
-		
-		
-		
+
+
+
 		it("honorRobotExclusions = true (rel)", function(done)
 		{
 			var htmlString = '<a href="'+conn.absoluteUrls[0]+'" rel="nofollow">link1</a>';
 			htmlString += '<a href="'+conn.absoluteUrls[0]+'" rel="tag nofollow">link2</a>';
 			htmlString += '<a href="'+conn.absoluteUrls[0]+'" rel=" TAG  NOFOLLOW ">link3</a>';
-			
+
 			var junkResults = [];
-			
+
 			new HtmlChecker( utils.options({ honorRobotExclusions:true }),
 			{
 				junk: function(result)
@@ -906,6 +910,10 @@ describe("PUBLIC -- HtmlChecker", function()
 				link: function(result)
 				{
 					done( new Error("this should not have been called") );
+				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
 				},
 				complete: function()
 				{
@@ -920,16 +928,16 @@ describe("PUBLIC -- HtmlChecker", function()
 				}
 			}).scan(htmlString, baseUrl);
 		});
-		
-		
-		
+
+
+
 		it("honorRobotExclusions = false (meta)", function(done)
 		{
 			var htmlString = '<meta name="robots" content="nofollow">';
 			htmlString += '<a href="'+conn.absoluteUrls[0]+'">link</a>';
-			
+
 			var results = [];
-			
+
 			new HtmlChecker( utils.options(),
 			{
 				junk: function(result)
@@ -953,16 +961,16 @@ describe("PUBLIC -- HtmlChecker", function()
 				}
 			}).scan(htmlString, baseUrl);
 		});
-		
-		
-		
+
+
+
 		it("honorRobotExclusions = true (meta)", function(done)
 		{
 			var htmlString = '<meta name="robots" content="nofollow">';
 			htmlString += '<a href="'+conn.absoluteUrls[0]+'">link</a>';
-			
+
 			var junkResults = [];
-			
+
 			new HtmlChecker( utils.options({ honorRobotExclusions:true }),
 			{
 				junk: function(result)

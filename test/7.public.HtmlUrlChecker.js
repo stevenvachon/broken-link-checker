@@ -19,16 +19,16 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 			conn = connection;
 		});
 	});
-	
-	
-	
+
+
+
 	after( function()
 	{
 		return utils.stopConnection(conn.realPort);
 	});
-	
-	
-	
+
+
+
 	describe("methods (#1)", function()
 	{
 		describe("enqueue()", function()
@@ -36,23 +36,23 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 			it("should accept a valid url", function()
 			{
 				var id = new HtmlUrlChecker( utils.options() ).enqueue(conn.absoluteUrl);
-				
+
 				expect(id).to.not.be.an.instanceOf(Error);
 			});
-			
-			
-			
+
+
+
 			it("should reject an invalid url", function()
 			{
 				var id = new HtmlUrlChecker( utils.options() ).enqueue("/path/");
-				
+
 				expect(id).to.be.an.instanceOf(Error);
 			});
 		});
 	});
-	
-	
-	
+
+
+
 	// TODO :: find a way to test "junk" without requiring the use of an option
 	describe("handlers", function()
 	{
@@ -71,13 +71,13 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 				}
 			}).enqueue( conn.absoluteUrl+"/normal/index.html", 123 );
 		});
-		
-		
-		
+
+
+
 		it("link", function(done)
 		{
 			var count = 0;
-			
+
 			new HtmlUrlChecker( utils.options(),
 			{
 				link: function(result, customData)
@@ -85,7 +85,7 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 					// HTML has more than one link, so only accept the first
 					// to avoid calling `done()` more than once
 					if (++count > 1) return;
-					
+
 					expect(arguments).to.have.length(2);
 					expect(result).to.be.an.instanceOf(Object);
 					expect(customData).to.be.a("number");
@@ -93,9 +93,9 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 				}
 			}).enqueue( conn.absoluteUrl+"/normal/index.html", 123 );
 		});
-		
-		
-		
+
+
+
 		it("page", function(done)
 		{
 			new HtmlUrlChecker( utils.options(),
@@ -110,9 +110,9 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 				}
 			}).enqueue( conn.absoluteUrl+"/normal/index.html", 123 );
 		});
-		
-		
-		
+
+
+
 		it("end", function(done)
 		{
 			new HtmlUrlChecker( utils.options(),
@@ -125,9 +125,9 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 			}).enqueue( conn.absoluteUrl+"/normal/index.html" );
 		});
 	});
-	
-	
-	
+
+
+
 	describe("methods (#2)", function()
 	{
 		describe("numActiveLinks()", function()
@@ -135,7 +135,7 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 			it("should work", function(done)
 			{
 				var htmlCalled = false;
-				
+
 				var instance = new HtmlUrlChecker( utils.options(),
 				{
 					html: function()
@@ -154,21 +154,21 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 						done();
 					}
 				});
-				
+
 				instance.enqueue( conn.absoluteUrl+"/normal/index.html" );
-				
+
 				expect( instance.numActiveLinks() ).to.equal(0);
 			});
 		});
-		
-		
-		
+
+
+
 		describe("pause() / resume()", function()
 		{
 			it("should work", function(done)
 			{
 				var resumed = false;
-				
+
 				var instance = new HtmlUrlChecker( utils.options(),
 				{
 					end: function()
@@ -177,23 +177,23 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 						done();
 					}
 				});
-				
+
 				instance.pause();
-				
+
 				instance.enqueue( conn.absoluteUrl );
-				
+
 				// Wait longer than scan should take
 				setTimeout( function()
 				{
 					resumed = true;
 					instance.resume();
-					
+
 				}, 100);
 			});
 		});
-		
-		
-		
+
+
+
 		// TODO :: test what happens when the current queue item is dequeued
 		describe("dequeue() / numPages() / numQueuedLinks()", function()
 		{
@@ -208,22 +208,22 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 						done();
 					}
 				});
-				
+
 				// Prevent first queued item from immediately starting (and thus being auto-dequeued)
 				instance.pause();
-				
+
 				var id = instance.enqueue( conn.absoluteUrl+"/normal/index.html" );
-				
+
 				expect(id).to.not.be.an.instanceOf(Error);
 				expect( instance.numPages() ).to.equal(1);
 				expect( instance.numQueuedLinks() ).to.equal(0);
 				expect( instance.dequeue(id) ).to.be.true;
 				expect( instance.numPages() ).to.equal(0);
 				expect( instance.numQueuedLinks() ).to.equal(0);
-				
+
 				instance.enqueue( conn.absoluteUrl+"/normal/index.html" );
 				instance.resume();
-				
+
 				// Wait for HTML to be downloaded and parsed
 				setImmediate( function()
 				{
@@ -231,33 +231,33 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 					expect( instance.numQueuedLinks() ).to.equal(2);
 				});
 			});
-			
-			
-			
+
+
+
 			it("should reject an invalid id", function()
 			{
 				var instance = new HtmlUrlChecker( utils.options() );
-				
+
 				// Prevent first queued item from immediately starting (and thus being auto-dequeued)
 				instance.pause();
-				
+
 				var id = instance.enqueue( conn.absoluteUrl );
-				
+
 				expect( instance.dequeue(id+1) ).to.be.an.instanceOf(Error);
 				expect( instance.numPages() ).to.equal(1);
 			});
 		});
 	});
-	
-	
-	
+
+
+
 	describe("edge cases", function()
 	{
 		it("should support custom data", function(done)
 		{
 			var linkCalled = false;
 			var pageCalled = false;
-			
+
 			new HtmlUrlChecker( utils.options(),
 			{
 				link: function(result, customData)
@@ -280,13 +280,13 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 				}
 			}).enqueue( conn.absoluteUrl+"/normal/index.html", {test:"value"} );
 		});
-		
-		
-		
+
+
+
 		it("should support multiple queue items", function(done)
 		{
 			var results = [];
-			
+
 			var instance = new HtmlUrlChecker( utils.options(),
 			{
 				link: function(result, customData)
@@ -295,36 +295,36 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 					{
 						results[ customData.index ] = [];
 					}
-					
+
 					results[ customData.index ][ result.html.index ] = result;
 				},
 				end: function()
 				{
 					expect(results).to.have.length(2);
-					
+
 					expect(results[0]).to.have.length(2);
 					expect(results[0][0].broken).to.be.false;  // with-links.html
 					expect(results[0][1].broken).to.be.true;   // fake.html
-					
+
 					expect(results[1]).to.have.length(2);
 					expect(results[1][0].broken).to.be.false;  // with-links.html
 					expect(results[1][1].broken).to.be.true;   // fake.html
-					
+
 					done();
 				}
 			});
-			
+
 			instance.enqueue( conn.absoluteUrl+"/normal/index.html", {index:0} );
 			instance.enqueue( conn.absoluteUrl+"/normal/index.html", {index:1} );
 		});
-		
-		
-		
+
+
+
 		it("should support html with no links", function(done)
 		{
 			var linkCount = 0;
 			var pageCalled = false;
-			
+
 			new HtmlUrlChecker( utils.options(),
 			{
 				link: function()
@@ -343,14 +343,14 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 				}
 			}).enqueue( conn.absoluteUrl+"/normal/no-links.html" );
 		});
-		
-		
-		
+
+
+
 		it("should support pages after html with no links", function(done)
 		{
 			var linkCount = 0;
 			var pageCount = 0;
-			
+
 			var instance = new HtmlUrlChecker( utils.options(),
 			{
 				link: function()
@@ -372,13 +372,13 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 			instance.enqueue( conn.absoluteUrl+"/normal/no-links.html" );
 			instance.enqueue( conn.absoluteUrl+"/normal/index.html" );
 		});
-		
-		
-		
+
+
+
 		it("should report error when html could not be retrieved", function(done)
 		{
 			var pageCalled = false;
-			
+
 			new HtmlUrlChecker( utils.options(),
 			{
 				page: function(error, pageUrl, customData)
@@ -395,13 +395,13 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 				}
 			}).enqueue( conn.absoluteUrl+"/normal/fake.html" );
 		});
-		
-		
-		
+
+
+
 		it("should support pages after html could not be retrieved", function(done)
 		{
 			var pageCount = 0;
-			
+
 			var instance = new HtmlUrlChecker( utils.options(),
 			{
 				page: function(error, pageUrl, customData)
@@ -421,20 +421,20 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 					done();
 				}
 			});
-			
+
 			instance.enqueue( conn.absoluteUrl+"/normal/fake.html" );
 			instance.enqueue( conn.absoluteUrl+"/normal/no-links.html" );
 		});
 	});
-	
-	
-	
+
+
+
 	describe("options", function()
 	{
 		it("honorRobotExclusions = false (header)", function(done)
 		{
 			var results = [];
-			
+
 			new HtmlUrlChecker( utils.options(),
 			{
 				junk: function(result)
@@ -458,13 +458,13 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 				}
 			}).enqueue( conn.absoluteUrl+"/disallowed/header.html" );
 		});
-		
-		
-		
+
+
+
 		it("honorRobotExclusions = true (header)", function(done)
 		{
 			var junkResults = [];
-			
+
 			new HtmlUrlChecker( utils.options({ honorRobotExclusions:true }),
 			{
 				junk: function(result)

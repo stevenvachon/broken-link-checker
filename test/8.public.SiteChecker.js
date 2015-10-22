@@ -18,7 +18,7 @@ function maybeAddContainers(results, pageIndex, siteIndex)
 		{
 			results[siteIndex] = [];
 		}
-		
+
 		if (results[siteIndex][pageIndex] === undefined)
 		{
 			results[siteIndex][pageIndex] = [];
@@ -41,16 +41,16 @@ describe("PUBLIC -- SiteChecker", function()
 			conn = connections;
 		});
 	});
-	
-	
-	
+
+
+
 	after( function()
 	{
 		return utils.stopConnections(conn.realPorts);
 	});
-	
-	
-	
+
+
+
 	describe("methods (#1)", function()
 	{
 		describe("enqueue()", function()
@@ -58,30 +58,30 @@ describe("PUBLIC -- SiteChecker", function()
 			it("should accept a valid url", function()
 			{
 				var id = new SiteChecker( utils.options() ).enqueue( conn.absoluteUrls[0] );
-				
+
 				expect(id).to.not.be.an.instanceOf(Error);
 			});
-			
-			
-			
+
+
+
 			it("should reject an invalid url", function()
 			{
 				var id = new SiteChecker( utils.options() ).enqueue("/path/");
-				
+
 				expect(id).to.be.an.instanceOf(Error);
 			});
 		});
 	});
-	
-	
-	
+
+
+
 	// TODO :: find a way to test "robots" without requiring the use of an option
 	describe("handlers", function()
 	{
 		it("html", function(done)
 		{
 			var count = 0;
-			
+
 			new SiteChecker( utils.options(),
 			{
 				html: function(tree, robots, response, pageUrl, customData)
@@ -89,7 +89,7 @@ describe("PUBLIC -- SiteChecker", function()
 					// HTML has more than one link/page, so only accept the first
 					// to avoid calling `done()` more than once
 					if (++count > 1) return;
-					
+
 					expect(tree).to.be.an.instanceOf(Object);
 					expect(response).to.be.an.instanceOf(Object);
 					expect(pageUrl).to.be.a("string");
@@ -98,13 +98,13 @@ describe("PUBLIC -- SiteChecker", function()
 				}
 			}).enqueue( conn.absoluteUrls[0]+"/normal/index.html", 123 );
 		});
-		
-		
-		
+
+
+
 		it("link", function(done)
 		{
 			var count = 0;
-			
+
 			new SiteChecker( utils.options(),
 			{
 				link: function(result, customData)
@@ -112,7 +112,7 @@ describe("PUBLIC -- SiteChecker", function()
 					// HTML has more than one link, so only accept the first
 					// to avoid calling `done()` more than once
 					if (++count > 1) return;
-					
+
 					expect(arguments).to.have.length(2);
 					expect(result).to.be.an.instanceOf(Object);
 					expect(customData).to.be.a("number");
@@ -120,13 +120,13 @@ describe("PUBLIC -- SiteChecker", function()
 				}
 			}).enqueue( conn.absoluteUrls[0]+"/normal/index.html", 123 );
 		});
-		
-		
-		
+
+
+
 		it("page", function(done)
 		{
 			var count = 0;
-			
+
 			new SiteChecker( utils.options(),
 			{
 				page: function(error, pageUrl, customData)
@@ -134,7 +134,7 @@ describe("PUBLIC -- SiteChecker", function()
 					// Site has more than one page, so only accept the first
 					// to avoid calling `done()` more than once
 					if (++count > 1) return;
-					
+
 					expect(arguments).to.have.length(3);
 					expect(error).to.be.null;
 					expect(pageUrl).to.be.a("string");
@@ -143,9 +143,9 @@ describe("PUBLIC -- SiteChecker", function()
 				}
 			}).enqueue( conn.absoluteUrls[0]+"/normal/index.html", 123 );
 		});
-		
-		
-		
+
+
+
 		it("site", function(done)
 		{
 			new SiteChecker( utils.options(),
@@ -160,9 +160,9 @@ describe("PUBLIC -- SiteChecker", function()
 				}
 			}).enqueue( conn.absoluteUrls[0]+"/normal/index.html", 123 );
 		});
-		
-		
-		
+
+
+
 		it("end", function(done)
 		{
 			new SiteChecker( utils.options(),
@@ -175,9 +175,9 @@ describe("PUBLIC -- SiteChecker", function()
 			}).enqueue( conn.absoluteUrls[0]+"/normal/index.html" );
 		});
 	});
-	
-	
-	
+
+
+
 	describe("methods (#2)", function()
 	{
 		describe("numActiveLinks()", function()
@@ -185,13 +185,13 @@ describe("PUBLIC -- SiteChecker", function()
 			it("should work", function(done)
 			{
 				var htmlCalled = false;
-				
+
 				var instance = new SiteChecker( utils.options(),
 				{
 					html: function()
 					{
 						if (htmlCalled === true) return;  // skip recursive checks
-						
+
 						// Give time for link checks to start
 						setImmediate( function()
 						{
@@ -206,21 +206,21 @@ describe("PUBLIC -- SiteChecker", function()
 						done();
 					}
 				});
-				
+
 				instance.enqueue( conn.absoluteUrls[0]+"/normal/index.html" );
-				
+
 				expect( instance.numActiveLinks() ).to.equal(0);
 			});
 		});
-		
-		
-		
+
+
+
 		describe("pause() / resume()", function()
 		{
 			it("should work", function(done)
 			{
 				var resumed = false;
-				
+
 				var instance = new SiteChecker( utils.options(),
 				{
 					end: function()
@@ -229,23 +229,23 @@ describe("PUBLIC -- SiteChecker", function()
 						done();
 					}
 				});
-				
+
 				instance.pause();
-				
+
 				instance.enqueue( conn.absoluteUrls[0] );
-				
+
 				// Wait longer than scan should take
 				setTimeout( function()
 				{
 					resumed = true;
 					instance.resume();
-					
+
 				}, 100);
 			});
 		});
-		
-		
-		
+
+
+
 		// TODO :: test what happens when the current queue item is dequeued
 		describe("dequeue() / numSites() / numPages() / numQueuedLinks()", function()
 		{
@@ -261,12 +261,12 @@ describe("PUBLIC -- SiteChecker", function()
 						done();
 					}
 				});
-				
+
 				// Prevent first queued item from immediately starting (and thus being auto-dequeued)
 				instance.pause();
-				
+
 				var id = instance.enqueue( conn.absoluteUrls[0]+"/normal/index.html" );
-				
+
 				expect(id).to.not.be.an.instanceOf(Error);
 				expect( instance.numSites() ).to.equal(1);
 				expect( instance.numPages() ).to.equal(0);
@@ -275,10 +275,10 @@ describe("PUBLIC -- SiteChecker", function()
 				expect( instance.numSites() ).to.equal(0);
 				expect( instance.numPages() ).to.equal(0);
 				expect( instance.numQueuedLinks() ).to.equal(0);
-				
+
 				instance.enqueue( conn.absoluteUrls[0]+"/normal/index.html" );
 				instance.resume();
-				
+
 				// Wait for HTML to be downloaded and parsed
 				setImmediate( function()
 				{
@@ -287,26 +287,26 @@ describe("PUBLIC -- SiteChecker", function()
 					expect( instance.numQueuedLinks() ).to.equal(2);
 				});
 			});
-			
-			
-			
+
+
+
 			it("should reject an invalid id", function()
 			{
 				var instance = new SiteChecker( utils.options() );
-				
+
 				// Prevent first queued item from immediately starting (and thus being auto-dequeued)
 				instance.pause();
-				
+
 				var id = instance.enqueue( conn.absoluteUrls[0] );
-				
+
 				expect( instance.dequeue(id+1) ).to.be.an.instanceOf(Error);
 				expect( instance.numSites() ).to.equal(1);
 			});
 		});
 	});
-	
-	
-	
+
+
+
 	describe("edge cases", function()
 	{
 		it("should support custom data", function(done)
@@ -314,7 +314,7 @@ describe("PUBLIC -- SiteChecker", function()
 			var linkCalled = false;
 			var pageCalled = false;
 			var siteCalled = false;
-			
+
 			new SiteChecker( utils.options(),
 			{
 				link: function(result, customData)
@@ -344,42 +344,42 @@ describe("PUBLIC -- SiteChecker", function()
 				}
 			}).enqueue( conn.absoluteUrls[0]+"/normal/index.html", {test:"value"} );
 		});
-		
-		
-		
+
+
+
 		it("should support multiple queue items", function(done)
 		{
 			var pageIndex = 0;
 			var results = [];
-			
+
 			var instance = new SiteChecker( utils.options(),
 			{
 				link: function(result, customData)
 				{
 					maybeAddContainers(results, pageIndex, customData.siteIndex);
-					
+
 					results[ customData.siteIndex ][pageIndex][ result.html.index ] = result;
 				},
 				page: function(error, pageUrl, customData)
 				{
 					expect(error).to.be.null;
-					
+
 					// If first page didn't load
 					// If first page did load but had no links
 					maybeAddContainers(results, pageIndex, customData.siteIndex);
-					
+
 					pageIndex++;
 				},
 				site: function(error, siteUrl, customData)
 				{
 					expect(error).to.be.null;
-					
+
 					pageIndex = 0;
 				},
 				end: function()
 				{
 					expect(results).to.have.length(2);
-					
+
 					expect(results[0]).to.have.length(3);         // site (with pages checked)
 					expect(results[0][0]).to.have.length(2);      // page -- index.html
 					expect(results[0][0][0].broken).to.be.false;  // link -- with-links.html
@@ -388,7 +388,7 @@ describe("PUBLIC -- SiteChecker", function()
 					expect(results[0][1][0].broken).to.be.false;  // link -- no-links.html
 					expect(results[0][1][1].broken).to.be.true;   // link -- fake.html
 					expect(results[0][2]).to.have.length(0);      // page -- no-links.html
-					
+
 					expect(results[1]).to.have.length(3);         // site (with pages checked)
 					expect(results[1][0]).to.have.length(2);      // page -- index.html
 					expect(results[1][0][0].broken).to.be.false;  // link -- with-links.html
@@ -397,23 +397,23 @@ describe("PUBLIC -- SiteChecker", function()
 					expect(results[1][1][0].broken).to.be.false;  // link -- no-links.html
 					expect(results[1][1][1].broken).to.be.true;   // link -- fake.html
 					expect(results[1][2]).to.have.length(0);      // page -- no-links.html
-					
+
 					done();
 				}
 			});
-			
+
 			instance.enqueue( conn.absoluteUrls[0]+"/normal/index.html", {siteIndex:0} );
 			instance.enqueue( conn.absoluteUrls[0]+"/normal/index.html", {siteIndex:1} );
 		});
-		
-		
-		
+
+
+
 		it("should support html with no links", function(done)
 		{
 			var linkCount = 0;
 			var pageCalled = false;
 			var siteCalled = false;
-			
+
 			new SiteChecker( utils.options(),
 			{
 				link: function()
@@ -437,15 +437,15 @@ describe("PUBLIC -- SiteChecker", function()
 				}
 			}).enqueue( conn.absoluteUrls[0]+"/normal/no-links.html" );
 		});
-		
-		
-		
+
+
+
 		it("should support pages after html with no links", function(done)
 		{
 			var linkCount = 0;
 			var pageCount = 0;
 			var siteCount = 0;
-			
+
 			var instance = new SiteChecker( utils.options(),
 			{
 				link: function()
@@ -472,14 +472,14 @@ describe("PUBLIC -- SiteChecker", function()
 			instance.enqueue( conn.absoluteUrls[0]+"/normal/no-links.html" );
 			instance.enqueue( conn.absoluteUrls[0]+"/normal/index.html" );
 		});
-		
-		
-		
+
+
+
 		it("should report page+site error when first page's html could not be retrieved", function(done)
 		{
 			var pageCalled = false;
 			var siteCalled = false;
-			
+
 			new SiteChecker( utils.options(),
 			{
 				page: function(error, pageUrl, customData)
@@ -504,13 +504,13 @@ describe("PUBLIC -- SiteChecker", function()
 				}
 			}).enqueue( conn.absoluteUrls[0]+"/normal/fake.html" );
 		});
-		
-		
-		
+
+
+
 		it("should not report site error when non-first page's html could not be retrieved", function(done)
 		{
 			var pageCount = 0;
-			
+
 			new SiteChecker( utils.options(),
 			{
 				page: function(error, pageUrl, customData)
@@ -534,14 +534,14 @@ describe("PUBLIC -- SiteChecker", function()
 				}
 			}).enqueue( conn.absoluteUrls[0]+"/normal/with-links.html" );
 		});
-		
-		
-		
+
+
+
 		it("should support sites after first page's html could not be retrieved", function(done)
 		{
 			var pageCount = 0;
 			var siteCount = 0;
-			
+
 			var instance = new SiteChecker( utils.options(),
 			{
 				page: function(error, pageUrl, customData)
@@ -573,17 +573,17 @@ describe("PUBLIC -- SiteChecker", function()
 					done();
 				}
 			});
-			
+
 			instance.enqueue( conn.absoluteUrls[0]+"/normal/fake.html" );
 			instance.enqueue( conn.absoluteUrls[0]+"/normal/no-links.html" );
 		});
-		
-		
-		
+
+
+
 		it("should not check a page that has already been checked", function(done)
 		{
 			var pageCount = 0;
-			
+
 			new SiteChecker( utils.options(),
 			{
 				page: function()
@@ -597,13 +597,13 @@ describe("PUBLIC -- SiteChecker", function()
 				}
 			}).enqueue( conn.absoluteUrls[0]+"/circular/index.html" );
 		});
-		
-		
-		
+
+
+
 		it("should not check a page that redirects to a page that has already been checked", function(done)
 		{
 			var pageCount = 0;
-			
+
 			new SiteChecker( utils.options(),
 			{
 				page: function()
@@ -617,13 +617,13 @@ describe("PUBLIC -- SiteChecker", function()
 				}
 			}).enqueue( conn.absoluteUrls[0]+"/redirect/index.html" );
 		});
-		
-		
-		
+
+
+
 		it("should not check a page that redirects to a page that has already been checked (#2)", function(done)
 		{
 			var pageCount = 0;
-			
+
 			new SiteChecker( utils.options(),
 			{
 				page: function()
@@ -637,14 +637,14 @@ describe("PUBLIC -- SiteChecker", function()
 				}
 			}).enqueue( conn.absoluteUrls[0]+"/circular-redirect/redirect.html" );
 		});
-		
-		
-		
+
+
+
 		it("should not check a non-first page that redirects to another site", function(done)
 		{
 			var linkCount = 0;
 			var pageCount = 0;
-			
+
 			new SiteChecker( utils.options(),
 			{
 				link: function(result, customData)
@@ -664,13 +664,13 @@ describe("PUBLIC -- SiteChecker", function()
 				}
 			}).enqueue( conn.absoluteUrls[0]+"/external-redirect/index.html" );
 		});
-		
-		
-		
+
+
+
 		it("should check a first page that redirects to another site", function(done)
 		{
 			var pageCount = 0;
-			
+
 			new SiteChecker( utils.options(),
 			{
 				page: function(error, pageUrl, customData)
@@ -686,15 +686,15 @@ describe("PUBLIC -- SiteChecker", function()
 			}).enqueue( conn.absoluteUrls[0]+"/external-redirect/redirect.html" );
 		});
 	});
-	
-	
-	
+
+
+
 	describe("options", function()
 	{
 		it("honorRobotExclusions = false (robots.txt)", function(done)
 		{
 			var results = [];
-			
+
 			new SiteChecker( utils.options(),
 			{
 				robots: function(robots)
@@ -722,14 +722,14 @@ describe("PUBLIC -- SiteChecker", function()
 				}
 			}).enqueue( conn.absoluteUrls[0]+"/disallowed/robots-txt.html" );
 		});
-		
-		
-		
+
+
+
 		it("honorRobotExclusions = true (robots.txt)", function(done)
 		{
 			var junkResults = [];
 			var robotsCalled = true;
-			
+
 			new SiteChecker( utils.options({ honorRobotExclusions:true }),
 			{
 				robots: function(robots, customData)
@@ -760,14 +760,14 @@ describe("PUBLIC -- SiteChecker", function()
 				}
 			}).enqueue( conn.absoluteUrls[0]+"/disallowed/robots-txt.html", 123 );
 		});
-		
-		
-		
+
+
+
 		it("honorRobotExclusions = false (rel + meta + header + robots.txt)", function(done)
 		{
 			var pageIndex = 0;
 			var results = [];
-			
+
 			new SiteChecker( utils.options(),
 			{
 				robots: function(robots)
@@ -781,17 +781,17 @@ describe("PUBLIC -- SiteChecker", function()
 				link: function(result)
 				{
 					maybeAddContainers(results, pageIndex);
-					
+
 					results[pageIndex][ result.html.index ] = result;
 				},
 				page: function(error)
 				{
 					expect(error).to.be.null;
-					
+
 					// If first page didn't load
 					// If first page did load but had no links
 					maybeAddContainers(results, pageIndex);
-					
+
 					pageIndex++;
 				},
 				end: function()
@@ -807,49 +807,49 @@ describe("PUBLIC -- SiteChecker", function()
 				}
 			}).enqueue( conn.absoluteUrls[0]+"/disallowed/index.html" );
 		});
-		
-		
-		
+
+
+
 		it("honorRobotExclusions = true (rel + meta + header + robots.txt)", function(done)
 		{
 			var pageIndex = 0;
 			var results = [];
-			
+
 			new SiteChecker( utils.options({ honorRobotExclusions:true }),
 			{
 				junk: function(result)
 				{
 					maybeAddContainers(results, pageIndex);
-					
+
 					results[pageIndex][ result.html.index ] = result;
 				},
 				link: function(result)
 				{
 					maybeAddContainers(results, pageIndex);
-					
+
 					results[pageIndex][ result.html.index ] = result;
 				},
 				page: function(error)
 				{
 					expect(error).to.be.null;
-					
+
 					// If first page didn't load
 					// If first page did load but had no links
 					maybeAddContainers(results, pageIndex);
-					
+
 					pageIndex++;
 				},
 				end: function()
 				{
 					expect(results).to.have.length(5);
-					
+
 					expect(results[0]).to.all.be.like(
 					{
 						broken: false,
 						excluded: false,
 						excludedReason: null
 					});
-					
+
 					// TODO :: https://github.com/chaijs/chai-things/issues/29
 					for (var i=1; i<5; i++)
 					{
@@ -860,7 +860,7 @@ describe("PUBLIC -- SiteChecker", function()
 							excludedReason: "BLC_ROBOTS"
 						});
 					}
-					
+
 					done();
 				}
 			}).enqueue( conn.absoluteUrls[0]+"/disallowed/index.html" );
