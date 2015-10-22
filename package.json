@@ -1,7 +1,7 @@
 {
   "name": "broken-link-checker",
   "description": "Find broken links, missing images, etc in your HTML.",
-  "version": "0.6.7",
+  "version": "0.7.0",
   "license": "MIT",
   "homepage": "https://github.com/stevenvachon/broken-link-checker",
   "author": {
@@ -26,21 +26,30 @@
     "calmcard": "~0.1.1",
     "chalk": "^1.1.1",
     "char-spinner": "^1.0.1",
+    "condense-whitespace": "^1.0.0",
     "default-user-agent": "^1.0.0",
-    "limited-request-queue": "^1.0.1",
+    "http-equiv-refresh": "~0.2.0",
+    "is-stream": "^1.0.1",
+    "is-string": "^1.0.4",
+    "limited-request-queue": "^2.0.0",
     "maybe-callback": "^1.0.0",
     "nopter": "~0.3.0",
-    "object-assign": "^4.0.1",
-    "parse5": "^1.5.0",
+    "parse5": "^2.0.2",
+    "robots-txt-guard": "~0.1.0",
+    "robots-txt-parse": "~0.0.4",
     "urlcache": "~0.5.0",
-    "urlobj": "0.0.8",
-    "void-elements": "^2.0.1"
+    "urlobj": "0.0.8"
   },
   "devDependencies": {
-    "chai": "^3.3.0",
+    "chai": "^3.4.1",
+    "chai-as-promised": "^5.1.0",
+    "chai-like": "~0.1.9",
     "es6-promise": "^3.0.2",
-    "mocha": "^2.3.3",
-    "node-static": "~0.7.7"
+    "mocha": "^2.3.4",
+    "node-static": "~0.7.7",
+    "object.assign": "^4.0.3",
+    "slashes": "^1.0.5",
+    "void-elements": "^2.0.1"
   },
   "engines": {
     "node": ">= 0.10"

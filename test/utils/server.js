@@ -10,17 +10,20 @@ var httpServers = {};
 
 
 
-function getAvailablePort(callback)
+function getAvailablePort()
 {
-	var port;
-	var server = http.createServer();
-	
-	// OS will return availabe port by point to port 0
-	server.listen(0, host, function()
+	return new Promise( function(resolve, reject)
 	{
-		port = server.address().port;
-		server.close();
-		callback(port);
+		var port;
+		var server = http.createServer();
+		
+		// OS will return availabe port by point to port 0
+		server.listen(0, host, function()
+		{
+			port = server.address().port;
+			server.close();
+			resolve(port);
+		});
 	});
 }
 
@@ -40,17 +43,20 @@ function getUrl(port, schemeRelative)
 
 
 
-function startHttpServer(callback)
+function startHttpServer()
 {
-	var port;
-	var server = http.createServer(startHttpServer_callback);
-	
-	// OS will return availabe port by point to port 0
-	server.listen(0, host, function()
+	return new Promise( function(resolve, reject)
 	{
-		port = server.address().port;
-		httpServers[port] = server;
-		callback(port);
+		var port;
+		var server = http.createServer(startHttpServer_callback);
+		
+		// OS will return availabe port by point to port 0
+		server.listen(0, host, function()
+		{
+			port = server.address().port;
+			httpServers[port] = server;
+			resolve(port);
+		});
 	});
 }
 
@@ -94,77 +100,89 @@ function startHttpServer_callback(request, response)
 
 
 
-function startHttpServers(numServers, callback)
+function startHttpServers(numServers)
 {
-	var ports = [];
-	var absoluteUrls = [];
-	var schemeRelativeUrls = [];
-	
-	/*if (numServers < 1)
+	return new Promise( function(resolve, reject)
 	{
-		callback(ports, absoluteUrls, schemeRelativeUrl);
-		return;
-	}*/
-	
-	function started(port)
-	{
-		ports.push(port);
-		absoluteUrls.push( getUrl(port) );
-		schemeRelativeUrls.push( getUrl(port,true) );
-		
-		// If more servers to start
-		if (ports.length < numServers)
+		var result = 
 		{
-			// Start next one
-			startHttpServer(started);
-		}
-		else
-		{
-			// All servers started
-			callback(ports, absoluteUrls, schemeRelativeUrls);
-		}
-	}
-	
-	// Start first server
-	startHttpServer(started);
-}
-
-
-
-function stopHttpServer(port, callback)
-{
-	httpServers[port].close( function()
-	{
-		delete httpServers[port];
+			ports: [],
+			absoluteUrls: [],
+			schemeRelativeUrls: []
+		};
 		
-		callback();
+		/*if (numServers < 1)
+		{
+			resolve(result);
+			return;
+		}*/
+		
+		function started(port)
+		{
+			result.ports.push(port);
+			result.absoluteUrls.push( getUrl(port) );
+			result.schemeRelativeUrls.push( getUrl(port,true) );
+			
+			// If more servers to start
+			if (result.ports.length < numServers)
+			{
+				// Start next one
+				startHttpServer().then(started);
+			}
+			else
+			{
+				// All servers started
+				resolve(result);
+			}
+		}
+		
+		// Start first server
+		startHttpServer().then(started);
 	});
 }
 
 
 
-function stopHttpServers(ports, callback)
+function stopHttpServer(port)
 {
-	/*if (ports.length === 0)
+	return new Promise( function(resolve, reject)
 	{
-		callback();
-		return;
-	}*/
-	
-	function stopped()
-	{
-		if (++count >= ports.length)
+		httpServers[port].close( function()
 		{
-			callback();
-		}
-	}
-	
-	var count = 0;
-	
-	for (var i=0; i<ports.length; i++)
+			delete httpServers[port];
+			
+			resolve();
+		});
+	});
+}
+
+
+
+function stopHttpServers(ports)
+{
+	return new Promise( function(resolve, reject)
 	{
-		stopHttpServer(ports[i], stopped);
-	}
+		/*if (ports.length === 0)
+		{
+			resolve();
+			return;
+		}*/
+		
+		function stopped()
+		{
+			if (++count >= ports.length)
+			{
+				resolve();
+			}
+		}
+		
+		var count = 0;
+		
+		for (var i=0; i<ports.length; i++)
+		{
+			stopHttpServer( ports[i] ).then(stopped);
+		}
+	});
 }
 
 
@@ -173,60 +191,72 @@ function stopHttpServers(ports, callback)
 
 
 
-function startConnection(callback)
+function startConnection()
 {
-	startHttpServers(1, function(ports, absoluteUrls, schemeRelativeUrls)
+	var absoluteUrls,ports,schemeRelativeUrls;
+	
+	return startHttpServers(1).then( function(data)
 	{
-		getAvailablePort( function(port)
-		{
-			callback(
-			{
-				realPort: ports[0],
-				absoluteUrl: absoluteUrls[0],
-				relativeUrl: schemeRelativeUrls[0],
-				
-				fakePort: port,
-				fakeAbsoluteUrl: getUrl(port),
-				fakeRelativeUrl: getUrl(port,true)
-			});
-		});
+		absoluteUrls = data.absoluteUrls;
+		ports = data.ports;
+		schemeRelativeUrls = data.schemeRelativeUrls;
+		
+		return getAvailablePort();
+	})
+	.then( function(port)
+	{
+		return {
+			realPort: ports[0],
+			absoluteUrl: absoluteUrls[0],
+			relativeUrl: schemeRelativeUrls[0],
+			
+			fakePort: port,
+			fakeAbsoluteUrl: getUrl(port),
+			fakeRelativeUrl: getUrl(port,true)
+		};
 	});
 }
 
 
 
-function startConnections(callback)
+function startConnections()
 {
-	startHttpServers(2, function(ports, absoluteUrls, schemeRelativeUrls)
+	var absoluteUrls,ports,schemeRelativeUrls;
+	
+	return startHttpServers(2).then( function(data)
 	{
-		getAvailablePort( function(port)
-		{
-			callback(
-			{
-				realPorts: ports,
-				absoluteUrls: absoluteUrls,
-				relativeUrls: schemeRelativeUrls,
-				
-				fakePort: port,
-				fakeAbsoluteUrl: getUrl(port),
-				fakeRelativeUrl: getUrl(port,true)
-			});
-		});
+		absoluteUrls = data.absoluteUrls;
+		ports = data.ports;
+		schemeRelativeUrls = data.schemeRelativeUrls;
+		
+		return getAvailablePort();
+	})
+	.then( function(port)
+	{
+		return {
+			realPorts: ports,
+			absoluteUrls: absoluteUrls,
+			relativeUrls: schemeRelativeUrls,
+			
+			fakePort: port,
+			fakeAbsoluteUrl: getUrl(port),
+			fakeRelativeUrl: getUrl(port,true)
+		};
 	});
 }
 
 
 
-function stopConnection(port, callback)
+function stopConnection(port)
 {
-	stopHttpServer(port, callback);
+	return stopHttpServer(port);
 }
 
 
 
-function stopConnections(ports, callback)
+function stopConnections(ports)
 {
-	stopHttpServers(ports, callback);
+	return stopHttpServers(ports);
 }
 
 

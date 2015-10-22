@@ -1,3 +1,13 @@
+* 0.7.0
+  * added `SiteChecker`
+  * methods added: `numPages()`, `numSites()`
+  * methods removed: `numActiveItems()`
+  * methods renamed: `length()`->`numQueuedLinks()`
+  * options added: `honorDisallowed`
+  * handlers renamed: `item`->`page`
+  * CLI options added: `--follow`, `--recursive`, `--user-agent`
+  * HTML streaming
+  * added support for `<meta>` redirects
 * 0.6.7
   * reduced redundant URL checks by storing `HtmlUrlChecker` responses in cache
   * optimizations

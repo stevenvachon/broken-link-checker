@@ -1,4 +1,7 @@
 "use strict";
+var isString = require("is-string");
+var slashes = require("slashes");
+
 var varStringPattern = /{{([^}]+)}}/;
 
 
@@ -18,9 +21,16 @@ function a_an(followingWord)
 
 
 
+function addSlashes(str)
+{
+	return slashes.add(str);
+}
+
+
+
 function format(input)
 {
-	if (typeof input==="string" || input instanceof String)
+	if (isString(input) === true)
 	{
 		var match = varStringPattern.exec(input);
 		
@@ -56,6 +66,7 @@ function format(input)
 module.exports = 
 {
 	a_an: a_an,
+	addSlashes: addSlashes,
 	format: format/*,
 	italic: italic*/
 };

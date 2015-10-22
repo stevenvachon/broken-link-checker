@@ -8,27 +8,31 @@ var fs = require("fs");
 
 var allTagsString,baseUrl,commonHtmlString,conn;
 
+function commonHtmlStream()
+{
+	return fs.createReadStream(__dirname+"/fixtures/index.html");
+}
+
 
 
 describe("PUBLIC -- HtmlChecker", function()
 {
-	before( function(done)
+	before( function()
 	{
-		utils.startConnections( function(connections)
+		return utils.startConnections().then( function(connections)
 		{
 			conn = connections;
 			allTagsString = utils.tagsString(3, conn.absoluteUrls[0]);
 			baseUrl = conn.absoluteUrls[0]+"/fixtures/index.html";
 			commonHtmlString = fs.readFileSync(__dirname+"/fixtures/index.html", {encoding:"utf8"});
-			done();
 		});
 	});
 	
 	
 	
-	after( function(done)
+	after( function()
 	{
-		utils.stopConnections(conn.realPorts, done);
+		return utils.stopConnections(conn.realPorts);
 	});
 	
 	
@@ -37,17 +41,25 @@ describe("PUBLIC -- HtmlChecker", function()
 	{
 		describe("scan()", function()
 		{
-			it("should work when ready", function(done)
+			it("should take a string when ready", function()
 			{
 				var scanning = new HtmlChecker( utils.options() ).scan(commonHtmlString, baseUrl);
 				
 				expect(scanning).to.be.true;
-				done();
 			});
 			
 			
 			
-			it("should report if not ready", function(done)
+			it("should take a stream when ready", function()
+			{
+				var scanning = new HtmlChecker( utils.options() ).scan(commonHtmlStream(), baseUrl);
+				
+				expect(scanning).to.be.true;
+			});
+			
+			
+			
+			it("should report if not ready", function()
 			{
 				var instance = new HtmlChecker( utils.options() );
 				
@@ -56,19 +68,15 @@ describe("PUBLIC -- HtmlChecker", function()
 				var concurrentScan = instance.scan(commonHtmlString, baseUrl);
 				
 				expect(concurrentScan).to.be.false;
-				done();
 			});
 		});
 	});
 	
 	
 	
+	// TODO :: find a way to test "junk" without requiring the use of an option
 	describe("handlers", function()
 	{
-		// TODO :: find a way to test "junk" without requiring the use of an option
-		
-		
-		
 		it("link", function(done)
 		{
 			var count = 0;
@@ -82,7 +90,7 @@ describe("PUBLIC -- HtmlChecker", function()
 					if (++count > 1) return;
 					
 					expect(arguments).to.have.length(1);
-					expect(result).to.be.instanceOf(Object);
+					expect(result).to.be.an.instanceOf(Object);
 					done();
 				}
 			}).scan(commonHtmlString, baseUrl);
@@ -107,22 +115,40 @@ describe("PUBLIC -- HtmlChecker", function()
 	
 	describe("methods (#2)", function()
 	{
-		describe("numActive()", function()
+		describe("numActiveLinks()", function()
 		{
 			it("should work", function(done)
 			{
+				var checked = false;
+				
 				var instance = new HtmlChecker( utils.options(),
 				{
 					complete: function()
 					{
-						expect( instance.numActive() ).to.equal(0);
+						expect( instance.numActiveLinks() ).to.equal(0);
+						expect(checked).to.be.true;
 						done();
 					}
 				});
 				
 				instance.scan(commonHtmlString, baseUrl);
 				
-				expect( instance.numActive() ).to.equal(2);
+				// Give time for link checks to start
+				setImmediate( function()
+				{
+					expect( instance.numActiveLinks() ).to.equal(2);
+					checked = true;
+				});
+			});
+		});
+		
+		
+		
+		describe("numQueuedLinks()", function()
+		{
+			it.skip("should work", function(done)
+			{
+				done();
 			});
 		});
 		
@@ -199,7 +225,7 @@ describe("PUBLIC -- HtmlChecker", function()
 					expect(count).to.equal(0);
 					done();
 				}
-			}).scan( fs.readFileSync(__dirname+"/fixtures/link-real.html", {encoding:"utf8"}), baseUrl );
+			}).scan( fs.readFileSync(__dirname+"/fixtures/page-no-links.html", {encoding:"utf8"}), baseUrl );
 		});
 	});
 	
@@ -216,13 +242,13 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options(),
 			{
-				link: function(result)
-				{
-					results[result.html.offsetIndex] = result;
-				},
 				junk: function(result)
 				{
 					done( new Error("this should not have been called") );
+				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
 				},
 				complete: function()
 				{
@@ -244,13 +270,13 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options({ excludedKeywords:[conn.absoluteUrls[0]] }),
 			{
-				link: function(result)
-				{
-					results[result.html.offsetIndex] = result;
-				},
 				junk: function(result)
 				{
 					junkResults[result.html.offsetIndex] = result;
+				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
 				},
 				complete: function()
 				{
@@ -276,23 +302,23 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options({ excludedSchemes:[] }),
 			{
-				link: function(result)
-				{
-					results[result.html.offsetIndex] = result;
-				},
 				junk: function(result)
 				{
 					done( new Error("this should not have been called") );
 				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
 				complete: function()
 				{
 					expect(results).to.have.length(6);
-					expect(results[0].error).to.be.instanceOf(Error);
-					expect(results[1].error).to.be.instanceOf(Error);
-					expect(results[2].error).to.be.instanceOf(Error);
-					expect(results[3].error).to.be.instanceOf(Error);
-					expect(results[4].error).to.be.instanceOf(Error);
-					expect(results[5].error).to.be.instanceOf(Error);
+					expect(results[0].error).to.be.an.instanceOf(Error);
+					expect(results[1].error).to.be.an.instanceOf(Error);
+					expect(results[2].error).to.be.an.instanceOf(Error);
+					expect(results[3].error).to.be.an.instanceOf(Error);
+					expect(results[4].error).to.be.an.instanceOf(Error);
+					expect(results[5].error).to.be.an.instanceOf(Error);
 					done();
 				}
 			}).scan(htmlString, baseUrl);
@@ -314,13 +340,13 @@ describe("PUBLIC -- HtmlChecker", function()
 			// Uses default `excludedSchemes` value to ensure that any change to it will break this test
 			new HtmlChecker( utils.options(),
 			{
-				link: function(result)
-				{
-					done( new Error("this should not have been called") );
-				},
 				junk: function(result)
 				{
 					junkResults[result.html.offsetIndex] = result;
+				},
+				link: function(result)
+				{
+					done( new Error("this should not have been called") );
 				},
 				complete: function()
 				{
@@ -347,13 +373,13 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options(),
 			{
-				link: function(result)
-				{
-					results[result.html.offsetIndex] = result;
-				},
 				junk: function(result)
 				{
 					done( new Error("this should not have been called") );
+				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
 				},
 				complete: function()
 				{
@@ -377,13 +403,13 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options({ excludeExternalLinks:true }),
 			{
-				link: function(result)
-				{
-					results[result.html.offsetIndex] = result;
-				},
 				junk: function(result)
 				{
 					junkResults[result.html.offsetIndex] = result;
+				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
 				},
 				complete: function()
 				{
@@ -412,13 +438,13 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options(),
 			{
-				link: function(result)
-				{
-					results[result.html.offsetIndex] = result;
-				},
 				junk: function(result)
 				{
 					done( new Error("this should not have been called") );
+				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
 				},
 				complete: function()
 				{
@@ -443,13 +469,13 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options({ excludeInternalLinks:true }),
 			{
-				link: function(result)
-				{
-					done( new Error("this should not have been called") );
-				},
 				junk: function(result)
 				{
 					junkResults[result.html.offsetIndex] = result;
+				},
+				link: function(result)
+				{
+					done( new Error("this should not have been called") );
 				},
 				complete: function()
 				{
@@ -475,13 +501,13 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options(),
 			{
-				link: function(result)
-				{
-					results[result.html.offsetIndex] = result;
-				},
 				junk: function(result)
 				{
 					done( new Error("this should not have been called") );
+				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
 				},
 				complete: function()
 				{
@@ -509,13 +535,13 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options({ excludeLinksToSamePage:true }),
 			{
-				link: function(result)
-				{
-					results[result.html.offsetIndex] = result;
-				},
 				junk: function(result)
 				{
 					junkResults[result.html.offsetIndex] = result;
+				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
 				},
 				complete: function()
 				{
@@ -545,17 +571,17 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options({ filterLevel:0 }),
 			{
-				link: function(result)
-				{
-					results[result.html.offsetIndex] = result;
-				},
 				junk: function(result)
 				{
 					junkResults[result.html.offsetIndex] = result;
 				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
 				complete: function()
 				{
-					expect(junkResults).to.have.length(20);
+					expect(junkResults).to.have.length(21);
 					expect(results).to.have.length(2);
 					done();
 				}
@@ -571,18 +597,18 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options({ filterLevel:1 }),
 			{
-				link: function(result)
-				{
-					results[result.html.offsetIndex] = result;
-				},
 				junk: function(result)
 				{
 					junkResults[result.html.offsetIndex] = result;
 				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
 				complete: function()
 				{
 					expect(junkResults).to.have.length(9);
-					expect(results).to.have.length(13);
+					expect(results).to.have.length(14);
 					done();
 				}
 			}).scan(allTagsString, baseUrl);
@@ -597,18 +623,18 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options({ filterLevel:2 }),
 			{
-				link: function(result)
-				{
-					results[result.html.offsetIndex] = result;
-				},
 				junk: function(result)
 				{
 					junkResults[result.html.offsetIndex] = result;
 				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
 				complete: function()
 				{
 					expect(junkResults).to.have.length(6);
-					expect(results).to.have.length(16);
+					expect(results).to.have.length(17);
 					done();
 				}
 			}).scan(allTagsString, baseUrl);
@@ -622,17 +648,17 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options(),
 			{
-				link: function(result)
-				{
-					results[result.html.offsetIndex] = result;
-				},
 				junk: function(result)
 				{
 					done( new Error("this should not have been called") );
 				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
 				complete: function()
 				{
-					expect(results).to.have.length(22);
+					expect(results).to.have.length(23);
 					done();
 				}
 			}).scan(allTagsString, baseUrl);

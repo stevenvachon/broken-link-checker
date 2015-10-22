@@ -9,20 +9,19 @@ var conn;
 
 describe("CLI", function()
 {
-	before( function(done)
+	before( function()
 	{
-		utils.startConnections( function(connections)
+		return utils.startConnections().then( function(connections)
 		{
 			conn = connections;
-			done();
 		});
 	});
 	
 	
 	
-	after( function(done)
+	after( function()
 	{
-		utils.stopConnections(conn.realPorts, done);
+		return utils.stopConnections(conn.realPorts);
 	});
 	
 	
