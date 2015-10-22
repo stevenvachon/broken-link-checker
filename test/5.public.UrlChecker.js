@@ -11,98 +11,42 @@ var conn;
 
 describe("PUBLIC -- UrlChecker", function()
 {
-	before( function(done)
+	before( function()
 	{
-		utils.startConnection( function(connection)
+		return utils.startConnection().then( function(connection)
 		{
 			conn = connection;
-			done();
 		});
 	});
 	
 	
 	
-	after( function(done)
+	after( function()
 	{
-		utils.stopConnection(conn.realPort, done);
+		return utils.stopConnection(conn.realPort);
 	});
 	
 	
 	
-	describe("methods", function()
+	describe("methods (#1)", function()
 	{
 		describe("enqueue()", function()
 		{
-			it("should accept a valid url", function(done)
+			it("should accept a valid url", function()
 			{
 				var instance = new UrlChecker( utils.options() );
 				
-				expect( instance.enqueue(conn.absoluteUrl) ).to.not.be.instanceOf(Error);
-				expect( instance.enqueue("/fixtures/link-real.html", conn.absoluteUrl) ).to.not.be.instanceOf(Error);
-				done();
+				expect( instance.enqueue(conn.absoluteUrl) ).to.not.be.an.instanceOf(Error);
+				expect( instance.enqueue("/normal/no-links.html", conn.absoluteUrl) ).to.not.be.an.instanceOf(Error);
 			});
 			
 			
 			
-			it("should reject an invalid url", function(done)
+			it("should reject an invalid url", function()
 			{
 				var id = new UrlChecker( utils.options() ).enqueue("/path/");
 				
-				expect(id).to.be.instanceOf(Error);
-				done();
-			});
-		});
-		
-		
-		
-		describe("dequeue()", function()
-		{
-			it("should accept a valid id", function(done)
-			{
-				var instance = new UrlChecker( utils.options() );
-				
-				// Prevent first queued item from immediately starting (and thus being auto-dequeued)
-				instance.pause();
-				
-				var id = instance.enqueue( conn.absoluteUrl );
-				
-				expect(id).to.not.be.instanceOf(Error);
-				expect( instance.length() ).to.equal(1);
-				expect( instance.dequeue(id) ).to.be.true;
-				expect( instance.length() ).to.equal(0);
-				done();
-			});
-			
-			
-			
-			it("should reject an invalid id", function(done)
-			{
-				var instance = new UrlChecker( utils.options() );
-				
-				// Prevent first queued item from immediately starting (and thus being auto-dequeued)
-				instance.pause();
-				
-				var id = instance.enqueue( conn.absoluteUrl );
-				
-				expect( instance.dequeue(id+1) ).to.be.instanceOf(Error);
-				expect( instance.length() ).to.equal(1);
-				done();
-			});
-		});
-		
-		
-		
-		describe("numActive()", function()
-		{
-			it("should work", function(done)
-			{
-				var instance = new UrlChecker( utils.options() );
-				
-				instance.enqueue(conn.absoluteUrl);
-				instance.enqueue("/fixtures/link-real.html", conn.absoluteUrl);
-				
-				expect( instance.numActive() ).to.equal(2);
-				done();
+				expect(id).to.be.an.instanceOf(Error);
 			});
 		});
 	});
@@ -118,7 +62,7 @@ describe("PUBLIC -- UrlChecker", function()
 				link: function(result, customData)
 				{
 					expect(arguments).to.have.length(2);
-					expect(result).to.be.instanceOf(Object);
+					expect(result).to.be.an.instanceOf(Object);
 					expect(customData).to.be.undefined;
 					done();
 				}
@@ -137,6 +81,108 @@ describe("PUBLIC -- UrlChecker", function()
 					done();
 				}
 			}).enqueue( conn.absoluteUrl );
+		});
+	});
+	
+	
+	
+	describe("methods (#2)", function()
+	{
+		describe("numActiveLinks()", function()
+		{
+			it("should work", function(done)
+			{
+				var instance = new UrlChecker( utils.options(),
+				{
+					end: function()
+					{
+						expect( instance.numActiveLinks() ).to.equal(0);
+						done();
+					}
+				});
+				
+				instance.enqueue(conn.absoluteUrl);
+				instance.enqueue("/normal/no-links.html", conn.absoluteUrl);
+				
+				expect( instance.numActiveLinks() ).to.equal(2);
+			});
+		});
+		
+		
+		
+		describe("pause() / resume()", function()
+		{
+			it("should work", function(done)
+			{
+				var resumed = false;
+				
+				var instance = new UrlChecker( utils.options(),
+				{
+					end: function()
+					{
+						expect(resumed).to.be.true;
+						done();
+					}
+				});
+				
+				instance.pause();
+				
+				instance.enqueue( conn.absoluteUrl );
+				
+				// Wait longer than scan should take
+				setTimeout( function()
+				{
+					resumed = true;
+					instance.resume();
+					
+				}, 100);
+			});
+		});
+		
+		
+		
+		// TODO :: test what happens when the current queue item is dequeued
+		describe("dequeue() / numQueuedLinks()", function()
+		{
+			it("should accept a valid id", function(done)
+			{
+				var instance = new UrlChecker( utils.options(),
+				{
+					end: function()
+					{
+						expect( instance.numQueuedLinks() ).to.equal(0);
+						done();
+					}
+				});
+				
+				// Prevent first queued item from immediately starting (and thus being auto-dequeued)
+				instance.pause();
+				
+				var id = instance.enqueue( conn.absoluteUrl );
+				
+				expect(id).to.not.be.an.instanceOf(Error);
+				expect( instance.numQueuedLinks() ).to.equal(1);
+				expect( instance.dequeue(id) ).to.be.true;
+				expect( instance.numQueuedLinks() ).to.equal(0);
+				
+				instance.enqueue( conn.absoluteUrl );
+				instance.resume();
+			});
+			
+			
+			
+			it("should reject an invalid id", function()
+			{
+				var instance = new UrlChecker( utils.options() );
+				
+				// Prevent first queued item from immediately starting (and thus being auto-dequeued)
+				instance.pause();
+				
+				var id = instance.enqueue( conn.absoluteUrl );
+				
+				expect( instance.dequeue(id+1) ).to.be.an.instanceOf(Error);
+				expect( instance.numQueuedLinks() ).to.equal(1);
+			});
 		});
 	});
 
@@ -170,9 +216,9 @@ describe("PUBLIC -- UrlChecker", function()
 				}
 			});
 			
-			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html",     null, {index:0} );
-			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html",     null, {index:1} );
-			instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:2} );
+			instance.enqueue( conn.absoluteUrl+"/normal/index.html",         null, {index:0} );
+			instance.enqueue( conn.absoluteUrl+"/normal/index.html",         null, {index:1} );
+			instance.enqueue( conn.absoluteUrl+"/normal/no-links.html", null, {index:2} );
 		});
 
 
@@ -205,14 +251,14 @@ describe("PUBLIC -- UrlChecker", function()
 					else
 					{
 						instance.clearCache();
-						instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:2} );
+						instance.enqueue( conn.absoluteUrl+"/normal/no-links.html", null, {index:2} );
 						finalFired = true;
 					}
 				}
 			});
 			
-			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html",     null, {index:0} );
-			instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:1} );
+			instance.enqueue( conn.absoluteUrl+"/normal/index.html",         null, {index:0} );
+			instance.enqueue( conn.absoluteUrl+"/normal/no-links.html", null, {index:1} );
 		});
 		
 		
@@ -246,7 +292,7 @@ describe("PUBLIC -- UrlChecker", function()
 					{
 						setTimeout( function()
 						{
-							instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:1} );
+							instance.enqueue( conn.absoluteUrl+"/normal/no-links.html", null, {index:1} );
 							finalFired = true;
 							
 						}, 100);
@@ -254,7 +300,7 @@ describe("PUBLIC -- UrlChecker", function()
 				}
 			});
 			
-			instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:0} );
+			instance.enqueue( conn.absoluteUrl+"/normal/no-links.html", null, {index:0} );
 		});
 	});
 
@@ -268,12 +314,21 @@ describe("PUBLIC -- UrlChecker", function()
 			{
 				link: function(result)
 				{
-					expect(result.url.resolved).to.equal( conn.absoluteUrl+"/fixtures/link-real.html" );
-					expect(result.url.original).to.equal("/fixtures/link-real.html");
-					expect(result.base.original).to.equal( conn.absoluteUrl );
+					expect(result).to.be.like(
+					{
+						url:
+						{
+							original: "/normal/no-links.html",
+							resolved: conn.absoluteUrl+"/normal/no-links.html"
+						},
+						base:
+						{
+							original: conn.absoluteUrl
+						}
+					});
 					done();
 				}
-			}).enqueue( "/fixtures/link-real.html", conn.absoluteUrl );
+			}).enqueue( "/normal/no-links.html", conn.absoluteUrl );
 		});
 		
 		
@@ -284,8 +339,7 @@ describe("PUBLIC -- UrlChecker", function()
 			{
 				link: function(result, customData)
 				{
-					expect(customData).to.be.instanceOf(Object);
-					expect(customData.test).to.equal("value");
+					expect(customData).to.deep.equal({ test:"value" });
 					done();
 				}
 			}).enqueue( conn.absoluteUrl, null, {test:"value"} );
@@ -306,16 +360,19 @@ describe("PUBLIC -- UrlChecker", function()
 				end: function()
 				{
 					expect(results).to.have.length(3);
-					expect(results[0].url.original).to.equal( conn.absoluteUrl+"/fixtures/index.html" );
-					expect(results[1].url.original).to.equal( conn.absoluteUrl+"/fixtures/link-real.html" );
-					expect(results[2].url.original).to.equal( conn.absoluteUrl+"/fixtures/link-fake.html" );
+					expect(results).to.be.like(
+					[
+						{ url:{ original: conn.absoluteUrl+"/normal/index.html" } },
+						{ url:{ original: conn.absoluteUrl+"/normal/no-links.html" } },
+						{ url:{ original: conn.absoluteUrl+"/normal/fake.html" } }
+					]);
 					done();
 				}
 			});
 			
-			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html",     null, {index:0} );
-			instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html", null, {index:1} );
-			instance.enqueue( conn.absoluteUrl+"/fixtures/link-fake.html", null, {index:2} );
+			instance.enqueue( conn.absoluteUrl+"/normal/index.html",         null, {index:0} );
+			instance.enqueue( conn.absoluteUrl+"/normal/no-links.html", null, {index:1} );
+			instance.enqueue( conn.absoluteUrl+"/normal/fake.html",     null, {index:2} );
 		});
 	});
 });

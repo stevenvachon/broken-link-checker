@@ -1,3 +1,17 @@
+* 0.7.0
+  * added `SiteChecker`
+  * methods added: `numPages()`, `numSites()`
+  * methods removed: `numActiveItems()`
+  * methods renamed: `length()`->`numQueuedLinks()`
+  * options added: `honorRobotExclusions`
+  * options removed: `excludeResponseData`
+  * handlers added: `html`, `robots`
+  * handlers renamed: `item`->`page`
+  * CLI options added: `--follow`, `--recursive`, `--user-agent`
+  * linkObj added: `brokenReason`, `excludedReason`, `html.location`
+  * linkObj removed: `error`, `http.redirects`, `http.statusCode`
+  * HTML streaming
+  * added support for `<meta>` redirects
 * 0.6.7
   * reduced redundant URL checks by storing `HtmlUrlChecker` responses in cache
   * optimizations

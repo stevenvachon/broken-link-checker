@@ -1,26 +1,29 @@
 "use strict";
-var http = require("http");
-var https = require("https");
-var nodeStatic = require("node-static");
-var path = require("path");
+var fixture = require("./fixture");
 
-var fileServer = new nodeStatic.Server( path.join(__dirname,"../") );
+var http = require("http");
+var st = require("st");
+
 var host = "127.0.0.1";
 var httpServers = {};
+var serveFile = st({ index:"index.html", path:fixture.path() });
 
 
 
-function getAvailablePort(callback)
+function getAvailablePort()
 {
-	var port;
-	var server = http.createServer();
-	
-	// OS will return availabe port by point to port 0
-	server.listen(0, host, function()
+	return new Promise( function(resolve, reject)
 	{
-		port = server.address().port;
-		server.close();
-		callback(port);
+		var port;
+		var server = http.createServer();
+		
+		// OS will return availabe port by point to port 0
+		server.listen(0, host, function()
+		{
+			port = server.address().port;
+			server.close();
+			resolve(port);
+		});
 	});
 }
 
@@ -40,131 +43,176 @@ function getUrl(port, schemeRelative)
 
 
 
-function startHttpServer(callback)
+function startHttpServer(suitePorts)
 {
-	var port;
-	var server = http.createServer(startHttpServer_callback);
-	
-	// OS will return availabe port by point to port 0
-	server.listen(0, host, function()
+	return new Promise( function(resolve, reject)
 	{
-		port = server.address().port;
-		httpServers[port] = server;
-		callback(port);
+		var port;
+		var server = http.createServer( function(request, response)
+		{
+			startHttpServer_callback(request, response, port, suitePorts);
+		});
+		
+		// OS will return available port by pointing to port 0
+		server.listen(0, host, function()
+		{
+			port = server.address().port;
+			httpServers[port] = server;
+			resolve(port);
+		});
 	});
 }
 
 
 
-function startHttpServer_callback(request, response)
+function startHttpServer_callback(request, response, port, suitePorts)
 {
-	request.addListener("end", function()
+	switch (request.url)
 	{
-		switch (request.url)
+		case "/circular-redirect/redirect.html":
 		{
-			case "/fixtures/redirect.html":
+			// Redirect
+			response.writeHead(302, { "Location":"/circular-redirect/redirected.html" });
+			response.end();
+			return;
+		}
+		case "/disallowed/header.html":
+		{
+			// Add header
+			response.setHeader("X-Robots-Tag", "nofollow");
+			//response.setHeader("X-Robots-Tag: unavailable_after", "1-Jan-3000 00:00:00 EST");
+			//response.setHeader("X-Robots-Tag", "unavailable_after: 1-Jan-3000 00:00:00 EST");
+			break;
+		}
+		case "/external-redirect/redirect.html":
+		{
+			// This fixture requires at least servers
+			if (suitePorts.length < 2)
 			{
-				// Redirect
-				response.writeHead(302, { "Location":"/fixtures/redirect2.html" });
+				// Cannot redirect to another server -- make sure test fails
+				response.writeHead(500);
 				response.end();
-				break;
+				return;
 			}
-			case "/fixtures/redirect2.html":
+			
+			for (var i=1; i<suitePorts.length; i++)
 			{
-				// Redirect
-				response.writeHead(301, { "Location":"/fixtures/index.html" });
-				response.end();
-				break;
-			}
-			default:
-			{
-				// Serve file
-				fileServer.serve(request, response, function(error, result)
+				if (suitePorts[i] !== port)
 				{
-					if (error !== null)
-					{
-						response.writeHead(error.status, error.headers);
-						response.end();
-					}
-				});
+					// Redirect first test suite port to next port in suite
+					response.writeHead(302, { "Location":"http://"+host+":"+suitePorts[i]+"/external-redirect/redirected.html" });
+					response.end();
+					return;
+				}
 			}
+			
+			// Serve file
+			break;
 		}
-	}).resume();
-}
-
-
-
-function startHttpServers(numServers, callback)
-{
-	var ports = [];
-	var absoluteUrls = [];
-	var schemeRelativeUrls = [];
-	
-	/*if (numServers < 1)
-	{
-		callback(ports, absoluteUrls, schemeRelativeUrl);
-		return;
-	}*/
-	
-	function started(port)
-	{
-		ports.push(port);
-		absoluteUrls.push( getUrl(port) );
-		schemeRelativeUrls.push( getUrl(port,true) );
-		
-		// If more servers to start
-		if (ports.length < numServers)
+		case "/redirect/redirect.html":
 		{
-			// Start next one
-			startHttpServer(started);
+			// Redirect
+			response.writeHead(302, { "Location":"/redirect/redirect2.html" });
+			response.end();
+			return;
 		}
-		else
+		case "/redirect/redirect2.html":
 		{
-			// All servers started
-			callback(ports, absoluteUrls, schemeRelativeUrls);
+			// Redirect
+			response.writeHead(301, { "Location":"/redirect/redirected.html" });
+			response.end();
+			return;
 		}
 	}
 	
-	// Start first server
-	startHttpServer(started);
+	serveFile(request, response);
 }
 
 
 
-function stopHttpServer(port, callback)
+function startHttpServers(numServers)
 {
-	httpServers[port].close( function()
+	return new Promise( function(resolve, reject)
 	{
-		delete httpServers[port];
+		var result = 
+		{
+			ports: [],
+			absoluteUrls: [],
+			schemeRelativeUrls: []
+		};
 		
-		callback();
+		/*if (numServers < 1)
+		{
+			resolve(result);
+			return;
+		}*/
+		
+		function started(port)
+		{
+			result.ports.push(port);
+			result.absoluteUrls.push( getUrl(port) );
+			result.schemeRelativeUrls.push( getUrl(port,true) );
+			
+			// If more servers to start
+			if (result.ports.length < numServers)
+			{
+				// Start next one
+				startHttpServer(result.ports).then(started);
+			}
+			else
+			{
+				// All servers started
+				resolve(result);
+			}
+		}
+		
+		// Start first server
+		startHttpServer(result.ports).then(started);
 	});
 }
 
 
 
-function stopHttpServers(ports, callback)
+function stopHttpServer(port)
 {
-	/*if (ports.length === 0)
+	return new Promise( function(resolve, reject)
 	{
-		callback();
-		return;
-	}*/
-	
-	function stopped()
-	{
-		if (++count >= ports.length)
+		httpServers[port].close( function()
 		{
-			callback();
-		}
-	}
-	
-	var count = 0;
-	
-	for (var i=0; i<ports.length; i++)
+			delete httpServers[port];
+			
+			resolve();
+		});
+	});
+}
+
+
+
+function stopHttpServers(ports)
+{
+	return new Promise( function(resolve, reject)
 	{
-		stopHttpServer(ports[i], stopped);
-	}
+		/*if (ports.length === 0)
+		{
+			resolve();
+			return;
+		}*/
+		
+		function stopped()
+		{
+			if (++count >= ports.length)
+			{
+				resolve();
+			}
+		}
+		
+		var count = 0;
+		
+		for (var i=0; i<ports.length; i++)
+		{
+			stopHttpServer( ports[i] ).then(stopped);
+		}
+	});
 }
 
 
@@ -173,60 +221,72 @@ function stopHttpServers(ports, callback)
 
 
 
-function startConnection(callback)
+function startConnection()
 {
-	startHttpServers(1, function(ports, absoluteUrls, schemeRelativeUrls)
+	var absoluteUrls,ports,schemeRelativeUrls;
+	
+	return startHttpServers(1).then( function(data)
 	{
-		getAvailablePort( function(port)
-		{
-			callback(
-			{
-				realPort: ports[0],
-				absoluteUrl: absoluteUrls[0],
-				relativeUrl: schemeRelativeUrls[0],
-				
-				fakePort: port,
-				fakeAbsoluteUrl: getUrl(port),
-				fakeRelativeUrl: getUrl(port,true)
-			});
-		});
+		absoluteUrls = data.absoluteUrls;
+		ports = data.ports;
+		schemeRelativeUrls = data.schemeRelativeUrls;
+		
+		return getAvailablePort();
+	})
+	.then( function(port)
+	{
+		return {
+			realPort: ports[0],
+			absoluteUrl: absoluteUrls[0],
+			relativeUrl: schemeRelativeUrls[0],
+			
+			fakePort: port,
+			fakeAbsoluteUrl: getUrl(port),
+			fakeRelativeUrl: getUrl(port,true)
+		};
 	});
 }
 
 
 
-function startConnections(callback)
+function startConnections()
 {
-	startHttpServers(2, function(ports, absoluteUrls, schemeRelativeUrls)
+	var absoluteUrls,ports,schemeRelativeUrls;
+	
+	return startHttpServers(2).then( function(data)
 	{
-		getAvailablePort( function(port)
-		{
-			callback(
-			{
-				realPorts: ports,
-				absoluteUrls: absoluteUrls,
-				relativeUrls: schemeRelativeUrls,
-				
-				fakePort: port,
-				fakeAbsoluteUrl: getUrl(port),
-				fakeRelativeUrl: getUrl(port,true)
-			});
-		});
+		absoluteUrls = data.absoluteUrls;
+		ports = data.ports;
+		schemeRelativeUrls = data.schemeRelativeUrls;
+		
+		return getAvailablePort();
+	})
+	.then( function(port)
+	{
+		return {
+			realPorts: ports,
+			absoluteUrls: absoluteUrls,
+			relativeUrls: schemeRelativeUrls,
+			
+			fakePort: port,
+			fakeAbsoluteUrl: getUrl(port),
+			fakeRelativeUrl: getUrl(port,true)
+		};
 	});
 }
 
 
 
-function stopConnection(port, callback)
+function stopConnection(port)
 {
-	stopHttpServer(port, callback);
+	return stopHttpServer(port);
 }
 
 
 
-function stopConnections(ports, callback)
+function stopConnections(ports)
 {
-	stopHttpServers(ports, callback);
+	return stopHttpServers(ports);
 }
 
 

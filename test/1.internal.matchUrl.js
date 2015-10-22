@@ -7,7 +7,7 @@ var expect = require("chai").expect;
 
 describe("matchUrl", function()
 {
-	it("should work", function(done)
+	it("should work", function()
 	{
 		expect( matchUrl("http://keyword.com/", []) ).to.be.false;
 		
@@ -36,6 +36,17 @@ describe("matchUrl", function()
 		
 		expect( matchUrl("http://keyword.com/", ["nope","keyword.com","nope"]) ).to.be.true;
 		
-		done();
+		expect( matchUrl("http://domain.com/keyword/", ["keyword"])   ).to.be.true;
+		expect( matchUrl("http://domain.com/keyword/", ["/keyword"])  ).to.be.true;
+		expect( matchUrl("http://domain.com/keyword/", ["keyword/"])  ).to.be.true;
+		expect( matchUrl("http://domain.com/keyword/", ["/keyword/"]) ).to.be.true;
+		
+		expect( matchUrl("http://domain.com/dir/keyword/", ["keyword"])   ).to.be.true;
+		expect( matchUrl("http://domain.com/dir/keyword/", ["/keyword"])  ).to.be.true;
+		expect( matchUrl("http://domain.com/dir/keyword/", ["keyword/"])  ).to.be.true;
+		expect( matchUrl("http://domain.com/dir/keyword/", ["/keyword/"]) ).to.be.true;
+		
+		expect( matchUrl("http://domain.com/dir/keyword/", ["domain.com/keyword/"]) ).to.be.false;
+		expect( matchUrl("http://domain.com/dir/keyword/", ["domain.com/dir/keyword/"]) ).to.be.true;
 	});
 });

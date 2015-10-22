@@ -1,5 +1,6 @@
 "use strict";
 var HtmlUrlChecker = require("../lib/public/HtmlUrlChecker");
+var messages       = require("../lib/internal/messages");
 
 var utils = require("./utils");
 
@@ -11,20 +12,19 @@ var conn;
 
 describe("PUBLIC -- HtmlUrlChecker", function()
 {
-	before( function(done)
+	before( function()
 	{
-		utils.startConnection( function(connection)
+		return utils.startConnection().then( function(connection)
 		{
 			conn = connection;
-			done();
 		});
 	});
 	
 	
 	
-	after( function(done)
+	after( function()
 	{
-		utils.stopConnection(conn.realPort, done);
+		return utils.stopConnection(conn.realPort);
 	});
 	
 	
@@ -33,67 +33,47 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 	{
 		describe("enqueue()", function()
 		{
-			it("should accept a valid url", function(done)
+			it("should accept a valid url", function()
 			{
 				var id = new HtmlUrlChecker( utils.options() ).enqueue(conn.absoluteUrl);
 				
-				expect(id).to.not.be.instanceOf(Error);
-				done();
+				expect(id).to.not.be.an.instanceOf(Error);
 			});
 			
 			
 			
-			it("should reject an invalid url", function(done)
+			it("should reject an invalid url", function()
 			{
 				var id = new HtmlUrlChecker( utils.options() ).enqueue("/path/");
 				
-				expect(id).to.be.instanceOf(Error);
-				done();
-			});
-		});
-		
-		
-		
-		describe("dequeue()", function()
-		{
-			it("should accept a valid id", function(done)
-			{
-				var instance = new HtmlUrlChecker( utils.options() );
-				
-				// Prevent first queued item from immediately starting (and thus being auto-dequeued)
-				instance.pause();
-				
-				var id = instance.enqueue( conn.absoluteUrl );
-				
-				expect(id).to.not.be.instanceOf(Error);
-				expect( instance.length() ).to.equal(1);
-				expect( instance.dequeue(id) ).to.be.true;
-				expect( instance.length() ).to.equal(0);
-				done();
-			});
-			
-			
-			
-			it("should reject an invalid id", function(done)
-			{
-				var instance = new HtmlUrlChecker( utils.options() );
-				
-				// Prevent first queued item from immediately starting (and thus being auto-dequeued)
-				instance.pause();
-				
-				var id = instance.enqueue( conn.absoluteUrl );
-				
-				expect( instance.dequeue(id+1) ).to.be.instanceOf(Error);
-				expect( instance.length() ).to.equal(1);
-				done();
+				expect(id).to.be.an.instanceOf(Error);
 			});
 		});
 	});
 	
 	
 	
+	// TODO :: find a way to test "junk" without requiring the use of an option
 	describe("handlers", function()
 	{
+		it("html", function(done)
+		{
+			new HtmlUrlChecker( utils.options(),
+			{
+				html: function(tree, robots, response, pageUrl, customData)
+				{
+					expect(tree).to.be.an.instanceOf(Object);
+					expect(robots).to.be.an.instanceOf(Object);
+					expect(response).to.be.an.instanceOf(Object);
+					expect(pageUrl).to.be.a("string");
+					expect(customData).to.be.a("number");
+					done();
+				}
+			}).enqueue( conn.absoluteUrl+"/normal/index.html", 123 );
+		});
+		
+		
+		
 		it("link", function(done)
 		{
 			var count = 0;
@@ -107,28 +87,28 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 					if (++count > 1) return;
 					
 					expect(arguments).to.have.length(2);
-					expect(result).to.be.instanceOf(Object);
-					expect(customData).to.be.undefined;
+					expect(result).to.be.an.instanceOf(Object);
+					expect(customData).to.be.a("number");
 					done();
 				}
-			}).enqueue( conn.absoluteUrl+"/fixtures/index.html" );
+			}).enqueue( conn.absoluteUrl+"/normal/index.html", 123 );
 		});
 		
 		
 		
-		it("item", function(done)
+		it("page", function(done)
 		{
 			new HtmlUrlChecker( utils.options(),
 			{
-				item: function(error, htmlUrl, customData)
+				page: function(error, pageUrl, customData)
 				{
 					expect(arguments).to.have.length(3);
 					expect(error).to.be.null;
-					expect(htmlUrl).to.be.a("string");
-					expect(customData).to.be.undefined;
+					expect(pageUrl).to.be.a("string");
+					expect(customData).to.be.a("number");
 					done();
 				}
-			}).enqueue( conn.absoluteUrl+"/fixtures/index.html" );
+			}).enqueue( conn.absoluteUrl+"/normal/index.html", 123 );
 		});
 		
 		
@@ -142,7 +122,7 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 					expect(arguments).to.have.length(0);
 					done();
 				}
-			}).enqueue( conn.absoluteUrl+"/fixtures/index.html" );
+			}).enqueue( conn.absoluteUrl+"/normal/index.html" );
 		});
 	});
 	
@@ -150,28 +130,6 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 	
 	describe("methods (#2)", function()
 	{
-		describe("numActiveItems()", function()
-		{
-			it("should work", function(done)
-			{
-				var instance = new HtmlUrlChecker( utils.options(),
-				{
-					end: function()
-					{
-						expect( instance.numActiveItems() ).to.equal(0);
-						done();
-					}
-				});
-				
-				instance.enqueue( conn.absoluteUrl+"/fixtures/index.html" );
-				instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html" );
-				
-				expect( instance.numActiveItems() ).to.equal(1);
-			});
-		});
-		
-		
-		
 		describe("numActiveLinks()", function()
 		{
 			it("should work", function(done)
@@ -180,10 +138,14 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 				
 				var instance = new HtmlUrlChecker( utils.options(),
 				{
-					html: function(id)	// undocumented event
+					html: function()
 					{
-						expect( instance.numActiveLinks() ).to.equal(2);
-						htmlCalled = true;
+						// Give time for link checks to start
+						setImmediate( function()
+						{
+							expect( instance.numActiveLinks() ).to.equal(2);
+							htmlCalled = true;
+						});
 					},
 					end: function()
 					{
@@ -193,9 +155,96 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 					}
 				});
 				
-				instance.enqueue( conn.absoluteUrl+"/fixtures/index.html" );
+				instance.enqueue( conn.absoluteUrl+"/normal/index.html" );
 				
 				expect( instance.numActiveLinks() ).to.equal(0);
+			});
+		});
+		
+		
+		
+		describe("pause() / resume()", function()
+		{
+			it("should work", function(done)
+			{
+				var resumed = false;
+				
+				var instance = new HtmlUrlChecker( utils.options(),
+				{
+					end: function()
+					{
+						expect(resumed).to.be.true;
+						done();
+					}
+				});
+				
+				instance.pause();
+				
+				instance.enqueue( conn.absoluteUrl );
+				
+				// Wait longer than scan should take
+				setTimeout( function()
+				{
+					resumed = true;
+					instance.resume();
+					
+				}, 100);
+			});
+		});
+		
+		
+		
+		// TODO :: test what happens when the current queue item is dequeued
+		describe("dequeue() / numPages() / numQueuedLinks()", function()
+		{
+			it("should accept a valid id", function(done)
+			{
+				var instance = new HtmlUrlChecker( utils.options(),
+				{
+					end: function()
+					{
+						expect( instance.numPages() ).to.equal(0);
+						expect( instance.numQueuedLinks() ).to.equal(0);
+						done();
+					}
+				});
+				
+				// Prevent first queued item from immediately starting (and thus being auto-dequeued)
+				instance.pause();
+				
+				var id = instance.enqueue( conn.absoluteUrl+"/normal/index.html" );
+				
+				expect(id).to.not.be.an.instanceOf(Error);
+				expect( instance.numPages() ).to.equal(1);
+				expect( instance.numQueuedLinks() ).to.equal(0);
+				expect( instance.dequeue(id) ).to.be.true;
+				expect( instance.numPages() ).to.equal(0);
+				expect( instance.numQueuedLinks() ).to.equal(0);
+				
+				instance.enqueue( conn.absoluteUrl+"/normal/index.html" );
+				instance.resume();
+				
+				// Wait for HTML to be downloaded and parsed
+				setImmediate( function()
+				{
+					expect( instance.numPages() ).to.equal(1);
+					expect( instance.numQueuedLinks() ).to.equal(2);
+				});
+			});
+			
+			
+			
+			it("should reject an invalid id", function()
+			{
+				var instance = new HtmlUrlChecker( utils.options() );
+				
+				// Prevent first queued item from immediately starting (and thus being auto-dequeued)
+				instance.pause();
+				
+				var id = instance.enqueue( conn.absoluteUrl );
+				
+				expect( instance.dequeue(id+1) ).to.be.an.instanceOf(Error);
+				expect( instance.numPages() ).to.equal(1);
 			});
 		});
 	});
@@ -206,30 +255,30 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 	{
 		it("should support custom data", function(done)
 		{
-			var itemCalled = false;
 			var linkCalled = false;
+			var pageCalled = false;
 			
 			new HtmlUrlChecker( utils.options(),
 			{
 				link: function(result, customData)
 				{
-					expect(customData).to.be.instanceOf(Object);
+					expect(customData).to.be.an.instanceOf(Object);
 					expect(customData.test).to.equal("value");
 					linkCalled = true;
 				},
-				item: function(error, htmlUrl, customData)
+				page: function(error, pageUrl, customData)
 				{
-					expect(customData).to.be.instanceOf(Object);
+					expect(customData).to.be.an.instanceOf(Object);
 					expect(customData.test).to.equal("value");
-					itemCalled = true;
+					pageCalled = true;
 				},
 				end: function()
 				{
 					expect(linkCalled).to.be.true;
-					expect(itemCalled).to.be.true;
+					expect(pageCalled).to.be.true;
 					done();
 				}
-			}).enqueue( conn.absoluteUrl+"/fixtures/index.html", {test:"value"} );
+			}).enqueue( conn.absoluteUrl+"/normal/index.html", {test:"value"} );
 		});
 		
 		
@@ -254,53 +303,53 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 					expect(results).to.have.length(2);
 					
 					expect(results[0]).to.have.length(2);
-					expect(results[0][0].broken).to.be.false;
-					expect(results[0][1].broken).to.be.true;
+					expect(results[0][0].broken).to.be.false;  // with-links.html
+					expect(results[0][1].broken).to.be.true;   // fake.html
 					
 					expect(results[1]).to.have.length(2);
-					expect(results[1][0].broken).to.be.false;
-					expect(results[1][1].broken).to.be.true;
+					expect(results[1][0].broken).to.be.false;  // with-links.html
+					expect(results[1][1].broken).to.be.true;   // fake.html
 					
 					done();
 				}
 			});
 			
-			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html", {index:0} );
-			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html", {index:1} );
+			instance.enqueue( conn.absoluteUrl+"/normal/index.html", {index:0} );
+			instance.enqueue( conn.absoluteUrl+"/normal/index.html", {index:1} );
 		});
 		
 		
 		
 		it("should support html with no links", function(done)
 		{
-			var count = 0;
-			var itemCalled = false;
+			var linkCount = 0;
+			var pageCalled = false;
 			
 			new HtmlUrlChecker( utils.options(),
 			{
 				link: function()
 				{
-					count++;
+					linkCount++;
 				},
-				item: function()
+				page: function()
 				{
-					itemCalled = true;
+					pageCalled = true;
 				},
 				end: function()
 				{
-					expect(itemCalled).to.be.true;
-					expect(count).to.equal(0);
+					expect(pageCalled).to.be.true;
+					expect(linkCount).to.equal(0);
 					done();
 				}
-			}).enqueue( conn.absoluteUrl+"/fixtures/link-real.html" );
+			}).enqueue( conn.absoluteUrl+"/normal/no-links.html" );
 		});
 		
 		
 		
 		it("should support pages after html with no links", function(done)
 		{
-			var itemCount = 0;
 			var linkCount = 0;
+			var pageCount = 0;
 			
 			var instance = new HtmlUrlChecker( utils.options(),
 			{
@@ -308,42 +357,136 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 				{
 					linkCount++;
 				},
-				item: function()
+				page: function()
 				{
-					itemCount++;
+					pageCount++;
 				},
 				end: function()
 				{
-					expect(itemCount).to.equal(2);
 					expect(linkCount).to.equal(2);
+					expect(pageCount).to.equal(2);
 					done();
 				}
 			});
 
-			instance.enqueue( conn.absoluteUrl+"/fixtures/link-real.html" );
-			instance.enqueue( conn.absoluteUrl+"/fixtures/index.html" );
+			instance.enqueue( conn.absoluteUrl+"/normal/no-links.html" );
+			instance.enqueue( conn.absoluteUrl+"/normal/index.html" );
 		});
 		
 		
 		
 		it("should report error when html could not be retrieved", function(done)
 		{
-			var itemCalled = false;
+			var pageCalled = false;
 			
 			new HtmlUrlChecker( utils.options(),
 			{
-				item: function(error, htmlUrl, customData)
+				page: function(error, pageUrl, customData)
 				{
-					expect(error).to.be.instanceOf(Error);
-					expect(htmlUrl).to.be.a("string");
-					itemCalled = true;
+					expect(error).to.be.an.instanceOf(Error);
+					expect(error.message).to.equal( messages.errors.HTML_RETRIEVAL );
+					expect(pageUrl).to.be.a("string");
+					pageCalled = true;
 				},
 				end: function()
 				{
-					expect(itemCalled).to.be.true;
+					expect(pageCalled).to.be.true;
 					done();
 				}
-			}).enqueue( conn.absoluteUrl+"/fixtures/link-fake.html", {test:"value"} );
+			}).enqueue( conn.absoluteUrl+"/normal/fake.html" );
+		});
+		
+		
+		
+		it("should support pages after html could not be retrieved", function(done)
+		{
+			var pageCount = 0;
+			
+			var instance = new HtmlUrlChecker( utils.options(),
+			{
+				page: function(error, pageUrl, customData)
+				{
+					if (++pageCount === 1)
+					{
+						expect(error).to.be.an.instanceOf(Error);
+					}
+					else
+					{
+						expect(error).to.not.be.an.instanceOf(Error);
+					}
+				},
+				end: function()
+				{
+					expect(pageCount).to.equal(2);
+					done();
+				}
+			});
+			
+			instance.enqueue( conn.absoluteUrl+"/normal/fake.html" );
+			instance.enqueue( conn.absoluteUrl+"/normal/no-links.html" );
+		});
+	});
+	
+	
+	
+	describe("options", function()
+	{
+		it("honorRobotExclusions = false (header)", function(done)
+		{
+			var results = [];
+			
+			new HtmlUrlChecker( utils.options(),
+			{
+				junk: function(result)
+				{
+					done( new Error("this should not have been called") );
+				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
+				end: function()
+				{
+					expect(results).to.have.length(1);
+					expect(results[0]).to.be.like(
+					{
+						broken: false,
+						excluded: false,
+						excludedReason: null
+					});
+					done();
+				}
+			}).enqueue( conn.absoluteUrl+"/disallowed/header.html" );
+		});
+		
+		
+		
+		it("honorRobotExclusions = true (header)", function(done)
+		{
+			var junkResults = [];
+			
+			new HtmlUrlChecker( utils.options({ honorRobotExclusions:true }),
+			{
+				junk: function(result)
+				{
+					junkResults[result.html.offsetIndex] = result;
+				},
+				link: function(result)
+				{
+					done( new Error("this should not have been called") );
+				},
+				end: function()
+				{
+					expect(junkResults).to.have.length(1);
+					expect(junkResults[0]).to.be.like(
+					{
+						broken: null,
+						excluded: true,
+						excludedReason: "BLC_ROBOTS"
+					});
+					done();
+				}
+			}).enqueue( conn.absoluteUrl+"/disallowed/header.html" );
 		});
 	});
 });

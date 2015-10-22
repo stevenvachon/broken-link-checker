@@ -4,31 +4,34 @@ var HtmlChecker = require("../lib/public/HtmlChecker");
 var utils = require("./utils");
 
 var expect = require("chai").expect;
-var fs = require("fs");
 
 var allTagsString,baseUrl,commonHtmlString,conn;
+
+function commonHtmlStream()
+{
+	return utils.fixture.stream("/normal/index.html");
+}
 
 
 
 describe("PUBLIC -- HtmlChecker", function()
 {
-	before( function(done)
+	before( function()
 	{
-		utils.startConnections( function(connections)
+		return utils.startConnections().then( function(connections)
 		{
 			conn = connections;
 			allTagsString = utils.tagsString(3, conn.absoluteUrls[0]);
-			baseUrl = conn.absoluteUrls[0]+"/fixtures/index.html";
-			commonHtmlString = fs.readFileSync(__dirname+"/fixtures/index.html", {encoding:"utf8"});
-			done();
+			baseUrl = conn.absoluteUrls[0]+"/normal/index.html";
+			commonHtmlString = utils.fixture.string("/normal/index.html");
 		});
 	});
 	
 	
 	
-	after( function(done)
+	after( function()
 	{
-		utils.stopConnections(conn.realPorts, done);
+		return utils.stopConnections(conn.realPorts);
 	});
 	
 	
@@ -37,17 +40,25 @@ describe("PUBLIC -- HtmlChecker", function()
 	{
 		describe("scan()", function()
 		{
-			it("should work when ready", function(done)
+			it("should take a string when ready", function()
 			{
 				var scanning = new HtmlChecker( utils.options() ).scan(commonHtmlString, baseUrl);
 				
 				expect(scanning).to.be.true;
-				done();
 			});
 			
 			
 			
-			it("should report if not ready", function(done)
+			it("should take a stream when ready", function()
+			{
+				var scanning = new HtmlChecker( utils.options() ).scan(commonHtmlStream(), baseUrl);
+				
+				expect(scanning).to.be.true;
+			});
+			
+			
+			
+			it("should report if not ready", function()
 			{
 				var instance = new HtmlChecker( utils.options() );
 				
@@ -56,16 +67,27 @@ describe("PUBLIC -- HtmlChecker", function()
 				var concurrentScan = instance.scan(commonHtmlString, baseUrl);
 				
 				expect(concurrentScan).to.be.false;
-				done();
 			});
 		});
 	});
 	
 	
 	
+	// TODO :: find a way to test "junk" without requiring the use of an option
 	describe("handlers", function()
 	{
-		// TODO :: find a way to test "junk" without requiring the use of an option
+		it("html", function(done)
+		{
+			new HtmlChecker( utils.options(),
+			{
+				html: function(tree, robots)
+				{
+					expect(tree).to.be.an.instanceOf(Object);
+					expect(robots).to.be.an.instanceOf(Object);
+					done();
+				}
+			}).scan(commonHtmlString, baseUrl);
+		});
 		
 		
 		
@@ -82,7 +104,7 @@ describe("PUBLIC -- HtmlChecker", function()
 					if (++count > 1) return;
 					
 					expect(arguments).to.have.length(1);
-					expect(result).to.be.instanceOf(Object);
+					expect(result).to.be.an.instanceOf(Object);
 					done();
 				}
 			}).scan(commonHtmlString, baseUrl);
@@ -107,22 +129,30 @@ describe("PUBLIC -- HtmlChecker", function()
 	
 	describe("methods (#2)", function()
 	{
-		describe("numActive()", function()
+		describe("numActiveLinks()", function()
 		{
 			it("should work", function(done)
 			{
+				var checked = false;
+				
 				var instance = new HtmlChecker( utils.options(),
 				{
 					complete: function()
 					{
-						expect( instance.numActive() ).to.equal(0);
+						expect( instance.numActiveLinks() ).to.equal(0);
+						expect(checked).to.be.true;
 						done();
 					}
 				});
 				
 				instance.scan(commonHtmlString, baseUrl);
 				
-				expect( instance.numActive() ).to.equal(2);
+				// Give time for link checks to start
+				setImmediate( function()
+				{
+					expect( instance.numActiveLinks() ).to.equal(2);
+					checked = true;
+				});
 			});
 		});
 		
@@ -154,6 +184,36 @@ describe("PUBLIC -- HtmlChecker", function()
 					instance.resume();
 					
 				}, 100);
+			});
+		});
+		
+		
+		
+		describe("numQueuedLinks()", function()
+		{
+			it("should work", function(done)
+			{
+				var instance = new HtmlChecker( utils.options(),
+				{
+					complete: function()
+					{
+						expect( instance.numQueuedLinks() ).to.equal(0);
+						done();
+					}
+				});
+				
+				// Prevent first queued item from immediately starting (and thus being auto-dequeued)
+				instance.pause();
+				
+				instance.scan(commonHtmlString, baseUrl);
+				
+				// Wait for HTML to be parsed
+				setImmediate( function()
+				{
+					expect( instance.numQueuedLinks() ).to.equal(2);
+					
+					instance.resume();
+				});
 			});
 		});
 	});
@@ -199,7 +259,7 @@ describe("PUBLIC -- HtmlChecker", function()
 					expect(count).to.equal(0);
 					done();
 				}
-			}).scan( fs.readFileSync(__dirname+"/fixtures/link-real.html", {encoding:"utf8"}), baseUrl );
+			}).scan( utils.fixture.string("/normal/no-links.html"), baseUrl );
 		});
 	});
 	
@@ -216,17 +276,22 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options(),
 			{
-				link: function(result)
-				{
-					results[result.html.offsetIndex] = result;
-				},
 				junk: function(result)
 				{
 					done( new Error("this should not have been called") );
 				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
 				complete: function()
 				{
 					expect(results).to.have.length(2);
+					expect(results).to.all.be.like(
+					{
+						excluded: false,
+						excludedReason: null
+					});
 					done();
 				}
 			}).scan(htmlString, baseUrl);
@@ -244,18 +309,32 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options({ excludedKeywords:[conn.absoluteUrls[0]] }),
 			{
-				link: function(result)
-				{
-					results[result.html.offsetIndex] = result;
-				},
 				junk: function(result)
 				{
 					junkResults[result.html.offsetIndex] = result;
 				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
 				complete: function()
 				{
 					expect(junkResults).to.have.length(1);
+					expect(junkResults[0]).to.be.like(
+					{
+						broken: null,
+						excluded: true,
+						excludedReason: "BLC_KEYWORD"
+					});
+					
 					expect(results).to.have.length(1);
+					expect(results[0]).to.be.like(
+					{
+						broken: false,
+						excluded: false,
+						excludedReason: null
+					});
+					
 					done();
 				}
 			}).scan(htmlString, baseUrl);
@@ -276,23 +355,22 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options({ excludedSchemes:[] }),
 			{
-				link: function(result)
-				{
-					results[result.html.offsetIndex] = result;
-				},
 				junk: function(result)
 				{
 					done( new Error("this should not have been called") );
 				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
 				complete: function()
 				{
 					expect(results).to.have.length(6);
-					expect(results[0].error).to.be.instanceOf(Error);
-					expect(results[1].error).to.be.instanceOf(Error);
-					expect(results[2].error).to.be.instanceOf(Error);
-					expect(results[3].error).to.be.instanceOf(Error);
-					expect(results[4].error).to.be.instanceOf(Error);
-					expect(results[5].error).to.be.instanceOf(Error);
+					expect(results).to.all.be.like(
+					{
+						broken: true,
+						brokenReason: "BLC_INVALID"
+					});
 					done();
 				}
 			}).scan(htmlString, baseUrl);
@@ -314,23 +392,24 @@ describe("PUBLIC -- HtmlChecker", function()
 			// Uses default `excludedSchemes` value to ensure that any change to it will break this test
 			new HtmlChecker( utils.options(),
 			{
-				link: function(result)
-				{
-					done( new Error("this should not have been called") );
-				},
 				junk: function(result)
 				{
 					junkResults[result.html.offsetIndex] = result;
 				},
+				link: function(result)
+				{
+					done( new Error("this should not have been called") );
+				},
 				complete: function()
 				{
 					expect(junkResults).to.have.length(6);
-					expect(junkResults[0].error).to.be.null;
-					expect(junkResults[1].error).to.be.null;
-					expect(junkResults[2].error).to.be.null;
-					expect(junkResults[3].error).to.be.null;
-					expect(junkResults[4].error).to.be.null;
-					expect(junkResults[5].error).to.be.null;
+					expect(junkResults).to.all.be.like(
+					{
+						broken: null,
+						brokenReason: null,
+						excluded: true,
+						excludedReason: "BLC_SCHEME"
+					});
 					done();
 				}
 			}).scan(htmlString, baseUrl);
@@ -347,19 +426,30 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options(),
 			{
-				link: function(result)
-				{
-					results[result.html.offsetIndex] = result;
-				},
 				junk: function(result)
 				{
 					done( new Error("this should not have been called") );
 				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
 				complete: function()
 				{
 					expect(results).to.have.length(2);
-					expect(results[0].internal).to.be.true;
-					expect(results[1].internal).to.be.false;
+					expect(results).to.be.like(
+					[
+						{
+							excluded: false,
+							excludedReason: null,
+							internal: true
+						},
+						{
+							excluded: false,
+							excludedReason: null,
+							internal: false
+						}
+					]);
 					done();
 				}
 			}).scan(htmlString, baseUrl);
@@ -377,23 +467,35 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options({ excludeExternalLinks:true }),
 			{
-				link: function(result)
-				{
-					results[result.html.offsetIndex] = result;
-				},
 				junk: function(result)
 				{
 					junkResults[result.html.offsetIndex] = result;
 				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
 				complete: function()
 				{
 					expect(junkResults).to.have.length(1);
-					expect(junkResults[0].internal).to.be.false;
-					expect(junkResults[0].html.text).to.equal("link2");
+					expect(junkResults[0]).to.be.like(
+					{
+						html: { text:"link2" },
+						broken: null,
+						excluded: true,
+						excludedReason: "BLC_EXTERNAL",
+						internal: false
+					});
 					
 					expect(results).to.have.length(1);
-					expect(results[0].internal).to.be.true;
-					expect(results[0].html.text).to.equal("link1");
+					expect(results[0]).to.be.like(
+					{
+						html: { text:"link1" },
+						broken: false,
+						excluded: false,
+						excludedReason: null,
+						internal: true
+					});
 					
 					done();
 				}
@@ -412,20 +514,24 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options(),
 			{
-				link: function(result)
-				{
-					results[result.html.offsetIndex] = result;
-				},
 				junk: function(result)
 				{
 					done( new Error("this should not have been called") );
 				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
 				complete: function()
 				{
 					expect(results).to.have.length(3);
-					expect(results[0].internal).to.be.true;
-					expect(results[1].internal).to.be.true;
-					expect(results[2].internal).to.be.true;
+					expect(results).to.all.be.like(
+					{
+						broken: false,
+						excluded: false,
+						excludedReason: null,
+						internal: true
+					});
 					done();
 				}
 			}).scan(htmlString, baseUrl);
@@ -443,20 +549,24 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options({ excludeInternalLinks:true }),
 			{
-				link: function(result)
-				{
-					done( new Error("this should not have been called") );
-				},
 				junk: function(result)
 				{
 					junkResults[result.html.offsetIndex] = result;
 				},
+				link: function(result)
+				{
+					done( new Error("this should not have been called") );
+				},
 				complete: function()
 				{
 					expect(junkResults).to.have.length(3);
-					expect(junkResults[0].internal).to.be.true;
-					expect(junkResults[1].internal).to.be.true;
-					expect(junkResults[2].internal).to.be.true;
+					expect(junkResults).to.all.be.like(
+					{
+						broken: null,
+						excluded: true,
+						excludedReason: "BLC_INTERNAL",
+						internal: true
+					});
 					done();
 				}
 			}).scan(htmlString, baseUrl);
@@ -475,21 +585,48 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options(),
 			{
-				link: function(result)
-				{
-					results[result.html.offsetIndex] = result;
-				},
 				junk: function(result)
 				{
 					done( new Error("this should not have been called") );
 				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
 				complete: function()
 				{
 					expect(results).to.have.length(4);
-					expect(results[0].samePage).to.be.true;
-					expect(results[1].samePage).to.be.false;
-					expect(results[2].samePage).to.be.false;
-					expect(results[3].samePage).to.be.true;
+					expect(results).to.be.like(
+					[
+						{
+							broken: false,
+							excluded: false,
+							excludedReason: null,
+							internal: true,
+							samePage: true
+						},
+						{
+							broken: false,
+							excluded: false,
+							excludedReason: null,
+							internal: true,
+							samePage: false
+						},
+						{
+							broken: false,
+							excluded: false,
+							excludedReason: null,
+							internal: true,
+							samePage: false
+						},
+						{
+							broken: false,
+							excluded: false,
+							excludedReason: null,
+							internal: true,
+							samePage: true
+						}
+					]);
 					done();
 				}
 			}).scan(htmlString, baseUrl);
@@ -509,27 +646,57 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options({ excludeLinksToSamePage:true }),
 			{
-				link: function(result)
-				{
-					results[result.html.offsetIndex] = result;
-				},
 				junk: function(result)
 				{
 					junkResults[result.html.offsetIndex] = result;
 				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
 				complete: function()
 				{
 					expect(junkResults).to.have.length(2);
-					expect(junkResults[0].samePage).to.be.true;
-					expect(junkResults[0].html.text).to.equal("link1");
-					expect(junkResults[1].samePage).to.be.true;
-					expect(junkResults[1].html.text).to.equal("link4");
+					expect(junkResults).to.be.like(
+					[
+						{
+							html: { text:"link1" },
+							broken: null,
+							excluded: true,
+							excludedReason: "BLC_SAMEPAGE",
+							internal: true,
+							samePage: true
+						},
+						{
+							html: { text:"link4" },
+							broken: null,
+							excluded: true,
+							excludedReason: "BLC_SAMEPAGE",
+							internal: true,
+							samePage: true
+						}
+					]);
 					
 					expect(results).to.have.length(2);
-					expect(results[0].samePage).to.be.false;
-					expect(results[0].html.text).to.equal("link2");
-					expect(results[1].samePage).to.be.false;
-					expect(results[1].html.text).to.equal("link3");
+					expect(results).to.be.like(
+					[
+						{
+							html: { text:"link2" },
+							broken: false,
+							excluded: false,
+							excludedReason: null,
+							internal: true,
+							samePage: false
+						},
+						{
+							html: { text:"link3" },
+							broken: false,
+							excluded: false,
+							excludedReason: null,
+							internal: true,
+							samePage: false
+						}
+					]);
 					
 					done();
 				}
@@ -545,18 +712,32 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options({ filterLevel:0 }),
 			{
-				link: function(result)
-				{
-					results[result.html.offsetIndex] = result;
-				},
 				junk: function(result)
 				{
 					junkResults[result.html.offsetIndex] = result;
 				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
 				complete: function()
 				{
-					expect(junkResults).to.have.length(20);
+					expect(junkResults).to.have.length(21);
+					expect(junkResults).to.all.be.like(
+					{
+						broken: null,
+						excluded: true,
+						excludedReason: "BLC_HTML"
+					});
+					
 					expect(results).to.have.length(2);
+					expect(results).to.all.be.like(
+					{
+						broken: false,
+						excluded: false,
+						excludedReason: null
+					});
+					
 					done();
 				}
 			}).scan(allTagsString, baseUrl);
@@ -571,18 +752,32 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options({ filterLevel:1 }),
 			{
-				link: function(result)
-				{
-					results[result.html.offsetIndex] = result;
-				},
 				junk: function(result)
 				{
 					junkResults[result.html.offsetIndex] = result;
 				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
 				complete: function()
 				{
 					expect(junkResults).to.have.length(9);
-					expect(results).to.have.length(13);
+					expect(junkResults).to.all.be.like(
+					{
+						broken: null,
+						excluded: true,
+						excludedReason: "BLC_HTML"
+					});
+					
+					expect(results).to.have.length(14);
+					expect(results).to.all.be.like(
+					{
+						broken: false,
+						excluded: false,
+						excludedReason: null
+					});
+					
 					done();
 				}
 			}).scan(allTagsString, baseUrl);
@@ -597,18 +792,32 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options({ filterLevel:2 }),
 			{
-				link: function(result)
-				{
-					results[result.html.offsetIndex] = result;
-				},
 				junk: function(result)
 				{
 					junkResults[result.html.offsetIndex] = result;
 				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
 				complete: function()
 				{
 					expect(junkResults).to.have.length(6);
-					expect(results).to.have.length(16);
+					expect(junkResults).to.all.be.like(
+					{
+						broken: null,
+						excluded: true,
+						excludedReason: "BLC_HTML"
+					});
+					
+					expect(results).to.have.length(17);
+					expect(results).to.all.be.like(
+					{
+						broken: false,
+						excluded: false,
+						excludedReason: null
+					});
+					
 					done();
 				}
 			}).scan(allTagsString, baseUrl);
@@ -622,20 +831,160 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			new HtmlChecker( utils.options(),
 			{
+				junk: function(result)
+				{
+					done( new Error("this should not have been called") );
+				},
 				link: function(result)
 				{
 					results[result.html.offsetIndex] = result;
 				},
+				complete: function()
+				{
+					expect(results).to.have.length(23);
+					expect(results).to.all.be.like(
+					{
+						broken: false,
+						excluded: false,
+						excludedReason: null
+					});
+					done();
+				}
+			}).scan(allTagsString, baseUrl);
+		});
+		
+		
+		
+		it("honorRobotExclusions = false (rel)", function(done)
+		{
+			var htmlString = '<a href="'+conn.absoluteUrls[0]+'" rel="nofollow">link1</a>';
+			htmlString += '<a href="'+conn.absoluteUrls[0]+'" rel="tag nofollow">link2</a>';
+			htmlString += '<a href="'+conn.absoluteUrls[0]+'" rel=" TAG  NOFOLLOW ">link3</a>';
+			
+			var results = [];
+			
+			new HtmlChecker( utils.options(),
+			{
 				junk: function(result)
+				{
+					done( new Error("this should not have been called") );
+				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
+				complete: function()
+				{
+					expect(results).to.have.length(3);
+					expect(results).to.all.be.like(
+					{
+						broken: false,
+						excluded: false,
+						excludedReason: null
+					});
+					done();
+				}
+			}).scan(htmlString, baseUrl);
+		});
+		
+		
+		
+		it("honorRobotExclusions = true (rel)", function(done)
+		{
+			var htmlString = '<a href="'+conn.absoluteUrls[0]+'" rel="nofollow">link1</a>';
+			htmlString += '<a href="'+conn.absoluteUrls[0]+'" rel="tag nofollow">link2</a>';
+			htmlString += '<a href="'+conn.absoluteUrls[0]+'" rel=" TAG  NOFOLLOW ">link3</a>';
+			
+			var junkResults = [];
+			
+			new HtmlChecker( utils.options({ honorRobotExclusions:true }),
+			{
+				junk: function(result)
+				{
+					junkResults[result.html.offsetIndex] = result;
+				},
+				link: function(result)
 				{
 					done( new Error("this should not have been called") );
 				},
 				complete: function()
 				{
-					expect(results).to.have.length(22);
+					expect(junkResults).to.have.length(3);
+					expect(junkResults).to.all.be.like(
+					{
+						broken: null,
+						excluded: true,
+						excludedReason: "BLC_ROBOTS"
+					});
 					done();
 				}
-			}).scan(allTagsString, baseUrl);
+			}).scan(htmlString, baseUrl);
+		});
+		
+		
+		
+		it("honorRobotExclusions = false (meta)", function(done)
+		{
+			var htmlString = '<meta name="robots" content="nofollow">';
+			htmlString += '<a href="'+conn.absoluteUrls[0]+'">link</a>';
+			
+			var results = [];
+			
+			new HtmlChecker( utils.options(),
+			{
+				junk: function(result)
+				{
+					done( new Error("this should not have been called") );
+				},
+				link: function(result)
+				{
+					results[result.html.offsetIndex] = result;
+				},
+				complete: function()
+				{
+					expect(results).to.have.length(1);
+					expect(results[0]).to.be.like(
+					{
+						broken: false,
+						excluded: false,
+						excludedReason: null
+					});
+					done();
+				}
+			}).scan(htmlString, baseUrl);
+		});
+		
+		
+		
+		it("honorRobotExclusions = true (meta)", function(done)
+		{
+			var htmlString = '<meta name="robots" content="nofollow">';
+			htmlString += '<a href="'+conn.absoluteUrls[0]+'">link</a>';
+			
+			var junkResults = [];
+			
+			new HtmlChecker( utils.options({ honorRobotExclusions:true }),
+			{
+				junk: function(result)
+				{
+					junkResults[result.html.offsetIndex] = result;
+				},
+				link: function(result)
+				{
+					done( new Error("this should not have been called") );
+				},
+				complete: function()
+				{
+					expect(junkResults).to.have.length(1);
+					expect(junkResults[0]).to.be.like(
+					{
+						broken: null,
+						excluded: true,
+						excludedReason: "BLC_ROBOTS"
+					});
+					done();
+				}
+			}).scan(htmlString, baseUrl);
 		});
 	});
 });
