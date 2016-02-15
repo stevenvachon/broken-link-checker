@@ -13,21 +13,21 @@ require("object.assign").shim();
 
 
 
-module.exports =
+module.exports = 
 {
 	a_an:       testGenerator.a_an,
 	addSlashes: testGenerator.addSlashes,
 	format:     testGenerator.format,
 	italic:     testGenerator.italic,
-
+	
 	options:    require("./options"),
-
+	
 	startConnection:  server.startConnection,
 	startConnections: server.startConnections,
 	stopConnection:   server.stopConnection,
 	stopConnections:  server.stopConnections,
-
+	
 	tagsString: require("./tagsString"),
-
+	
 	fixture: require("./fixture")
 };
