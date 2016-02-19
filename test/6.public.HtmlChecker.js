@@ -986,5 +986,9 @@ describe("PUBLIC -- HtmlChecker", function()
 				}
 			}).scan(htmlString, baseUrl);
 		});
+		
+		
+		
+		// TODO :: honorRobotExcluses=true (meta) + userAgent=Googlebot/2.1
 	});
 });

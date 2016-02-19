@@ -488,5 +488,9 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 				}
 			}).enqueue( conn.absoluteUrl+"/disallowed/header.html" );
 		});
+		
+		
+		
+		// TODO :: honorRobotExcluses=true (header) + userAgent=Googlebot/2.1
 	});
 });

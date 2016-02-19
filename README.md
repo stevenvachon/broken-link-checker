@@ -4,6 +4,7 @@
 
 Features:
 * Stream-parses local and remote HTML pages
+* Concurrently checks multiple links
 * Supports various HTML elements/attributes, not just `<a href>`
 * Supports redirects, absolute URLs, relative URLs and `<base>`
 * Honors robot exclusions

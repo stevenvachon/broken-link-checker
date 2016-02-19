@@ -869,8 +869,9 @@ describe("INTERNAL -- checkUrl", function()
 				
 				expect(result.brokenReason).to.satisfy( function(value)
 				{
-					// Linux and OSX have different errors
-					return value==="ERRNO_ECONNRESET" || value==="ERRNO_ECONNREFUSED";
+					return value==="ERRNO_ECONNRESET" ||  // OSX, Node <=5.5.x
+					       value==="ERRNO_ENOTFOUND" ||   // OSX, Node >=5.6.x
+					       value==="ERRNO_ECONNREFUSED";  // Linux
 				});
 			});
 		});

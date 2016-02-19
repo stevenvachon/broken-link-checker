@@ -685,6 +685,10 @@ describe("PUBLIC -- SiteChecker", function()
 				}
 			}).enqueue( conn.absoluteUrls[0]+"/external-redirect/redirect.html" );
 		});
+		
+		
+		
+		// TODO :: should not check a non-first page that redirects to another site when options.excludeInternalLinks=true
 	});
 	
 	
@@ -865,5 +869,9 @@ describe("PUBLIC -- SiteChecker", function()
 				}
 			}).enqueue( conn.absoluteUrls[0]+"/disallowed/index.html" );
 		});
+		
+		
+		
+		// TODO :: honorRobotExcluses=true (rel + meta + header + robots.txt) + userAgent=Googlebot/2.1
 	});
 });
