@@ -1,3 +1,4 @@
+* 0.7.1 bug fix
 * 0.7.0
   * added `SiteChecker`
   * methods added: `numPages()`, `numSites()`
