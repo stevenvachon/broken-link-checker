@@ -84,6 +84,26 @@ function startHttpServer_callback(request, response, port, suitePorts)
 			//response.setHeader("X-Robots-Tag", "unavailable_after: 1-Jan-3000 00:00:00 EST");
 			break;
 		}
+		case "/method-not-allowed/any.html":
+		{
+			// Error
+			response.writeHead(405);
+			response.end();
+			return;
+		}
+		case "/method-not-allowed/head.html":
+		{
+			if (request.method.toLowerCase() === "head")
+			{
+				// Error
+				response.writeHead(405);
+				response.end();
+				return;
+			}
+			
+			// Serve file
+			break;
+		}
 		case "/external-redirect/redirect.html":
 		{
 			// This fixture requires at least servers

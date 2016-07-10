@@ -1418,5 +1418,93 @@ describe("INTERNAL -- checkUrl", function()
 		{
 			
 		});
+		
+		
+		
+		it("retry405Head = false", function()
+		{
+			return checkUrl(
+				conn.absoluteUrls[0]+"/method-not-allowed/head.html",
+				conn.absoluteUrls[0],
+				new UrlCache(),
+				utils.options()
+			)
+			.then( function(result)
+			{
+				expect(result).to.be.like(
+				{
+					broken: true,
+					brokenReason: "HTTP_405",
+					excluded: null,
+					excludedReason: null
+				});
+			});
+		});
+		
+		
+		
+		it("retry405Head = false (#2)", function()
+		{
+			return checkUrl(
+				conn.absoluteUrls[0]+"/method-not-allowed/any.html",
+				conn.absoluteUrls[0],
+				new UrlCache(),
+				utils.options({ requestMethod:"get" })
+			)
+			.then( function(result)
+			{
+				expect(result).to.be.like(
+				{
+					broken: true,
+					brokenReason: "HTTP_405",
+					excluded: null,
+					excludedReason: null
+				});
+			});
+		});
+		
+		
+		
+		it("retry405Head = true", function()
+		{
+			return checkUrl(
+				conn.absoluteUrls[0]+"/method-not-allowed/head.html",
+				conn.absoluteUrls[0],
+				new UrlCache(),
+				utils.options({ retry405Head:true })
+			)
+			.then( function(result)
+			{
+				expect(result).to.be.like(
+				{
+					broken: false,
+					brokenReason: null,
+					excluded: null,
+					excludedReason: null
+				});
+			});
+		});
+		
+		
+		
+		it("retry405Head = true (#2)", function()
+		{
+			return checkUrl(
+				conn.absoluteUrls[0]+"/method-not-allowed/any.html",
+				conn.absoluteUrls[0],
+				new UrlCache(),
+				utils.options({ retry405Head:true })
+			)
+			.then( function(result)
+			{
+				expect(result).to.be.like(
+				{
+					broken: true,
+					brokenReason: "HTTP_405",
+					excluded: null,
+					excludedReason: null
+				});
+			});
+		});
 	});
 });

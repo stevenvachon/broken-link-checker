@@ -271,7 +271,12 @@ The number of milliseconds to wait before each request.
 ### `options.requestMethod`
 Type: `String`  
 Default value: `"head"`  
-The HTTP request method used in checking links. Some sites do not respond correctly to `"head"`, while `"get"` can provide more consistent and accurate results, albeit slower.
+The HTTP request method used in checking links. If you experience problems, try using `"get"`, however `options.retry405Head` should have you covered.
+
+### `options.retry405Head`
+Type: `Boolean`  
+Default value: `true`  
+Some servers do not respond correctly to a `"head"` request method. When `true`, a link resulting in an HTTP 405 "Method Not Allowed" error will be re-requested using a `"get"` method before deciding that it is broken.
 
 ### `options.userAgent`
 Type: `String`  
@@ -310,6 +315,12 @@ if (result.broken) {
 }
 ```
 
+## HTML and HTTP information
+Detailed information for each link result is provided. Check out the [schema](https://github.com/stevenvachon/broken-link-checker/blob/master/lib/internal/linkObj.js#L16-L64) or:
+```js
+console.log(result);
+```
+
 
 ## Roadmap Features
 * fix issue where same-page links are not excluded when cache is enabled, despite `excludeLinksToSamePage===true`
@@ -319,13 +330,16 @@ if (result.broken) {
 * load sitemap.xml at end of each `SiteChecker` site to possibly check pages that were not linked to
 * remove `options.excludedSchemes` and handle schemes not in `options.acceptedSchemes` as junk?
 * change order of checking to: tcp error, 4xx code (broken), 5xx code (undetermined), 200
-* recheck 405 links with `"get"` (and abort before downloading the body) when using `"head"`
+* abort download of body when `options.retry405Head===true`
 * option to retry broken links a number of times (default=0)
 * option to scrape `response.body` for erroneous sounding text (since an error page could be presented but still have code 200)
 * option to check broken link on archive.org for archived version (using [this lib](https://npmjs.com/archive.org))
 * option to run `HtmlUrlChecker` checks on page load (using [jsdom](https://npmjs.com/jsdom)) to include links added with JavaScript?
 * option to check if hashes exist in target URL document?
 * option to parse Markdown in `HtmlChecker` for links
+* option to play sound when broken link is found
+* option to hide unbroken links
+* option to check plain text URLs
 * add throttle profiles (0–9, -1 for "custom") for easy configuring
 * check [ftp:](https://nmjs.com/ftp), [sftp:](https://npmjs.com/ssh2) (for downloadable files)
 * check ~~mailto:~~, news:, nntp:, telnet:?

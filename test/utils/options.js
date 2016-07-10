@@ -12,7 +12,8 @@ var testDefaultOptions =
 	filterLevel: 3,
 	honorRobotExclusions: false,
 	maxSockets: Infinity,
-	maxSocketsPerHost: Infinity
+	maxSocketsPerHost: Infinity,
+	retry405Head: false
 };
 
 

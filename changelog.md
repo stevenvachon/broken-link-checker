@@ -1,3 +1,4 @@
+* 0.7.2 added `options.retry405Head`
 * 0.7.1 bug fix
 * 0.7.0
   * added `SiteChecker`
