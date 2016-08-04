@@ -26,7 +26,7 @@ npm install broken-link-checker -g
 ```
 After that, check out the help for available options:
 ```shell
-blc -?
+blc --help
 ```
 A typical site-wide check might look like:
 ```shell
