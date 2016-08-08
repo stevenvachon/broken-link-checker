@@ -2,8 +2,8 @@
 var parseHtml  = require("../lib/internal/parseHtml");
 var scrapeHtml = require("../lib/internal/scrapeHtml");
 
-var tagTests = require("./json/scrapeHtml.json");
-var utils    = require("./utils");
+var helpers  = require("./helpers");
+var tagTests = require("./helpers/json/scrapeHtml.json");
 
 var expect = require("chai").expect;
 
@@ -21,7 +21,7 @@ function wrapper(input, robots)
 
 describe("INTERNAL -- parseHtml / scrapeHtml", function()
 {
-	it("should support a string", function()
+	it("supports a string", function()
 	{
 		return wrapper("<html></html>").then( function(links)
 		{
@@ -31,9 +31,9 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function()
 	
 	
 	
-	it("should support a stream", function()
+	it("supports a stream", function()
 	{
-		return wrapper( utils.fixture.stream("/normal/no-links.html") ).then( function(links)
+		return wrapper( helpers.fixture.stream("/normal/no-links.html") ).then( function(links)
 		{
 			expect(links).to.be.an.instanceOf(Array);
 		});
@@ -45,13 +45,13 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function()
 	{
 		for (var test in tagTests)
 		{
+			var code = "";
 			var data = tagTests[test];
 			var skipOrOnly = data.skipOrOnly==null ? "" : "."+data.skipOrOnly;
 			
-			var code = "";
-			code  = 'it'+skipOrOnly+'("'+utils.addSlashes(test)+'", function()\n';
+			code += 'it'+skipOrOnly+'("supports '+helpers.addSlashes(test)+'", function()\n';
 			code += '{\n';
-			code += '	return wrapper("'+utils.addSlashes(data.html)+'").then( function(links)\n';
+			code += '	return wrapper("'+helpers.addSlashes(data.html)+'").then( function(links)\n';
 			code += '	{\n';
 			code += '		expect(links).to.have.length('+data.length+');\n';
 			code += '		expect(links[0]).to.be.like('+JSON.stringify(data.link, null, "\t")+');\n';
@@ -66,7 +66,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function()
 	
 	describe("edge cases", function()
 	{
-		it('should ignore <meta content/> lacking http-equiv="refresh"', function()
+		it('ignores <meta content/> lacking http-equiv="refresh"', function()
 		{
 			return wrapper('<meta http-equiv="other" content="5; url=fake.html"/>').then( function(links)
 			{
@@ -82,7 +82,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function()
 		
 		
 		
-		it("should support link attributes with values surrounded by spaces", function()
+		it("supports link attributes with values surrounded by spaces", function()
 		{
 			return wrapper('<a href=" fake.html ">link</a>').then( function(links)
 			{
@@ -97,7 +97,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function()
 		
 		
 		
-		it("should support link attributes preceded by non-link attributes", function()
+		it("supports link attributes preceded by non-link attributes", function()
 		{
 			return wrapper('<a id="link" href="fake.html">link</a>').then( function(links)
 			{
@@ -117,7 +117,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function()
 		
 		
 		
-		it("should support consecutive link attributes", function()
+		it("supports consecutive link attributes", function()
 		{
 			return wrapper('<img src="fake.png" longdesc="fake.html"/>').then( function(links)
 			{
@@ -150,7 +150,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function()
 		
 		
 		
-		it("should ignore redundant link attributes", function()
+		it("ignores redundant link attributes", function()
 		{
 			return wrapper('<a href="fake.html" href="ignored.html">link</a>').then( function(links)
 			{
@@ -169,7 +169,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function()
 		
 		
 		
-		it("should support consecutive link elements", function()
+		it("supports consecutive link elements", function()
 		{
 			return wrapper('<a href="fake1.html">link1</a> <a href="fake2.html">link2</a>').then( function(links)
 			{
@@ -200,7 +200,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function()
 		
 		
 		
-		it("should support nonconsecutive link elements", function()
+		it("supports nonconsecutive link elements", function()
 		{
 			var html = '<a href="fake1.html">link1</a>';
 			html += 'content <span>content</span> content';
@@ -235,7 +235,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function()
 		
 		
 		
-		it("should support nested link elements", function()
+		it("supports nested link elements", function()
 		{
 			return wrapper('<a href="fake1.html"><q cite="fake2.html">quote</q></a>').then( function(links)
 			{
@@ -270,7 +270,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function()
 		
 		
 		
-		it("should support link elements with nested elements", function()
+		it("supports link elements with nested elements", function()
 		{
 			return wrapper('<a href="fake.html"><span>text</span></a>').then( function(links)
 			{
@@ -292,7 +292,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function()
 		
 		
 		
-		it("should support void elements", function()
+		it("supports void elements", function()
 		{
 			return wrapper('<img src="fake.png"> content').then( function(links)
 			{
@@ -314,7 +314,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function()
 		
 		
 		
-		it("should support detailed selectors and omit nth-child from html and body", function()
+		it("supports detailed selectors and omit nth-child from html and body", function()
 		{
 			var html = '<html><head><title>title</title></head><body>';
 			html += '<div><a href="fake1.html">link1</a>';
@@ -380,7 +380,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function()
 		
 		
 		
-		it("should support link attribute source code locations", function()
+		it("supports link attribute source code locations", function()
 		{
 			var html = '\n\t<a href="fake.html">link</a>';
 			
@@ -412,7 +412,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function()
 		
 		
 		
-		it("should support <base/>", function()
+		it("supports <base/>", function()
 		{
 			return wrapper('<head><base href="/fake/"/></head> <a href="fake.html">link</a>').then( function(links)
 			{
@@ -427,7 +427,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function()
 		
 		
 		
-		it("should support irregular uses of <base/>", function()
+		it("supports irregular uses of <base/>", function()
 		{
 			var html = '<base href="/correct/"/>';
 			html += '<a href="fake.html">link</a>';
@@ -445,7 +445,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function()
 		
 		
 		
-		it("should ignore multiple uses of <base/>", function()
+		it("ignores multiple uses of <base/>", function()
 		{
 			var html = '<base href="/first/"/>';
 			html += '<head><base href="/ignored1/"/><base href="/ignored2/"/></head>';
@@ -466,7 +466,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function()
 		
 		
 		
-		it("should support invalid html structure", function()
+		it("supports invalid html structure", function()
 		{
 			var html = '<html><head><title>title</title></head><body>';
 			html += '<table>';
@@ -504,7 +504,7 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function()
 		
 		
 		
-		it("should fire \"complete\" when no links found", function()
+		it("fires \"complete\" when no links found", function()
 		{
 			return wrapper("no links here").then( function(links)
 			{

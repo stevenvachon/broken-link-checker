@@ -332,7 +332,7 @@ console.log(result);
 * change order of checking to: tcp error, 4xx code (broken), 5xx code (undetermined), 200
 * abort download of body when `options.retry405Head===true`
 * option to retry broken links a number of times (default=0)
-* option to scrape `response.body` for erroneous sounding text (since an error page could be presented but still have code 200)
+* option to scrape `response.body` for erroneous sounding text (using [fathom](https://npmjs.com/fathom-web)?), since an error page could be presented but still have code 200
 * option to check broken link on archive.org for archived version (using [this lib](https://npmjs.com/archive.org))
 * option to run `HtmlUrlChecker` checks on page load (using [jsdom](https://npmjs.com/jsdom)) to include links added with JavaScript?
 * option to check if hashes exist in target URL document?

@@ -2,7 +2,7 @@
 var messages   = require("../lib/internal/messages");
 var streamHtml = require("../lib/internal/streamHtml");
 
-var utils = require("./utils");
+var helpers = require("./helpers");
 
 var expect = require("chai").expect;
 var isStream = require("is-stream");
@@ -16,7 +16,7 @@ describe("INTERNAL -- streamHtml", function()
 {
 	before( function()
 	{
-		return utils.startConnection().then( function(connection)
+		return helpers.startConnection().then( function(connection)
 		{
 			conn = connection;
 		});
@@ -26,17 +26,17 @@ describe("INTERNAL -- streamHtml", function()
 	
 	after( function()
 	{
-		return utils.stopConnection(conn.realPort);
+		return helpers.stopConnection(conn.realPort);
 	});
 	
 	
 	
-	it("should work", function()
+	it("works", function()
 	{
 		return streamHtml(
 			conn.absoluteUrl+"/normal/no-links.html",
 			null,
-			utils.options()
+			helpers.options()
 		)
 		.then( function(result)
 		{
@@ -47,12 +47,12 @@ describe("INTERNAL -- streamHtml", function()
 	
 	
 	
-	it("should report a redirect", function()
+	it("reports a redirect", function()
 	{
 		return streamHtml(
 			conn.absoluteUrl+"/redirect/redirect.html",
 			null,
-			utils.options()
+			helpers.options()
 		)
 		.then( function(result)
 		{
@@ -63,81 +63,105 @@ describe("INTERNAL -- streamHtml", function()
 	
 	
 	
-	it("should report a non-html url (gif)", function()
+	it("rejects a non-html url (gif)", function()
 	{
+		var accepted = false;
+		
 		return streamHtml(
 			conn.absoluteUrl+"/non-html/image.gif",
 			null,
-			utils.options()
+			helpers.options()
 		)
 		.then( function(result)
 		{
-			done( new Error("this should not have been called") );
+			accepted = new Error("this should not have been called");
 		})
 		.catch( function(error)
 		{
 			expect(error).to.be.an.instanceOf(Error);
 			expect(error.message).to.equal( messages.errors.EXPECTED_HTML("image/gif") );
+		})
+		.then( function()
+		{
+			if (accepted!==false) throw accepted;
 		});
 	});
 	
 	
 	
-	it("should report a non-html url (unknown)", function()
+	it("rejects a non-html url (unknown)", function()
 	{
+		var accepted = false;
+		
 		return streamHtml(
 			conn.absoluteUrl+"/non-html/empty",
 			null,
-			utils.options()
+			helpers.options()
 		)
 		.then( function(result)
 		{
-			done( new Error("this should not have been called") );
+			accepted = new Error("this should not have been called");
 		})
 		.catch( function(error)
 		{
 			expect(error).to.be.an.instanceOf(Error);
 			expect(error.message).to.equal( messages.errors.EXPECTED_HTML(undefined) );
+		})
+		.then( function()
+		{
+			if (accepted!==false) throw accepted;
 		});
 	});
 	
 	
 	
-	it("should report a 404", function()
+	it("rejects a 404", function()
 	{
+		var accepted = false;
+		
 		return streamHtml(
 			conn.absoluteUrl+"/normal/fake.html",
 			null,
-			utils.options()
+			helpers.options()
 		)
 		.then( function(result)
 		{
-			done( new Error("this should not have been called") );
+			accepted = new Error("this should not have been called");
 		})
 		.catch( function(error)
 		{
 			expect(error).to.be.an.instanceOf(Error);
 			expect(error.message).to.equal( messages.errors.HTML_RETRIEVAL );
+		})
+		.then( function()
+		{
+			if (accepted!==false) throw accepted;
 		});
 	});
 	
 	
 	
-	it("should report an erroneous url", function()
+	it("rejects an erroneous url", function()
 	{
-		streamHtml(
+		var accepted = false;
+		
+		return streamHtml(
 			"/normal/fake.html",
 			null,
-			utils.options()
+			helpers.options()
 		)
 		.then( function(result)
 		{
-			done( new Error("this should not have been called") );
+			accepted = new Error("this should not have been called");
 		})
 		.catch( function(error)
 		{
 			expect(error).to.be.an.instanceOf(Error);
 			//expect(error.message).to.equal("Invalid URL");  // TODO :: https://github.com/joepie91/node-bhttp/issues/4
+		})
+		.then( function()
+		{
+			if (accepted!==false) throw accepted;
 		});
 	});
 	
@@ -147,14 +171,14 @@ describe("INTERNAL -- streamHtml", function()
 	// As a result, the cached responses are not retrieved and checked to be non-unique
 	describe("caching", function()
 	{
-		it("should store the response", function()
+		it("stores the response", function()
 		{
 			var cache = new UrlCache();
 			
 			return streamHtml(
 				conn.absoluteUrl+"/normal/no-links.html",
 				cache,
-				utils.options({ cacheResponses:true })
+				helpers.options({ cacheResponses:true })
 			)
 			.then( function(result)
 			{
@@ -168,14 +192,14 @@ describe("INTERNAL -- streamHtml", function()
 		
 		
 		
-		it("should store the response of a redirected url", function()
+		it("stores the response of a redirected url", function()
 		{
 			var cache = new UrlCache();
 			
 			return streamHtml(
 				conn.absoluteUrl+"/redirect/redirect.html",
 				cache,
-				utils.options({ cacheResponses:true })
+				helpers.options({ cacheResponses:true })
 			)
 			.then( function(result)
 			{
@@ -195,14 +219,14 @@ describe("INTERNAL -- streamHtml", function()
 		
 		
 		
-		it("should store the response of a non-html url", function()
+		it("stores the response of a non-html url", function()
 		{
 			var cache = new UrlCache();
 			
 			return streamHtml(
 				conn.absoluteUrl+"/non-html/image.gif",
 				cache,
-				utils.options({ cacheResponses:true })
+				helpers.options({ cacheResponses:true })
 			)
 			.catch( function(error)
 			{
@@ -221,14 +245,14 @@ describe("INTERNAL -- streamHtml", function()
 		
 		
 		
-		it("should store the response of a 404", function()
+		it("stores the response of a 404", function()
 		{
 			var cache = new UrlCache();
 			
 			return streamHtml(
 				conn.absoluteUrl+"/normal/fake.html",
 				cache,
-				utils.options({ cacheResponses:true })
+				helpers.options({ cacheResponses:true })
 			)
 			.catch( function(error)
 			{
@@ -247,14 +271,14 @@ describe("INTERNAL -- streamHtml", function()
 		
 		
 		
-		it("should store the error from an erroneous url", function()
+		it("stores the error from an erroneous url", function()
 		{
 			var cache = new UrlCache();
 			
 			return streamHtml(
 				"/normal/fake.html",
 				cache,
-				utils.options({ cacheResponses:true })
+				helpers.options({ cacheResponses:true })
 			)
 			.catch( function(error)
 			{

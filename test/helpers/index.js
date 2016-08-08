@@ -18,7 +18,7 @@ module.exports =
 	a_an:       testGenerator.a_an,
 	addSlashes: testGenerator.addSlashes,
 	format:     testGenerator.format,
-	italic:     testGenerator.italic,
+	//italic:     testGenerator.italic,
 	
 	options:    require("./options"),
 	

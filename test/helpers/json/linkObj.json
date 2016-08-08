@@ -1,16 +1,16 @@
 {
 	"REMOTE ABSOLUTE url with a REMOTE ABSOLUTE base and REMOTE ABSOLUTE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"REMOTE ABSOLUTE url with a REMOTE ABSOLUTE base and LOCAL ABSOLUTE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
 		"resolvedBaseUrl": "http://fakeurl.com/path/link.html?query",
@@ -18,79 +18,79 @@
 		"samePage": true
 	},
 	"REMOTE ABSOLUTE url with a REMOTE ABSOLUTE base and ROOT-PATH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"REMOTE ABSOLUTE url with a REMOTE ABSOLUTE base and PATH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"REMOTE ABSOLUTE url with a REMOTE ABSOLUTE base and RESOURCE-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"REMOTE ABSOLUTE url with a REMOTE ABSOLUTE base and QUERY-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"REMOTE ABSOLUTE url with a REMOTE ABSOLUTE base and HASH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"REMOTE ABSOLUTE url with a REMOTE ABSOLUTE base and EMPTY html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"REMOTE ABSOLUTE url with a REMOTE ABSOLUTE base and UNDEFINED html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": null,
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"REMOTE ABSOLUTE url with a LOCAL ABSOLUTE base and REMOTE ABSOLUTE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "http://fakeurl.com/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": false,
 		"samePage": false
 	},
 	"REMOTE ABSOLUTE url with a LOCAL ABSOLUTE base and LOCAL ABSOLUTE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"htmlBaseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -99,7 +99,7 @@
 		"samePage": false
 	},
 	"REMOTE ABSOLUTE url with a LOCAL ABSOLUTE base and ROOT-PATH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"htmlBaseUrl": "/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -108,7 +108,7 @@
 		"samePage": false
 	},
 	"REMOTE ABSOLUTE url with a LOCAL ABSOLUTE base and PATH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"htmlBaseUrl": "path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -117,7 +117,7 @@
 		"samePage": false
 	},
 	"REMOTE ABSOLUTE url with a LOCAL ABSOLUTE base and RESOURCE-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"htmlBaseUrl": "link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -126,7 +126,7 @@
 		"samePage": false
 	},
 	"REMOTE ABSOLUTE url with a LOCAL ABSOLUTE base and QUERY-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"htmlBaseUrl": "?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -135,7 +135,7 @@
 		"samePage": false
 	},
 	"REMOTE ABSOLUTE url with a LOCAL ABSOLUTE base and HASH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"htmlBaseUrl": "#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -144,7 +144,7 @@
 		"samePage": false
 	},
 	"REMOTE ABSOLUTE url with a LOCAL ABSOLUTE base and EMPTY html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"htmlBaseUrl": "",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -153,7 +153,7 @@
 		"samePage": false
 	},
 	"REMOTE ABSOLUTE url with a LOCAL ABSOLUTE base and UNDEFINED html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"htmlBaseUrl": null,
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -162,16 +162,16 @@
 		"samePage": false
 	},
 	"REMOTE ABSOLUTE url with a ROOT-PATH-RELATIVE base and REMOTE ABSOLUTE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a ROOT-PATH-RELATIVE base and LOCAL ABSOLUTE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "/path/link.html?query#hash",
 		"htmlBaseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -180,7 +180,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a ROOT-PATH-RELATIVE base and ROOT-PATH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "/path/link.html?query#hash",
 		"htmlBaseUrl": "/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -189,7 +189,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a ROOT-PATH-RELATIVE base and PATH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "/path/link.html?query#hash",
 		"htmlBaseUrl": "path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -198,7 +198,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a ROOT-PATH-RELATIVE base and RESOURCE-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "/path/link.html?query#hash",
 		"htmlBaseUrl": "link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -207,7 +207,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a ROOT-PATH-RELATIVE base and QUERY-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "/path/link.html?query#hash",
 		"htmlBaseUrl": "?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -216,7 +216,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a ROOT-PATH-RELATIVE base and HASH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "/path/link.html?query#hash",
 		"htmlBaseUrl": "#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -225,7 +225,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a ROOT-PATH-RELATIVE base and EMPTY html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "/path/link.html?query#hash",
 		"htmlBaseUrl": "",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -234,7 +234,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a ROOT-PATH-RELATIVE base and UNDEFINED html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "/path/link.html?query#hash",
 		"htmlBaseUrl": null,
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -243,16 +243,16 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a PATH-RELATIVE base and REMOTE ABSOLUTE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a PATH-RELATIVE base and LOCAL ABSOLUTE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "path/link.html?query#hash",
 		"htmlBaseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -261,7 +261,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a PATH-RELATIVE base and ROOT-PATH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "path/link.html?query#hash",
 		"htmlBaseUrl": "/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -270,7 +270,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a PATH-RELATIVE base and PATH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "path/link.html?query#hash",
 		"htmlBaseUrl": "path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -279,7 +279,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a PATH-RELATIVE base and RESOURCE-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "path/link.html?query#hash",
 		"htmlBaseUrl": "link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -288,7 +288,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a PATH-RELATIVE base and QUERY-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "path/link.html?query#hash",
 		"htmlBaseUrl": "?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -297,7 +297,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a PATH-RELATIVE base and HASH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "path/link.html?query#hash",
 		"htmlBaseUrl": "#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -306,7 +306,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a PATH-RELATIVE base and EMPTY html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "path/link.html?query#hash",
 		"htmlBaseUrl": "",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -315,7 +315,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a PATH-RELATIVE base and UNDEFINED html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "path/link.html?query#hash",
 		"htmlBaseUrl": null,
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -324,16 +324,16 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a RESOURCE-RELATIVE base and REMOTE ABSOLUTE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a RESOURCE-RELATIVE base and LOCAL ABSOLUTE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "link.html?query#hash",
 		"htmlBaseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -342,7 +342,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a RESOURCE-RELATIVE base and ROOT-PATH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "link.html?query#hash",
 		"htmlBaseUrl": "/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -351,7 +351,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a RESOURCE-RELATIVE base and PATH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "link.html?query#hash",
 		"htmlBaseUrl": "path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -360,7 +360,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a RESOURCE-RELATIVE base and RESOURCE-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "link.html?query#hash",
 		"htmlBaseUrl": "link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -369,7 +369,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a RESOURCE-RELATIVE base and QUERY-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "link.html?query#hash",
 		"htmlBaseUrl": "?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -378,7 +378,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a RESOURCE-RELATIVE base and HASH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "link.html?query#hash",
 		"htmlBaseUrl": "#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -387,7 +387,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a RESOURCE-RELATIVE base and EMPTY html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "link.html?query#hash",
 		"htmlBaseUrl": "",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -396,7 +396,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a RESOURCE-RELATIVE base and UNDEFINED html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "link.html?query#hash",
 		"htmlBaseUrl": null,
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -405,16 +405,16 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a QUERY-RELATIVE base and REMOTE ABSOLUTE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a QUERY-RELATIVE base and LOCAL ABSOLUTE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "?query#hash",
 		"htmlBaseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -423,7 +423,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a QUERY-RELATIVE base and ROOT-PATH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "?query#hash",
 		"htmlBaseUrl": "/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -432,7 +432,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a QUERY-RELATIVE base and PATH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "?query#hash",
 		"htmlBaseUrl": "path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -441,7 +441,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a QUERY-RELATIVE base and RESOURCE-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "?query#hash",
 		"htmlBaseUrl": "link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -450,7 +450,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a QUERY-RELATIVE base and QUERY-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "?query#hash",
 		"htmlBaseUrl": "?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -459,7 +459,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a QUERY-RELATIVE base and HASH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "?query#hash",
 		"htmlBaseUrl": "#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -468,7 +468,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a QUERY-RELATIVE base and EMPTY html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "?query#hash",
 		"htmlBaseUrl": "",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -477,7 +477,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a QUERY-RELATIVE base and UNDEFINED html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "?query#hash",
 		"htmlBaseUrl": null,
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -486,16 +486,16 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a HASH-RELATIVE base and REMOTE ABSOLUTE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a HASH-RELATIVE base and LOCAL ABSOLUTE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "#hash",
 		"htmlBaseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -504,7 +504,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a HASH-RELATIVE base and ROOT-PATH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "#hash",
 		"htmlBaseUrl": "/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -513,7 +513,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a HASH-RELATIVE base and PATH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "#hash",
 		"htmlBaseUrl": "path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -522,7 +522,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a HASH-RELATIVE base and RESOURCE-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "#hash",
 		"htmlBaseUrl": "link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -531,7 +531,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a HASH-RELATIVE base and QUERY-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "#hash",
 		"htmlBaseUrl": "?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -540,7 +540,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a HASH-RELATIVE base and HASH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "#hash",
 		"htmlBaseUrl": "#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -549,7 +549,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a HASH-RELATIVE base and EMPTY html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "#hash",
 		"htmlBaseUrl": "",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -558,7 +558,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with a HASH-RELATIVE base and UNDEFINED html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "#hash",
 		"htmlBaseUrl": null,
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -567,16 +567,16 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with an EMPTY base and REMOTE ABSOLUTE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with an EMPTY base and LOCAL ABSOLUTE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "",
 		"htmlBaseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -585,7 +585,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with an EMPTY base and ROOT-PATH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "",
 		"htmlBaseUrl": "/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -594,7 +594,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with an EMPTY base and PATH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "",
 		"htmlBaseUrl": "path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -603,7 +603,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with an EMPTY base and RESOURCE-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "",
 		"htmlBaseUrl": "link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -612,7 +612,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with an EMPTY base and QUERY-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "",
 		"htmlBaseUrl": "?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -621,7 +621,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with an EMPTY base and HASH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "",
 		"htmlBaseUrl": "#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -630,7 +630,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with an EMPTY base and EMPTY html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "",
 		"htmlBaseUrl": "",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -639,7 +639,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with an EMPTY base and UNDEFINED html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": "",
 		"htmlBaseUrl": null,
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -648,16 +648,16 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with an UNDEFINED base and REMOTE ABSOLUTE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": null,
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with an UNDEFINED base and LOCAL ABSOLUTE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": null,
 		"htmlBaseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -666,7 +666,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with an UNDEFINED base and ROOT-PATH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": null,
 		"htmlBaseUrl": "/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -675,7 +675,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with an UNDEFINED base and PATH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": null,
 		"htmlBaseUrl": "path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -684,7 +684,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with an UNDEFINED base and RESOURCE-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": null,
 		"htmlBaseUrl": "link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -693,7 +693,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with an UNDEFINED base and QUERY-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": null,
 		"htmlBaseUrl": "?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -702,7 +702,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with an UNDEFINED base and HASH-RELATIVE html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": null,
 		"htmlBaseUrl": "#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -711,7 +711,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with an UNDEFINED base and EMPTY html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": null,
 		"htmlBaseUrl": "",
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -720,7 +720,7 @@
 		"samePage": null
 	},
 	"REMOTE ABSOLUTE url with an UNDEFINED base and UNDEFINED html base": {
-		"linkUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"linkUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"baseUrl": null,
 		"htmlBaseUrl": null,
 		"resolvedLinkUrl": "{{linkUrl}}",
@@ -730,16 +730,16 @@
 	},
 	"LOCAL ABSOLUTE url with a REMOTE ABSOLUTE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "http://fakeurl.com/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": false,
 		"samePage": false
 	},
 	"LOCAL ABSOLUTE url with a REMOTE ABSOLUTE base and LOCAL ABSOLUTE html base": {
 		"linkUrl": "http://fakeurl.com/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
 		"resolvedBaseUrl": "http://fakeurl.com/path/link.html?query",
@@ -748,73 +748,73 @@
 	},
 	"LOCAL ABSOLUTE url with a REMOTE ABSOLUTE base and ROOT-PATH-RELATIVE html base": {
 		"linkUrl": "http://fakeurl.com/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": false,
 		"samePage": false
 	},
 	"LOCAL ABSOLUTE url with a REMOTE ABSOLUTE base and PATH-RELATIVE html base": {
 		"linkUrl": "http://fakeurl.com/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/path/link.html?query",
 		"internal": false,
 		"samePage": false
 	},
 	"LOCAL ABSOLUTE url with a REMOTE ABSOLUTE base and RESOURCE-RELATIVE html base": {
 		"linkUrl": "http://fakeurl.com/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": false,
 		"samePage": false
 	},
 	"LOCAL ABSOLUTE url with a REMOTE ABSOLUTE base and QUERY-RELATIVE html base": {
 		"linkUrl": "http://fakeurl.com/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": false,
 		"samePage": false
 	},
 	"LOCAL ABSOLUTE url with a REMOTE ABSOLUTE base and HASH-RELATIVE html base": {
 		"linkUrl": "http://fakeurl.com/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": false,
 		"samePage": false
 	},
 	"LOCAL ABSOLUTE url with a REMOTE ABSOLUTE base and EMPTY html base": {
 		"linkUrl": "http://fakeurl.com/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": false,
 		"samePage": false
 	},
 	"LOCAL ABSOLUTE url with a REMOTE ABSOLUTE base and UNDEFINED html base": {
 		"linkUrl": "http://fakeurl.com/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": null,
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": false,
 		"samePage": false
 	},
 	"LOCAL ABSOLUTE url with a LOCAL ABSOLUTE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"baseUrl": "http://fakeurl.com/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
@@ -893,9 +893,9 @@
 	"LOCAL ABSOLUTE url with a ROOT-PATH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"baseUrl": "/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -974,9 +974,9 @@
 	"LOCAL ABSOLUTE url with a PATH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"baseUrl": "path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -1055,9 +1055,9 @@
 	"LOCAL ABSOLUTE url with a RESOURCE-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"baseUrl": "link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -1136,9 +1136,9 @@
 	"LOCAL ABSOLUTE url with a QUERY-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"baseUrl": "?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -1217,9 +1217,9 @@
 	"LOCAL ABSOLUTE url with a HASH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"baseUrl": "#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -1298,9 +1298,9 @@
 	"LOCAL ABSOLUTE url with an EMPTY base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"baseUrl": "",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -1379,9 +1379,9 @@
 	"LOCAL ABSOLUTE url with an UNDEFINED base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"baseUrl": null,
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{linkUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -1459,16 +1459,16 @@
 	},
 	"ROOT-PATH-RELATIVE url with a REMOTE ABSOLUTE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"ROOT-PATH-RELATIVE url with a REMOTE ABSOLUTE base and LOCAL ABSOLUTE html base": {
 		"linkUrl": "/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
 		"resolvedBaseUrl": "http://fakeurl.com/path/link.html?query",
@@ -1477,73 +1477,73 @@
 	},
 	"ROOT-PATH-RELATIVE url with a REMOTE ABSOLUTE base and ROOT-PATH-RELATIVE html base": {
 		"linkUrl": "/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"ROOT-PATH-RELATIVE url with a REMOTE ABSOLUTE base and PATH-RELATIVE html base": {
 		"linkUrl": "/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "path/link.html?query#hash",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"ROOT-PATH-RELATIVE url with a REMOTE ABSOLUTE base and RESOURCE-RELATIVE html base": {
 		"linkUrl": "/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "link.html?query#hash",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"ROOT-PATH-RELATIVE url with a REMOTE ABSOLUTE base and QUERY-RELATIVE html base": {
 		"linkUrl": "/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "?query#hash",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"ROOT-PATH-RELATIVE url with a REMOTE ABSOLUTE base and HASH-RELATIVE html base": {
 		"linkUrl": "/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "#hash",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"ROOT-PATH-RELATIVE url with a REMOTE ABSOLUTE base and EMPTY html base": {
 		"linkUrl": "/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"ROOT-PATH-RELATIVE url with a REMOTE ABSOLUTE base and UNDEFINED html base": {
 		"linkUrl": "/path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": null,
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"ROOT-PATH-RELATIVE url with a LOCAL ABSOLUTE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "/path/link.html?query#hash",
 		"baseUrl": "http://fakeurl.com/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": false,
 		"samePage": false
 	},
@@ -1622,9 +1622,9 @@
 	"ROOT-PATH-RELATIVE url with a ROOT-PATH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "/path/link.html?query#hash",
 		"baseUrl": "/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -1703,9 +1703,9 @@
 	"ROOT-PATH-RELATIVE url with a PATH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "/path/link.html?query#hash",
 		"baseUrl": "path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -1784,9 +1784,9 @@
 	"ROOT-PATH-RELATIVE url with a RESOURCE-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "/path/link.html?query#hash",
 		"baseUrl": "link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -1865,9 +1865,9 @@
 	"ROOT-PATH-RELATIVE url with a QUERY-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "/path/link.html?query#hash",
 		"baseUrl": "?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -1946,9 +1946,9 @@
 	"ROOT-PATH-RELATIVE url with a HASH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "/path/link.html?query#hash",
 		"baseUrl": "#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -2027,9 +2027,9 @@
 	"ROOT-PATH-RELATIVE url with an EMPTY base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "/path/link.html?query#hash",
 		"baseUrl": "",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -2108,9 +2108,9 @@
 	"ROOT-PATH-RELATIVE url with an UNDEFINED base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "/path/link.html?query#hash",
 		"baseUrl": null,
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -2188,16 +2188,16 @@
 	},
 	"PATH-RELATIVE url with a REMOTE ABSOLUTE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/path/link.html?query#hash",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/path/link.html?query#hash",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": false
 	},
 	"PATH-RELATIVE url with a REMOTE ABSOLUTE base and LOCAL ABSOLUTE html base": {
 		"linkUrl": "path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "http://fakeurl.com/path/path/link.html?query#hash",
 		"resolvedBaseUrl": "http://fakeurl.com/path/link.html?query",
@@ -2206,73 +2206,73 @@
 	},
 	"PATH-RELATIVE url with a REMOTE ABSOLUTE base and ROOT-PATH-RELATIVE html base": {
 		"linkUrl": "path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/path/link.html?query#hash",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/path/link.html?query#hash",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": false
 	},
 	"PATH-RELATIVE url with a REMOTE ABSOLUTE base and PATH-RELATIVE html base": {
 		"linkUrl": "path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/path/path/link.html?query#hash",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/path/path/link.html?query#hash",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/path/link.html?query",
 		"internal": true,
 		"samePage": false
 	},
 	"PATH-RELATIVE url with a REMOTE ABSOLUTE base and RESOURCE-RELATIVE html base": {
 		"linkUrl": "path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/path/link.html?query#hash",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/path/link.html?query#hash",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": false
 	},
 	"PATH-RELATIVE url with a REMOTE ABSOLUTE base and QUERY-RELATIVE html base": {
 		"linkUrl": "path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/path/link.html?query#hash",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/path/link.html?query#hash",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": false
 	},
 	"PATH-RELATIVE url with a REMOTE ABSOLUTE base and HASH-RELATIVE html base": {
 		"linkUrl": "path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/path/link.html?query#hash",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/path/link.html?query#hash",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": false
 	},
 	"PATH-RELATIVE url with a REMOTE ABSOLUTE base and EMPTY html base": {
 		"linkUrl": "path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/path/link.html?query#hash",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/path/link.html?query#hash",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": false
 	},
 	"PATH-RELATIVE url with a REMOTE ABSOLUTE base and UNDEFINED html base": {
 		"linkUrl": "path/link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": null,
-		"resolvedLinkUrl": "http://fakeurl2.com/path/path/link.html?query#hash",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/path/link.html?query#hash",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": false
 	},
 	"PATH-RELATIVE url with a LOCAL ABSOLUTE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "path/link.html?query#hash",
 		"baseUrl": "http://fakeurl.com/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/path/link.html?query#hash",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/path/link.html?query#hash",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": false,
 		"samePage": false
 	},
@@ -2351,9 +2351,9 @@
 	"PATH-RELATIVE url with a ROOT-PATH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "path/link.html?query#hash",
 		"baseUrl": "/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/path/link.html?query#hash",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/path/link.html?query#hash",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -2432,9 +2432,9 @@
 	"PATH-RELATIVE url with a PATH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "path/link.html?query#hash",
 		"baseUrl": "path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/path/link.html?query#hash",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/path/link.html?query#hash",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -2513,9 +2513,9 @@
 	"PATH-RELATIVE url with a RESOURCE-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "path/link.html?query#hash",
 		"baseUrl": "link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/path/link.html?query#hash",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/path/link.html?query#hash",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -2594,9 +2594,9 @@
 	"PATH-RELATIVE url with a QUERY-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "path/link.html?query#hash",
 		"baseUrl": "?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/path/link.html?query#hash",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/path/link.html?query#hash",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -2675,9 +2675,9 @@
 	"PATH-RELATIVE url with a HASH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "path/link.html?query#hash",
 		"baseUrl": "#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/path/link.html?query#hash",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/path/link.html?query#hash",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -2756,9 +2756,9 @@
 	"PATH-RELATIVE url with an EMPTY base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "path/link.html?query#hash",
 		"baseUrl": "",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/path/link.html?query#hash",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/path/link.html?query#hash",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -2837,9 +2837,9 @@
 	"PATH-RELATIVE url with an UNDEFINED base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "path/link.html?query#hash",
 		"baseUrl": null,
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/path/link.html?query#hash",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/path/link.html?query#hash",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -2917,16 +2917,16 @@
 	},
 	"RESOURCE-RELATIVE url with a REMOTE ABSOLUTE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"RESOURCE-RELATIVE url with a REMOTE ABSOLUTE base and LOCAL ABSOLUTE html base": {
 		"linkUrl": "link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
 		"resolvedBaseUrl": "http://fakeurl.com/path/link.html?query",
@@ -2935,73 +2935,73 @@
 	},
 	"RESOURCE-RELATIVE url with a REMOTE ABSOLUTE base and ROOT-PATH-RELATIVE html base": {
 		"linkUrl": "link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"RESOURCE-RELATIVE url with a REMOTE ABSOLUTE base and PATH-RELATIVE html base": {
 		"linkUrl": "link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/path/link.html?query#hash",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/path/link.html?query#hash",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/path/link.html?query",
 		"internal": true,
 		"samePage": false
 	},
 	"RESOURCE-RELATIVE url with a REMOTE ABSOLUTE base and RESOURCE-RELATIVE html base": {
 		"linkUrl": "link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "link.html?query#hash",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"RESOURCE-RELATIVE url with a REMOTE ABSOLUTE base and QUERY-RELATIVE html base": {
 		"linkUrl": "link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "?query#hash",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"RESOURCE-RELATIVE url with a REMOTE ABSOLUTE base and HASH-RELATIVE html base": {
 		"linkUrl": "link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "#hash",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"RESOURCE-RELATIVE url with a REMOTE ABSOLUTE base and EMPTY html base": {
 		"linkUrl": "link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"RESOURCE-RELATIVE url with a REMOTE ABSOLUTE base and UNDEFINED html base": {
 		"linkUrl": "link.html?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": null,
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"RESOURCE-RELATIVE url with a LOCAL ABSOLUTE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "link.html?query#hash",
 		"baseUrl": "http://fakeurl.com/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": false,
 		"samePage": false
 	},
@@ -3080,9 +3080,9 @@
 	"RESOURCE-RELATIVE url with a ROOT-PATH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "link.html?query#hash",
 		"baseUrl": "/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -3161,9 +3161,9 @@
 	"RESOURCE-RELATIVE url with a PATH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "link.html?query#hash",
 		"baseUrl": "path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -3242,9 +3242,9 @@
 	"RESOURCE-RELATIVE url with a RESOURCE-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "link.html?query#hash",
 		"baseUrl": "link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -3323,9 +3323,9 @@
 	"RESOURCE-RELATIVE url with a QUERY-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "link.html?query#hash",
 		"baseUrl": "?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -3404,9 +3404,9 @@
 	"RESOURCE-RELATIVE url with a HASH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "link.html?query#hash",
 		"baseUrl": "#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -3485,9 +3485,9 @@
 	"RESOURCE-RELATIVE url with an EMPTY base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "link.html?query#hash",
 		"baseUrl": "",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -3566,9 +3566,9 @@
 	"RESOURCE-RELATIVE url with an UNDEFINED base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "link.html?query#hash",
 		"baseUrl": null,
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -3646,16 +3646,16 @@
 	},
 	"QUERY-RELATIVE url with a REMOTE ABSOLUTE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"QUERY-RELATIVE url with a REMOTE ABSOLUTE base and LOCAL ABSOLUTE html base": {
 		"linkUrl": "?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
 		"resolvedBaseUrl": "http://fakeurl.com/path/link.html?query",
@@ -3664,73 +3664,73 @@
 	},
 	"QUERY-RELATIVE url with a REMOTE ABSOLUTE base and ROOT-PATH-RELATIVE html base": {
 		"linkUrl": "?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"QUERY-RELATIVE url with a REMOTE ABSOLUTE base and PATH-RELATIVE html base": {
 		"linkUrl": "?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/path/link.html?query#hash",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/path/link.html?query#hash",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/path/link.html?query",
 		"internal": true,
 		"samePage": false
 	},
 	"QUERY-RELATIVE url with a REMOTE ABSOLUTE base and RESOURCE-RELATIVE html base": {
 		"linkUrl": "?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "link.html?query#hash",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"QUERY-RELATIVE url with a REMOTE ABSOLUTE base and QUERY-RELATIVE html base": {
 		"linkUrl": "?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "?query#hash",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"QUERY-RELATIVE url with a REMOTE ABSOLUTE base and HASH-RELATIVE html base": {
 		"linkUrl": "?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "#hash",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"QUERY-RELATIVE url with a REMOTE ABSOLUTE base and EMPTY html base": {
 		"linkUrl": "?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"QUERY-RELATIVE url with a REMOTE ABSOLUTE base and UNDEFINED html base": {
 		"linkUrl": "?query#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": null,
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"QUERY-RELATIVE url with a LOCAL ABSOLUTE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "?query#hash",
 		"baseUrl": "http://fakeurl.com/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": false,
 		"samePage": false
 	},
@@ -3809,9 +3809,9 @@
 	"QUERY-RELATIVE url with a ROOT-PATH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "?query#hash",
 		"baseUrl": "/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -3890,9 +3890,9 @@
 	"QUERY-RELATIVE url with a PATH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "?query#hash",
 		"baseUrl": "path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -3971,9 +3971,9 @@
 	"QUERY-RELATIVE url with a RESOURCE-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "?query#hash",
 		"baseUrl": "link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -4052,9 +4052,9 @@
 	"QUERY-RELATIVE url with a QUERY-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "?query#hash",
 		"baseUrl": "?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -4133,9 +4133,9 @@
 	"QUERY-RELATIVE url with a HASH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "?query#hash",
 		"baseUrl": "#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -4214,9 +4214,9 @@
 	"QUERY-RELATIVE url with an EMPTY base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "?query#hash",
 		"baseUrl": "",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -4295,9 +4295,9 @@
 	"QUERY-RELATIVE url with an UNDEFINED base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "?query#hash",
 		"baseUrl": null,
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -4375,16 +4375,16 @@
 	},
 	"HASH-RELATIVE url with a REMOTE ABSOLUTE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"HASH-RELATIVE url with a REMOTE ABSOLUTE base and LOCAL ABSOLUTE html base": {
 		"linkUrl": "#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
 		"resolvedBaseUrl": "http://fakeurl.com/path/link.html?query",
@@ -4393,73 +4393,73 @@
 	},
 	"HASH-RELATIVE url with a REMOTE ABSOLUTE base and ROOT-PATH-RELATIVE html base": {
 		"linkUrl": "#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"HASH-RELATIVE url with a REMOTE ABSOLUTE base and PATH-RELATIVE html base": {
 		"linkUrl": "#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/path/link.html?query#hash",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/path/link.html?query#hash",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/path/link.html?query",
 		"internal": true,
 		"samePage": false
 	},
 	"HASH-RELATIVE url with a REMOTE ABSOLUTE base and RESOURCE-RELATIVE html base": {
 		"linkUrl": "#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "link.html?query#hash",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"HASH-RELATIVE url with a REMOTE ABSOLUTE base and QUERY-RELATIVE html base": {
 		"linkUrl": "#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "?query#hash",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"HASH-RELATIVE url with a REMOTE ABSOLUTE base and HASH-RELATIVE html base": {
 		"linkUrl": "#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "#hash",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"HASH-RELATIVE url with a REMOTE ABSOLUTE base and EMPTY html base": {
 		"linkUrl": "#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "",
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"HASH-RELATIVE url with a REMOTE ABSOLUTE base and UNDEFINED html base": {
 		"linkUrl": "#hash",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": null,
 		"resolvedLinkUrl": "{{baseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"HASH-RELATIVE url with a LOCAL ABSOLUTE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "#hash",
 		"baseUrl": "http://fakeurl.com/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": false,
 		"samePage": false
 	},
@@ -4538,9 +4538,9 @@
 	"HASH-RELATIVE url with a ROOT-PATH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "#hash",
 		"baseUrl": "/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -4619,9 +4619,9 @@
 	"HASH-RELATIVE url with a PATH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "#hash",
 		"baseUrl": "path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -4700,9 +4700,9 @@
 	"HASH-RELATIVE url with a RESOURCE-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "#hash",
 		"baseUrl": "link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -4781,9 +4781,9 @@
 	"HASH-RELATIVE url with a QUERY-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "#hash",
 		"baseUrl": "?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -4862,9 +4862,9 @@
 	"HASH-RELATIVE url with a HASH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "#hash",
 		"baseUrl": "#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -4943,9 +4943,9 @@
 	"HASH-RELATIVE url with an EMPTY base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "#hash",
 		"baseUrl": "",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -5024,9 +5024,9 @@
 	"HASH-RELATIVE url with an UNDEFINED base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "#hash",
 		"baseUrl": null,
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "{{htmlBaseUrl}}",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -5104,16 +5104,16 @@
 	},
 	"EMPTY url with a REMOTE ABSOLUTE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"EMPTY url with a REMOTE ABSOLUTE base and LOCAL ABSOLUTE html base": {
 		"linkUrl": "",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "http://fakeurl.com/path/link.html?query",
 		"resolvedBaseUrl": "http://fakeurl.com/path/link.html?query",
@@ -5122,73 +5122,73 @@
 	},
 	"EMPTY url with a REMOTE ABSOLUTE base and ROOT-PATH-RELATIVE html base": {
 		"linkUrl": "",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"EMPTY url with a REMOTE ABSOLUTE base and PATH-RELATIVE html base": {
 		"linkUrl": "",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/path/link.html?query",
 		"internal": true,
 		"samePage": false
 	},
 	"EMPTY url with a REMOTE ABSOLUTE base and RESOURCE-RELATIVE html base": {
 		"linkUrl": "",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"EMPTY url with a REMOTE ABSOLUTE base and QUERY-RELATIVE html base": {
 		"linkUrl": "",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"EMPTY url with a REMOTE ABSOLUTE base and HASH-RELATIVE html base": {
 		"linkUrl": "",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"EMPTY url with a REMOTE ABSOLUTE base and EMPTY html base": {
 		"linkUrl": "",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"EMPTY url with a REMOTE ABSOLUTE base and UNDEFINED html base": {
 		"linkUrl": "",
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": null,
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"EMPTY url with a LOCAL ABSOLUTE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "",
 		"baseUrl": "http://fakeurl.com/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": false,
 		"samePage": false
 	},
@@ -5267,9 +5267,9 @@
 	"EMPTY url with a ROOT-PATH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "",
 		"baseUrl": "/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -5348,9 +5348,9 @@
 	"EMPTY url with a PATH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "",
 		"baseUrl": "path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -5429,9 +5429,9 @@
 	"EMPTY url with a RESOURCE-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "",
 		"baseUrl": "link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -5510,9 +5510,9 @@
 	"EMPTY url with a QUERY-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "",
 		"baseUrl": "?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -5591,9 +5591,9 @@
 	"EMPTY url with a HASH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "",
 		"baseUrl": "#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -5672,9 +5672,9 @@
 	"EMPTY url with an EMPTY base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "",
 		"baseUrl": "",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -5753,9 +5753,9 @@
 	"EMPTY url with an UNDEFINED base and REMOTE ABSOLUTE html base": {
 		"linkUrl": "",
 		"baseUrl": null,
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -5833,16 +5833,16 @@
 	},
 	"UNDEFINED url with a REMOTE ABSOLUTE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": null,
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"UNDEFINED url with a REMOTE ABSOLUTE base and LOCAL ABSOLUTE html base": {
 		"linkUrl": null,
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "http://fakeurl.com/path/link.html?query#hash",
 		"resolvedLinkUrl": "http://fakeurl.com/path/link.html?query",
 		"resolvedBaseUrl": "http://fakeurl.com/path/link.html?query",
@@ -5851,73 +5851,73 @@
 	},
 	"UNDEFINED url with a REMOTE ABSOLUTE base and ROOT-PATH-RELATIVE html base": {
 		"linkUrl": null,
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"UNDEFINED url with a REMOTE ABSOLUTE base and PATH-RELATIVE html base": {
 		"linkUrl": null,
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/path/link.html?query",
 		"internal": true,
 		"samePage": false
 	},
 	"UNDEFINED url with a REMOTE ABSOLUTE base and RESOURCE-RELATIVE html base": {
 		"linkUrl": null,
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"UNDEFINED url with a REMOTE ABSOLUTE base and QUERY-RELATIVE html base": {
 		"linkUrl": null,
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"UNDEFINED url with a REMOTE ABSOLUTE base and HASH-RELATIVE html base": {
 		"linkUrl": null,
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"UNDEFINED url with a REMOTE ABSOLUTE base and EMPTY html base": {
 		"linkUrl": null,
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": "",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"UNDEFINED url with a REMOTE ABSOLUTE base and UNDEFINED html base": {
 		"linkUrl": null,
-		"baseUrl": "http://fakeurl2.com/path/link.html?query#hash",
+		"baseUrl": "https://fakeurl2.com/path/link.html?query#hash",
 		"htmlBaseUrl": null,
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": true,
 		"samePage": true
 	},
 	"UNDEFINED url with a LOCAL ABSOLUTE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": null,
 		"baseUrl": "http://fakeurl.com/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": false,
 		"samePage": false
 	},
@@ -5996,9 +5996,9 @@
 	"UNDEFINED url with a ROOT-PATH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": null,
 		"baseUrl": "/path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -6077,9 +6077,9 @@
 	"UNDEFINED url with a PATH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": null,
 		"baseUrl": "path/link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -6158,9 +6158,9 @@
 	"UNDEFINED url with a RESOURCE-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": null,
 		"baseUrl": "link.html?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -6239,9 +6239,9 @@
 	"UNDEFINED url with a QUERY-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": null,
 		"baseUrl": "?query#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -6320,9 +6320,9 @@
 	"UNDEFINED url with a HASH-RELATIVE base and REMOTE ABSOLUTE html base": {
 		"linkUrl": null,
 		"baseUrl": "#hash",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -6401,9 +6401,9 @@
 	"UNDEFINED url with an EMPTY base and REMOTE ABSOLUTE html base": {
 		"linkUrl": null,
 		"baseUrl": "",
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},
@@ -6482,9 +6482,9 @@
 	"UNDEFINED url with an UNDEFINED base and REMOTE ABSOLUTE html base": {
 		"linkUrl": null,
 		"baseUrl": null,
-		"htmlBaseUrl": "http://fakeurl2.com/path/link.html?query#hash",
-		"resolvedLinkUrl": "http://fakeurl2.com/path/link.html?query",
-		"resolvedBaseUrl": "http://fakeurl2.com/path/link.html?query",
+		"htmlBaseUrl": "https://fakeurl2.com/path/link.html?query#hash",
+		"resolvedLinkUrl": "https://fakeurl2.com/path/link.html?query",
+		"resolvedBaseUrl": "https://fakeurl2.com/path/link.html?query",
 		"internal": null,
 		"samePage": null
 	},

@@ -2,8 +2,6 @@
 var fs = require("fs");
 var path = require("path");
 
-var utils = require("../utils");
-
 var htmls = 
 {
 	"<a href>":          '<a href="fake.html">link</a>',

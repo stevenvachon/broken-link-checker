@@ -1,5 +1,4 @@
 "use strict";
-var isString = require("is-string");
 var slashes = require("slashes");
 
 var varStringPattern = /{{([^}]+)}}/;
@@ -30,7 +29,7 @@ function addSlashes(str)
 
 function format(input)
 {
-	if (isString(input) === true)
+	if (typeof input === "string")
 	{
 		var match = varStringPattern.exec(input);
 		

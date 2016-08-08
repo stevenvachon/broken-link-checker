@@ -2,7 +2,7 @@
 var messages    = require("../lib/internal/messages");
 var SiteChecker = require("../lib/public/SiteChecker");
 
-var utils = require("./utils");
+var helpers = require("./helpers");
 
 var expect = require("chai").expect;
 
@@ -36,7 +36,7 @@ describe("PUBLIC -- SiteChecker", function()
 {
 	before( function()
 	{
-		return utils.startConnections().then( function(connections)
+		return helpers.startConnections().then( function(connections)
 		{
 			conn = connections;
 		});
@@ -46,7 +46,7 @@ describe("PUBLIC -- SiteChecker", function()
 	
 	after( function()
 	{
-		return utils.stopConnections(conn.realPorts);
+		return helpers.stopConnections(conn.realPorts);
 	});
 	
 	
@@ -55,18 +55,18 @@ describe("PUBLIC -- SiteChecker", function()
 	{
 		describe("enqueue()", function()
 		{
-			it("should accept a valid url", function()
+			it("accepts a valid url", function()
 			{
-				var id = new SiteChecker( utils.options() ).enqueue( conn.absoluteUrls[0] );
+				var id = new SiteChecker( helpers.options() ).enqueue( conn.absoluteUrls[0] );
 				
 				expect(id).to.not.be.an.instanceOf(Error);
 			});
 			
 			
 			
-			it("should reject an invalid url", function()
+			it("rejects an invalid url", function()
 			{
-				var id = new SiteChecker( utils.options() ).enqueue("/path/");
+				var id = new SiteChecker( helpers.options() ).enqueue("/path/");
 				
 				expect(id).to.be.an.instanceOf(Error);
 			});
@@ -82,7 +82,7 @@ describe("PUBLIC -- SiteChecker", function()
 		{
 			var count = 0;
 			
-			new SiteChecker( utils.options(),
+			new SiteChecker( helpers.options(),
 			{
 				html: function(tree, robots, response, pageUrl, customData)
 				{
@@ -105,7 +105,7 @@ describe("PUBLIC -- SiteChecker", function()
 		{
 			var count = 0;
 			
-			new SiteChecker( utils.options(),
+			new SiteChecker( helpers.options(),
 			{
 				link: function(result, customData)
 				{
@@ -127,7 +127,7 @@ describe("PUBLIC -- SiteChecker", function()
 		{
 			var count = 0;
 			
-			new SiteChecker( utils.options(),
+			new SiteChecker( helpers.options(),
 			{
 				page: function(error, pageUrl, customData)
 				{
@@ -148,7 +148,7 @@ describe("PUBLIC -- SiteChecker", function()
 		
 		it("site", function(done)
 		{
-			new SiteChecker( utils.options(),
+			new SiteChecker( helpers.options(),
 			{
 				site: function(error, siteUrl, customData)
 				{
@@ -165,7 +165,7 @@ describe("PUBLIC -- SiteChecker", function()
 		
 		it("end", function(done)
 		{
-			new SiteChecker( utils.options(),
+			new SiteChecker( helpers.options(),
 			{
 				end: function()
 				{
@@ -182,11 +182,11 @@ describe("PUBLIC -- SiteChecker", function()
 	{
 		describe("numActiveLinks()", function()
 		{
-			it("should work", function(done)
+			it("works", function(done)
 			{
 				var htmlCalled = false;
 				
-				var instance = new SiteChecker( utils.options(),
+				var instance = new SiteChecker( helpers.options(),
 				{
 					html: function()
 					{
@@ -217,11 +217,11 @@ describe("PUBLIC -- SiteChecker", function()
 		
 		describe("pause() / resume()", function()
 		{
-			it("should work", function(done)
+			it("works", function(done)
 			{
 				var resumed = false;
 				
-				var instance = new SiteChecker( utils.options(),
+				var instance = new SiteChecker( helpers.options(),
 				{
 					end: function()
 					{
@@ -249,9 +249,9 @@ describe("PUBLIC -- SiteChecker", function()
 		// TODO :: test what happens when the current queue item is dequeued
 		describe("dequeue() / numSites() / numPages() / numQueuedLinks()", function()
 		{
-			it("should accept a valid id", function(done)
+			it("accepts a valid id", function(done)
 			{
-				var instance = new SiteChecker( utils.options(),
+				var instance = new SiteChecker( helpers.options(),
 				{
 					end: function()
 					{
@@ -290,9 +290,9 @@ describe("PUBLIC -- SiteChecker", function()
 			
 			
 			
-			it("should reject an invalid id", function()
+			it("rejects an invalid id", function()
 			{
-				var instance = new SiteChecker( utils.options() );
+				var instance = new SiteChecker( helpers.options() );
 				
 				// Prevent first queued item from immediately starting (and thus being auto-dequeued)
 				instance.pause();
@@ -309,13 +309,13 @@ describe("PUBLIC -- SiteChecker", function()
 	
 	describe("edge cases", function()
 	{
-		it("should support custom data", function(done)
+		it("supports custom data", function(done)
 		{
 			var linkCalled = false;
 			var pageCalled = false;
 			var siteCalled = false;
 			
-			new SiteChecker( utils.options(),
+			new SiteChecker( helpers.options(),
 			{
 				link: function(result, customData)
 				{
@@ -347,12 +347,12 @@ describe("PUBLIC -- SiteChecker", function()
 		
 		
 		
-		it("should support multiple queue items", function(done)
+		it("supports multiple queue items", function(done)
 		{
 			var pageIndex = 0;
 			var results = [];
 			
-			var instance = new SiteChecker( utils.options(),
+			var instance = new SiteChecker( helpers.options(),
 			{
 				link: function(result, customData)
 				{
@@ -408,13 +408,13 @@ describe("PUBLIC -- SiteChecker", function()
 		
 		
 		
-		it("should support html with no links", function(done)
+		it("supports html with no links", function(done)
 		{
 			var linkCount = 0;
 			var pageCalled = false;
 			var siteCalled = false;
 			
-			new SiteChecker( utils.options(),
+			new SiteChecker( helpers.options(),
 			{
 				link: function()
 				{
@@ -440,13 +440,13 @@ describe("PUBLIC -- SiteChecker", function()
 		
 		
 		
-		it("should support pages after html with no links", function(done)
+		it("supports pages after html with no links", function(done)
 		{
 			var linkCount = 0;
 			var pageCount = 0;
 			var siteCount = 0;
 			
-			var instance = new SiteChecker( utils.options(),
+			var instance = new SiteChecker( helpers.options(),
 			{
 				link: function()
 				{
@@ -475,12 +475,12 @@ describe("PUBLIC -- SiteChecker", function()
 		
 		
 		
-		it("should report page+site error when first page's html could not be retrieved", function(done)
+		it("reports a page+site error when first page's html cannot be retrieved", function(done)
 		{
 			var pageCalled = false;
 			var siteCalled = false;
 			
-			new SiteChecker( utils.options(),
+			new SiteChecker( helpers.options(),
 			{
 				page: function(error, pageUrl, customData)
 				{
@@ -507,11 +507,11 @@ describe("PUBLIC -- SiteChecker", function()
 		
 		
 		
-		it("should not report site error when non-first page's html could not be retrieved", function(done)
+		it("does not report site error when non-first page's html cannot be retrieved", function(done)
 		{
 			var pageCount = 0;
 			
-			new SiteChecker( utils.options(),
+			new SiteChecker( helpers.options(),
 			{
 				page: function(error, pageUrl, customData)
 				{
@@ -537,12 +537,12 @@ describe("PUBLIC -- SiteChecker", function()
 		
 		
 		
-		it("should support sites after first page's html could not be retrieved", function(done)
+		it("supports sites after first page's html could not be retrieved", function(done)
 		{
 			var pageCount = 0;
 			var siteCount = 0;
 			
-			var instance = new SiteChecker( utils.options(),
+			var instance = new SiteChecker( helpers.options(),
 			{
 				page: function(error, pageUrl, customData)
 				{
@@ -580,11 +580,11 @@ describe("PUBLIC -- SiteChecker", function()
 		
 		
 		
-		it("should not check a page that has already been checked", function(done)
+		it("does not check a page that has already been checked", function(done)
 		{
 			var pageCount = 0;
 			
-			new SiteChecker( utils.options(),
+			new SiteChecker( helpers.options(),
 			{
 				page: function()
 				{
@@ -600,11 +600,11 @@ describe("PUBLIC -- SiteChecker", function()
 		
 		
 		
-		it("should not check a page that redirects to a page that has already been checked", function(done)
+		it("does not check a page that redirects to a page that has already been checked", function(done)
 		{
 			var pageCount = 0;
 			
-			new SiteChecker( utils.options(),
+			new SiteChecker( helpers.options(),
 			{
 				page: function()
 				{
@@ -620,11 +620,11 @@ describe("PUBLIC -- SiteChecker", function()
 		
 		
 		
-		it("should not check a page that redirects to a page that has already been checked (#2)", function(done)
+		it("does not check a page that redirects to a page that has already been checked (#2)", function(done)
 		{
 			var pageCount = 0;
 			
-			new SiteChecker( utils.options(),
+			new SiteChecker( helpers.options(),
 			{
 				page: function()
 				{
@@ -640,12 +640,12 @@ describe("PUBLIC -- SiteChecker", function()
 		
 		
 		
-		it("should not check a non-first page that redirects to another site", function(done)
+		it("does not check a non-first page that redirects to another site", function(done)
 		{
 			var linkCount = 0;
 			var pageCount = 0;
 			
-			new SiteChecker( utils.options(),
+			new SiteChecker( helpers.options(),
 			{
 				link: function(result, customData)
 				{
@@ -667,11 +667,11 @@ describe("PUBLIC -- SiteChecker", function()
 		
 		
 		
-		it("should check a first page that redirects to another site", function(done)
+		it("checks a first page that redirects to another site", function(done)
 		{
 			var pageCount = 0;
 			
-			new SiteChecker( utils.options(),
+			new SiteChecker( helpers.options(),
 			{
 				page: function(error, pageUrl, customData)
 				{
@@ -688,7 +688,7 @@ describe("PUBLIC -- SiteChecker", function()
 		
 		
 		
-		// TODO :: should not check a non-first page that redirects to another site when options.excludeInternalLinks=true
+		// TODO :: does not check a non-first page that redirects to another site when options.excludeInternalLinks=true
 	});
 	
 	
@@ -699,7 +699,7 @@ describe("PUBLIC -- SiteChecker", function()
 		{
 			var results = [];
 			
-			new SiteChecker( utils.options(),
+			new SiteChecker( helpers.options(),
 			{
 				robots: function(robots)
 				{
@@ -734,7 +734,7 @@ describe("PUBLIC -- SiteChecker", function()
 			var junkResults = [];
 			var robotsCalled = true;
 			
-			new SiteChecker( utils.options({ honorRobotExclusions:true }),
+			new SiteChecker( helpers.options({ honorRobotExclusions:true }),
 			{
 				robots: function(robots, customData)
 				{
@@ -772,7 +772,7 @@ describe("PUBLIC -- SiteChecker", function()
 			var pageIndex = 0;
 			var results = [];
 			
-			new SiteChecker( utils.options(),
+			new SiteChecker( helpers.options(),
 			{
 				robots: function(robots)
 				{
@@ -819,7 +819,7 @@ describe("PUBLIC -- SiteChecker", function()
 			var pageIndex = 0;
 			var results = [];
 			
-			new SiteChecker( utils.options({ honorRobotExclusions:true }),
+			new SiteChecker( helpers.options({ honorRobotExclusions:true }),
 			{
 				junk: function(result)
 				{

@@ -7,7 +7,7 @@ var expect = require("chai").expect;
 
 describe("matchUrl", function()
 {
-	it("should work", function()
+	it("works", function()
 	{
 		expect( matchUrl("http://keyword.com/", []) ).to.be.false;
 		

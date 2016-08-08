@@ -1,7 +1,7 @@
 "use strict";
 var HtmlChecker = require("../lib/public/HtmlChecker");
 
-var utils = require("./utils");
+var helpers = require("./helpers");
 
 var expect = require("chai").expect;
 
@@ -9,7 +9,7 @@ var allTagsString,baseUrl,commonHtmlString,conn;
 
 function commonHtmlStream()
 {
-	return utils.fixture.stream("/normal/index.html");
+	return helpers.fixture.stream("/normal/index.html");
 }
 
 
@@ -18,12 +18,12 @@ describe("PUBLIC -- HtmlChecker", function()
 {
 	before( function()
 	{
-		return utils.startConnections().then( function(connections)
+		return helpers.startConnections().then( function(connections)
 		{
 			conn = connections;
-			allTagsString = utils.tagsString(3, conn.absoluteUrls[0]);
+			allTagsString = helpers.tagsString(3, conn.absoluteUrls[0]);
 			baseUrl = conn.absoluteUrls[0]+"/normal/index.html";
-			commonHtmlString = utils.fixture.string("/normal/index.html");
+			commonHtmlString = helpers.fixture.string("/normal/index.html");
 		});
 	});
 	
@@ -31,7 +31,7 @@ describe("PUBLIC -- HtmlChecker", function()
 	
 	after( function()
 	{
-		return utils.stopConnections(conn.realPorts);
+		return helpers.stopConnections(conn.realPorts);
 	});
 	
 	
@@ -40,27 +40,27 @@ describe("PUBLIC -- HtmlChecker", function()
 	{
 		describe("scan()", function()
 		{
-			it("should take a string when ready", function()
+			it("takes a string when ready", function()
 			{
-				var scanning = new HtmlChecker( utils.options() ).scan(commonHtmlString, baseUrl);
+				var scanning = new HtmlChecker( helpers.options() ).scan(commonHtmlString, baseUrl);
 				
 				expect(scanning).to.be.true;
 			});
 			
 			
 			
-			it("should take a stream when ready", function()
+			it("takes a stream when ready", function()
 			{
-				var scanning = new HtmlChecker( utils.options() ).scan(commonHtmlStream(), baseUrl);
+				var scanning = new HtmlChecker( helpers.options() ).scan(commonHtmlStream(), baseUrl);
 				
 				expect(scanning).to.be.true;
 			});
 			
 			
 			
-			it("should report if not ready", function()
+			it("reports if not ready", function()
 			{
-				var instance = new HtmlChecker( utils.options() );
+				var instance = new HtmlChecker( helpers.options() );
 				
 				instance.scan(commonHtmlString, baseUrl);
 				
@@ -78,7 +78,7 @@ describe("PUBLIC -- HtmlChecker", function()
 	{
 		it("html", function(done)
 		{
-			new HtmlChecker( utils.options(),
+			new HtmlChecker( helpers.options(),
 			{
 				html: function(tree, robots)
 				{
@@ -95,7 +95,7 @@ describe("PUBLIC -- HtmlChecker", function()
 		{
 			var count = 0;
 			
-			new HtmlChecker( utils.options(),
+			new HtmlChecker( helpers.options(),
 			{
 				link: function(result)
 				{
@@ -114,7 +114,7 @@ describe("PUBLIC -- HtmlChecker", function()
 		
 		it("complete", function(done)
 		{
-			new HtmlChecker( utils.options(),
+			new HtmlChecker( helpers.options(),
 			{
 				complete: function()
 				{
@@ -131,11 +131,11 @@ describe("PUBLIC -- HtmlChecker", function()
 	{
 		describe("numActiveLinks()", function()
 		{
-			it("should work", function(done)
+			it("works", function(done)
 			{
 				var checked = false;
 				
-				var instance = new HtmlChecker( utils.options(),
+				var instance = new HtmlChecker( helpers.options(),
 				{
 					complete: function()
 					{
@@ -160,11 +160,11 @@ describe("PUBLIC -- HtmlChecker", function()
 		
 		describe("pause() / resume()", function()
 		{
-			it("should work", function(done)
+			it("works", function(done)
 			{
 				var resumed = false;
 				
-				var instance = new HtmlChecker( utils.options(),
+				var instance = new HtmlChecker( helpers.options(),
 				{
 					complete: function()
 					{
@@ -191,9 +191,9 @@ describe("PUBLIC -- HtmlChecker", function()
 		
 		describe("numQueuedLinks()", function()
 		{
-			it("should work", function(done)
+			it("works", function(done)
 			{
-				var instance = new HtmlChecker( utils.options(),
+				var instance = new HtmlChecker( helpers.options(),
 				{
 					complete: function()
 					{
@@ -222,11 +222,11 @@ describe("PUBLIC -- HtmlChecker", function()
 	
 	describe("edge cases", function()
 	{
-		it("should support multiple links", function(done)
+		it("supports multiple links", function(done)
 		{
 			var results = [];
 			
-			new HtmlChecker( utils.options(),
+			new HtmlChecker( helpers.options(),
 			{
 				link: function(result)
 				{
@@ -244,11 +244,11 @@ describe("PUBLIC -- HtmlChecker", function()
 		
 		
 		
-		it("should support html with no links", function(done)
+		it("supports html with no links", function(done)
 		{
 			var count = 0;
 			
-			new HtmlChecker( utils.options(),
+			new HtmlChecker( helpers.options(),
 			{
 				link: function()
 				{
@@ -259,7 +259,7 @@ describe("PUBLIC -- HtmlChecker", function()
 					expect(count).to.equal(0);
 					done();
 				}
-			}).scan( utils.fixture.string("/normal/no-links.html"), baseUrl );
+			}).scan( helpers.fixture.string("/normal/no-links.html"), baseUrl );
 		});
 	});
 	
@@ -274,7 +274,7 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			var results = [];
 			
-			new HtmlChecker( utils.options(),
+			new HtmlChecker( helpers.options(),
 			{
 				junk: function(result)
 				{
@@ -307,7 +307,7 @@ describe("PUBLIC -- HtmlChecker", function()
 			var junkResults = [];
 			var results = [];
 			
-			new HtmlChecker( utils.options({ excludedKeywords:[conn.absoluteUrls[0]] }),
+			new HtmlChecker( helpers.options({ excludedKeywords:[conn.absoluteUrls[0]] }),
 			{
 				junk: function(result)
 				{
@@ -353,7 +353,7 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			var results = [];
 			
-			new HtmlChecker( utils.options({ excludedSchemes:[] }),
+			new HtmlChecker( helpers.options({ excludedSchemes:[] }),
 			{
 				junk: function(result)
 				{
@@ -390,7 +390,7 @@ describe("PUBLIC -- HtmlChecker", function()
 			var junkResults = [];
 			
 			// Uses default `excludedSchemes` value to ensure that any change to it will break this test
-			new HtmlChecker( utils.options(),
+			new HtmlChecker( helpers.options(),
 			{
 				junk: function(result)
 				{
@@ -424,7 +424,7 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			var results = [];
 			
-			new HtmlChecker( utils.options(),
+			new HtmlChecker( helpers.options(),
 			{
 				junk: function(result)
 				{
@@ -465,7 +465,7 @@ describe("PUBLIC -- HtmlChecker", function()
 			var junkResults = [];
 			var results = [];
 			
-			new HtmlChecker( utils.options({ excludeExternalLinks:true }),
+			new HtmlChecker( helpers.options({ excludeExternalLinks:true }),
 			{
 				junk: function(result)
 				{
@@ -512,7 +512,7 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			var results = [];
 			
-			new HtmlChecker( utils.options(),
+			new HtmlChecker( helpers.options(),
 			{
 				junk: function(result)
 				{
@@ -547,7 +547,7 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			var junkResults = [];
 			
-			new HtmlChecker( utils.options({ excludeInternalLinks:true }),
+			new HtmlChecker( helpers.options({ excludeInternalLinks:true }),
 			{
 				junk: function(result)
 				{
@@ -583,7 +583,7 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			var results = [];
 			
-			new HtmlChecker( utils.options(),
+			new HtmlChecker( helpers.options(),
 			{
 				junk: function(result)
 				{
@@ -644,7 +644,7 @@ describe("PUBLIC -- HtmlChecker", function()
 			var junkResults = [];
 			var results = [];
 			
-			new HtmlChecker( utils.options({ excludeLinksToSamePage:true }),
+			new HtmlChecker( helpers.options({ excludeLinksToSamePage:true }),
 			{
 				junk: function(result)
 				{
@@ -710,7 +710,7 @@ describe("PUBLIC -- HtmlChecker", function()
 			var junkResults = [];
 			var results = [];
 			
-			new HtmlChecker( utils.options({ filterLevel:0 }),
+			new HtmlChecker( helpers.options({ filterLevel:0 }),
 			{
 				junk: function(result)
 				{
@@ -750,7 +750,7 @@ describe("PUBLIC -- HtmlChecker", function()
 			var junkResults = [];
 			var results = [];
 			
-			new HtmlChecker( utils.options({ filterLevel:1 }),
+			new HtmlChecker( helpers.options({ filterLevel:1 }),
 			{
 				junk: function(result)
 				{
@@ -790,7 +790,7 @@ describe("PUBLIC -- HtmlChecker", function()
 			var junkResults = [];
 			var results = [];
 			
-			new HtmlChecker( utils.options({ filterLevel:2 }),
+			new HtmlChecker( helpers.options({ filterLevel:2 }),
 			{
 				junk: function(result)
 				{
@@ -829,7 +829,7 @@ describe("PUBLIC -- HtmlChecker", function()
 		{
 			var results = [];
 			
-			new HtmlChecker( utils.options(),
+			new HtmlChecker( helpers.options(),
 			{
 				junk: function(result)
 				{
@@ -863,7 +863,7 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			var results = [];
 			
-			new HtmlChecker( utils.options(),
+			new HtmlChecker( helpers.options(),
 			{
 				junk: function(result)
 				{
@@ -897,7 +897,7 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			var junkResults = [];
 			
-			new HtmlChecker( utils.options({ honorRobotExclusions:true }),
+			new HtmlChecker( helpers.options({ honorRobotExclusions:true }),
 			{
 				junk: function(result)
 				{
@@ -930,7 +930,7 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			var results = [];
 			
-			new HtmlChecker( utils.options(),
+			new HtmlChecker( helpers.options(),
 			{
 				junk: function(result)
 				{
@@ -963,7 +963,7 @@ describe("PUBLIC -- HtmlChecker", function()
 			
 			var junkResults = [];
 			
-			new HtmlChecker( utils.options({ honorRobotExclusions:true }),
+			new HtmlChecker( helpers.options({ honorRobotExclusions:true }),
 			{
 				junk: function(result)
 				{

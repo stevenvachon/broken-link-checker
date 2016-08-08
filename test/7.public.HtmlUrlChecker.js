@@ -2,7 +2,7 @@
 var HtmlUrlChecker = require("../lib/public/HtmlUrlChecker");
 var messages       = require("../lib/internal/messages");
 
-var utils = require("./utils");
+var helpers = require("./helpers");
 
 var expect = require("chai").expect;
 
@@ -14,7 +14,7 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 {
 	before( function()
 	{
-		return utils.startConnection().then( function(connection)
+		return helpers.startConnection().then( function(connection)
 		{
 			conn = connection;
 		});
@@ -24,7 +24,7 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 	
 	after( function()
 	{
-		return utils.stopConnection(conn.realPort);
+		return helpers.stopConnection(conn.realPort);
 	});
 	
 	
@@ -33,18 +33,18 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 	{
 		describe("enqueue()", function()
 		{
-			it("should accept a valid url", function()
+			it("accepts a valid url", function()
 			{
-				var id = new HtmlUrlChecker( utils.options() ).enqueue(conn.absoluteUrl);
+				var id = new HtmlUrlChecker( helpers.options() ).enqueue(conn.absoluteUrl);
 				
 				expect(id).to.not.be.an.instanceOf(Error);
 			});
 			
 			
 			
-			it("should reject an invalid url", function()
+			it("rejects an invalid url", function()
 			{
-				var id = new HtmlUrlChecker( utils.options() ).enqueue("/path/");
+				var id = new HtmlUrlChecker( helpers.options() ).enqueue("/path/");
 				
 				expect(id).to.be.an.instanceOf(Error);
 			});
@@ -58,7 +58,7 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 	{
 		it("html", function(done)
 		{
-			new HtmlUrlChecker( utils.options(),
+			new HtmlUrlChecker( helpers.options(),
 			{
 				html: function(tree, robots, response, pageUrl, customData)
 				{
@@ -78,7 +78,7 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 		{
 			var count = 0;
 			
-			new HtmlUrlChecker( utils.options(),
+			new HtmlUrlChecker( helpers.options(),
 			{
 				link: function(result, customData)
 				{
@@ -98,7 +98,7 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 		
 		it("page", function(done)
 		{
-			new HtmlUrlChecker( utils.options(),
+			new HtmlUrlChecker( helpers.options(),
 			{
 				page: function(error, pageUrl, customData)
 				{
@@ -115,7 +115,7 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 		
 		it("end", function(done)
 		{
-			new HtmlUrlChecker( utils.options(),
+			new HtmlUrlChecker( helpers.options(),
 			{
 				end: function()
 				{
@@ -132,11 +132,11 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 	{
 		describe("numActiveLinks()", function()
 		{
-			it("should work", function(done)
+			it("works", function(done)
 			{
 				var htmlCalled = false;
 				
-				var instance = new HtmlUrlChecker( utils.options(),
+				var instance = new HtmlUrlChecker( helpers.options(),
 				{
 					html: function()
 					{
@@ -165,11 +165,11 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 		
 		describe("pause() / resume()", function()
 		{
-			it("should work", function(done)
+			it("works", function(done)
 			{
 				var resumed = false;
 				
-				var instance = new HtmlUrlChecker( utils.options(),
+				var instance = new HtmlUrlChecker( helpers.options(),
 				{
 					end: function()
 					{
@@ -197,9 +197,9 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 		// TODO :: test what happens when the current queue item is dequeued
 		describe("dequeue() / numPages() / numQueuedLinks()", function()
 		{
-			it("should accept a valid id", function(done)
+			it("accepts a valid id", function(done)
 			{
-				var instance = new HtmlUrlChecker( utils.options(),
+				var instance = new HtmlUrlChecker( helpers.options(),
 				{
 					end: function()
 					{
@@ -234,9 +234,9 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 			
 			
 			
-			it("should reject an invalid id", function()
+			it("rejects an invalid id", function()
 			{
-				var instance = new HtmlUrlChecker( utils.options() );
+				var instance = new HtmlUrlChecker( helpers.options() );
 				
 				// Prevent first queued item from immediately starting (and thus being auto-dequeued)
 				instance.pause();
@@ -253,12 +253,12 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 	
 	describe("edge cases", function()
 	{
-		it("should support custom data", function(done)
+		it("supports custom data", function(done)
 		{
 			var linkCalled = false;
 			var pageCalled = false;
 			
-			new HtmlUrlChecker( utils.options(),
+			new HtmlUrlChecker( helpers.options(),
 			{
 				link: function(result, customData)
 				{
@@ -283,11 +283,11 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 		
 		
 		
-		it("should support multiple queue items", function(done)
+		it("supports multiple queue items", function(done)
 		{
 			var results = [];
 			
-			var instance = new HtmlUrlChecker( utils.options(),
+			var instance = new HtmlUrlChecker( helpers.options(),
 			{
 				link: function(result, customData)
 				{
@@ -320,12 +320,12 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 		
 		
 		
-		it("should support html with no links", function(done)
+		it("supports html with no links", function(done)
 		{
 			var linkCount = 0;
 			var pageCalled = false;
 			
-			new HtmlUrlChecker( utils.options(),
+			new HtmlUrlChecker( helpers.options(),
 			{
 				link: function()
 				{
@@ -346,12 +346,12 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 		
 		
 		
-		it("should support pages after html with no links", function(done)
+		it("supports pages after html with no links", function(done)
 		{
 			var linkCount = 0;
 			var pageCount = 0;
 			
-			var instance = new HtmlUrlChecker( utils.options(),
+			var instance = new HtmlUrlChecker( helpers.options(),
 			{
 				link: function()
 				{
@@ -375,11 +375,11 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 		
 		
 		
-		it("should report error when html could not be retrieved", function(done)
+		it("reports an error when html cannot be retrieved", function(done)
 		{
 			var pageCalled = false;
 			
-			new HtmlUrlChecker( utils.options(),
+			new HtmlUrlChecker( helpers.options(),
 			{
 				page: function(error, pageUrl, customData)
 				{
@@ -398,11 +398,11 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 		
 		
 		
-		it("should support pages after html could not be retrieved", function(done)
+		it("supports pages after html could not be retrieved", function(done)
 		{
 			var pageCount = 0;
 			
-			var instance = new HtmlUrlChecker( utils.options(),
+			var instance = new HtmlUrlChecker( helpers.options(),
 			{
 				page: function(error, pageUrl, customData)
 				{
@@ -435,7 +435,7 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 		{
 			var results = [];
 			
-			new HtmlUrlChecker( utils.options(),
+			new HtmlUrlChecker( helpers.options(),
 			{
 				junk: function(result)
 				{
@@ -465,7 +465,7 @@ describe("PUBLIC -- HtmlUrlChecker", function()
 		{
 			var junkResults = [];
 			
-			new HtmlUrlChecker( utils.options({ honorRobotExclusions:true }),
+			new HtmlUrlChecker( helpers.options({ honorRobotExclusions:true }),
 			{
 				junk: function(result)
 				{

@@ -1,5 +1,5 @@
 "use strict";
-var utils = require("./utils");
+var helpers = require("./helpers");
 
 var expect = require("chai").expect;
 
@@ -11,7 +11,7 @@ describe("CLI", function()
 {
 	before( function()
 	{
-		return utils.startConnections().then( function(connections)
+		return helpers.startConnections().then( function(connections)
 		{
 			conn = connections;
 		});
@@ -21,12 +21,12 @@ describe("CLI", function()
 	
 	after( function()
 	{
-		return utils.stopConnections(conn.realPorts);
+		return helpers.stopConnections(conn.realPorts);
 	});
 	
 	
 	
-	it.skip("should work", function(done)
+	it.skip("works", function(done)
 	{
 		done();
 	});

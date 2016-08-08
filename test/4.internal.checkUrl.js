@@ -1,7 +1,7 @@
 "use strict";
 var checkUrl = require("../lib/internal/checkUrl");
 
-var utils = require("./utils");
+var helpers = require("./helpers");
 
 var expect = require("chai").expect;
 var UrlCache = require("urlcache");
@@ -15,7 +15,7 @@ describe("INTERNAL -- checkUrl", function()
 {
 	before( function()
 	{
-		return utils.startConnections().then( function(connections)
+		return helpers.startConnections().then( function(connections)
 		{
 			conn = connections;
 		});
@@ -25,18 +25,18 @@ describe("INTERNAL -- checkUrl", function()
 	
 	after( function()
 	{
-		return utils.stopConnections(conn.realPorts);
+		return helpers.stopConnections(conn.realPorts);
 	});
 	
 	
 	
-	it("should resolve the promise", function()
+	it("resolves a promise", function()
 	{
 		return checkUrl(
 			conn.absoluteUrls[0]+"/normal/no-links.html",
 			conn.absoluteUrls[0],
 			new UrlCache(),
-			utils.options()
+			helpers.options()
 		)
 		.then( function(result)
 		{
@@ -52,7 +52,7 @@ describe("INTERNAL -- checkUrl", function()
 	
 	
 	
-	describe("should not be broken with a REAL HOST and REAL PATH from", function()
+	describe("shall not be broken with a REAL HOST and REAL PATH from", function()
 	{
 		it("an absolute url", function()
 		{
@@ -60,7 +60,7 @@ describe("INTERNAL -- checkUrl", function()
 				conn.absoluteUrls[0]+"/normal/no-links.html",
 				conn.absoluteUrls[0],
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -97,7 +97,7 @@ describe("INTERNAL -- checkUrl", function()
 				conn.relativeUrls[0]+"/normal/no-links.html",
 				conn.absoluteUrls[0],
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -134,7 +134,7 @@ describe("INTERNAL -- checkUrl", function()
 				"/normal/no-links.html",
 				conn.absoluteUrls[0],
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -171,7 +171,7 @@ describe("INTERNAL -- checkUrl", function()
 				"normal/no-links.html",
 				conn.absoluteUrls[0],
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -208,7 +208,7 @@ describe("INTERNAL -- checkUrl", function()
 				"?query",
 				conn.absoluteUrls[0]+"/normal/no-links.html",
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -245,7 +245,7 @@ describe("INTERNAL -- checkUrl", function()
 				"#hash",
 				conn.absoluteUrls[0]+"/normal/no-links.html",
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -282,7 +282,7 @@ describe("INTERNAL -- checkUrl", function()
 				"",
 				conn.absoluteUrls[0]+"/normal/no-links.html",
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -314,7 +314,7 @@ describe("INTERNAL -- checkUrl", function()
 	
 	
 	
-	describe("should be broken with a REAL HOST and FAKE PATH from", function()
+	describe("shall be broken with a REAL HOST and FAKE PATH from", function()
 	{
 		it("an absolute url", function()
 		{
@@ -322,7 +322,7 @@ describe("INTERNAL -- checkUrl", function()
 				conn.absoluteUrls[0]+"/normal/fake.html",
 				conn.absoluteUrls[0],
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -359,7 +359,7 @@ describe("INTERNAL -- checkUrl", function()
 				conn.relativeUrls[0]+"/normal/fake.html",
 				conn.absoluteUrls[0],
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -396,7 +396,7 @@ describe("INTERNAL -- checkUrl", function()
 				"/normal/fake.html",
 				conn.absoluteUrls[0],
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -433,7 +433,7 @@ describe("INTERNAL -- checkUrl", function()
 				"normal/fake.html",
 				conn.absoluteUrls[0],
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -470,7 +470,7 @@ describe("INTERNAL -- checkUrl", function()
 				"?query",
 				conn.absoluteUrls[0]+"/normal/fake.html",
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -507,7 +507,7 @@ describe("INTERNAL -- checkUrl", function()
 				"#hash",
 				conn.absoluteUrls[0]+"/normal/fake.html",
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -544,7 +544,7 @@ describe("INTERNAL -- checkUrl", function()
 				"",
 				conn.absoluteUrls[0]+"/normal/fake.html",
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -578,7 +578,7 @@ describe("INTERNAL -- checkUrl", function()
 	
 	// Technically it's a real host with a fake port, but same goal
 	// and faster than testing a remote http://asdf1234.asdf1234
-	describe("should be broken and have error with a FAKE HOST from", function()
+	describe("shall be broken and have error with a FAKE HOST from", function()
 	{
 		it("an absolute url", function()
 		{
@@ -586,7 +586,7 @@ describe("INTERNAL -- checkUrl", function()
 				conn.fakeAbsoluteUrl+"/path/to/resource.html",
 				conn.fakeAbsoluteUrl,
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -622,7 +622,7 @@ describe("INTERNAL -- checkUrl", function()
 				conn.fakeRelativeUrl+"/path/to/resource.html",
 				conn.fakeAbsoluteUrl,
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -658,7 +658,7 @@ describe("INTERNAL -- checkUrl", function()
 				"/path/to/resource.html",
 				conn.fakeAbsoluteUrl,
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -694,7 +694,7 @@ describe("INTERNAL -- checkUrl", function()
 				"path/to/resource.html",
 				conn.fakeAbsoluteUrl,
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -730,7 +730,7 @@ describe("INTERNAL -- checkUrl", function()
 				"?query",
 				conn.fakeAbsoluteUrl+"/path/to/resource.html",
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -766,7 +766,7 @@ describe("INTERNAL -- checkUrl", function()
 				"#hash",
 				conn.fakeAbsoluteUrl+"/path/to/resource.html",
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -802,7 +802,7 @@ describe("INTERNAL -- checkUrl", function()
 				"",
 				conn.fakeAbsoluteUrl+"/path/to/resource.html",
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -833,7 +833,7 @@ describe("INTERNAL -- checkUrl", function()
 	
 	
 	
-	describe("should be broken and have error with NO HOST from", function()
+	describe("shall be broken and have error with NO HOST from", function()
 	{
 		it("an absolute url", function()
 		{
@@ -841,7 +841,7 @@ describe("INTERNAL -- checkUrl", function()
 				"http://",
 				null,
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -884,7 +884,7 @@ describe("INTERNAL -- checkUrl", function()
 				conn.relativeUrls[0]+"/no-links.html",
 				null,
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -920,7 +920,7 @@ describe("INTERNAL -- checkUrl", function()
 				"/normal/no-links.html",
 				null,
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -956,7 +956,7 @@ describe("INTERNAL -- checkUrl", function()
 				"normal/no-links.html",
 				null,
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -992,7 +992,7 @@ describe("INTERNAL -- checkUrl", function()
 				"?query",
 				null,
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -1028,7 +1028,7 @@ describe("INTERNAL -- checkUrl", function()
 				"#hash",
 				null,
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -1064,7 +1064,7 @@ describe("INTERNAL -- checkUrl", function()
 				"",
 				null,
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -1095,7 +1095,7 @@ describe("INTERNAL -- checkUrl", function()
 	
 	
 	
-	describe("should be broken and have error from", function()
+	describe("shall be broken and have error from", function()
 	{
 		it("a data uri", function()
 		{
@@ -1103,7 +1103,7 @@ describe("INTERNAL -- checkUrl", function()
 				"data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACH/C1hNUCBEYXRhWE1QAz94cAAsAAAAAAEAAQAAAgJEAQA7",
 				null,
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -1139,7 +1139,7 @@ describe("INTERNAL -- checkUrl", function()
 				"tel:+5-555-555-5555",
 				null,
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -1170,7 +1170,7 @@ describe("INTERNAL -- checkUrl", function()
 	
 	
 	
-	describe("should not be broken with a REDIRECTED url", function()
+	describe("shall not be broken with a REDIRECTED url", function()
 	{
 		it("containing no query or hash", function()
 		{
@@ -1178,7 +1178,7 @@ describe("INTERNAL -- checkUrl", function()
 				conn.absoluteUrls[0]+"/redirect/redirect.html",
 				conn.absoluteUrls[0],
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -1215,7 +1215,7 @@ describe("INTERNAL -- checkUrl", function()
 				conn.absoluteUrls[0]+"/redirect/redirect.html?query",
 				conn.absoluteUrls[0],
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -1252,7 +1252,7 @@ describe("INTERNAL -- checkUrl", function()
 				conn.absoluteUrls[0]+"/redirect/redirect.html#hash",
 				conn.absoluteUrls[0],
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -1286,7 +1286,7 @@ describe("INTERNAL -- checkUrl", function()
 	
 	describe("url object input", function()
 	{
-		it.skip("should work", function()
+		it.skip("works", function()
 		{
 			
 		});
@@ -1296,7 +1296,7 @@ describe("INTERNAL -- checkUrl", function()
 	
 	describe("caching", function()
 	{
-		it("should store the response", function()
+		it("stores the response", function()
 		{
 			var cache = new UrlCache();
 			
@@ -1304,7 +1304,7 @@ describe("INTERNAL -- checkUrl", function()
 				conn.absoluteUrls[0]+"/normal/no-links.html",
 				conn.absoluteUrls[0],
 				cache,
-				utils.options({ cacheResponses:true })
+				helpers.options({ cacheResponses:true })
 			)
 			.then( function()
 			{
@@ -1318,7 +1318,7 @@ describe("INTERNAL -- checkUrl", function()
 		
 		
 		
-		it("should store the response of a redirected url", function()
+		it("stores the response of a redirected url", function()
 		{
 			var cache = new UrlCache();
 			
@@ -1326,7 +1326,7 @@ describe("INTERNAL -- checkUrl", function()
 				conn.absoluteUrls[0]+"/redirect/redirect.html",
 				conn.absoluteUrls[0],
 				cache,
-				utils.options({ cacheResponses:true })
+				helpers.options({ cacheResponses:true })
 			)
 			.then( function()
 			{
@@ -1349,7 +1349,7 @@ describe("INTERNAL -- checkUrl", function()
 		
 		
 		// NOTE :: not stored because we check first
-		it("should not store the error from an erroneous url", function()
+		it("does not store the error from an erroneous url", function()
 		{
 			var cache = new UrlCache();
 			
@@ -1357,7 +1357,7 @@ describe("INTERNAL -- checkUrl", function()
 				"/normal/fake.html",
 				null,
 				cache,
-				utils.options({ cacheResponses:true })
+				helpers.options({ cacheResponses:true })
 			)
 			.then( function()
 			{
@@ -1371,7 +1371,7 @@ describe("INTERNAL -- checkUrl", function()
 		
 		
 		
-		it("should request a unique url only once", function()
+		it("requests a unique url only once", function()
 		{
 			var cache = new UrlCache();
 			
@@ -1379,7 +1379,7 @@ describe("INTERNAL -- checkUrl", function()
 				conn.absoluteUrls[0]+"/normal/no-links.html",
 				conn.absoluteUrls[0],
 				cache,
-				utils.options({ cacheResponses:true })
+				helpers.options({ cacheResponses:true })
 			)
 			.then( function()
 			{
@@ -1396,7 +1396,7 @@ describe("INTERNAL -- checkUrl", function()
 					conn.absoluteUrls[0]+"/normal/no-links.html",
 					conn.absoluteUrls[0],
 					cache,
-					utils.options({ cacheResponses:true })
+					helpers.options({ cacheResponses:true })
 				);
 			})
 			.then( function()
@@ -1427,7 +1427,7 @@ describe("INTERNAL -- checkUrl", function()
 				conn.absoluteUrls[0]+"/method-not-allowed/head.html",
 				conn.absoluteUrls[0],
 				new UrlCache(),
-				utils.options()
+				helpers.options()
 			)
 			.then( function(result)
 			{
@@ -1449,7 +1449,7 @@ describe("INTERNAL -- checkUrl", function()
 				conn.absoluteUrls[0]+"/method-not-allowed/any.html",
 				conn.absoluteUrls[0],
 				new UrlCache(),
-				utils.options({ requestMethod:"get" })
+				helpers.options({ requestMethod:"get" })
 			)
 			.then( function(result)
 			{
@@ -1471,7 +1471,7 @@ describe("INTERNAL -- checkUrl", function()
 				conn.absoluteUrls[0]+"/method-not-allowed/head.html",
 				conn.absoluteUrls[0],
 				new UrlCache(),
-				utils.options({ retry405Head:true })
+				helpers.options({ retry405Head:true })
 			)
 			.then( function(result)
 			{
@@ -1493,7 +1493,7 @@ describe("INTERNAL -- checkUrl", function()
 				conn.absoluteUrls[0]+"/method-not-allowed/any.html",
 				conn.absoluteUrls[0],
 				new UrlCache(),
-				utils.options({ retry405Head:true })
+				helpers.options({ retry405Head:true })
 			)
 			.then( function(result)
 			{

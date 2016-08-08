@@ -1,12 +1,12 @@
 "use strict";
 var linkObj = require("../lib/internal/linkObj");
 
-var urlTests = require("./json/linkObj.json");
-var utils    = require("./utils");
+var helpers  = require("./helpers");
+var urlTests = require("./helpers/json/linkObj.json");
 
 var expect = require("chai").expect;
 
-var options = utils.options();
+var options = helpers.options();
 
 
 
@@ -14,7 +14,7 @@ describe("INTERNAL -- linkObj", function()
 {
 	describe("linkObj()", function()
 	{
-		it("should work", function()
+		it("works", function()
 		{
 			var link = linkObj("http://fakeurl.com/");
 			
@@ -33,7 +33,7 @@ describe("INTERNAL -- linkObj", function()
 	
 	describe("linkObj.clean()", function()
 	{
-		it("should work", function()
+		it("works", function()
 		{
 			var link = linkObj("http://fakeurl.com");
 			
@@ -47,7 +47,7 @@ describe("INTERNAL -- linkObj", function()
 	
 	describe("linkObj.resolve()", function()
 	{
-		it("should work", function()
+		it("works", function()
 		{
 			var linkUrl = "http://fakeurl.com";
 			var link = linkObj(linkUrl);
@@ -85,16 +85,16 @@ describe("INTERNAL -- linkObj", function()
 		
 		for (var test in urlTests)
 		{
+			var code = "";
 			var data = urlTests[test];
 			var skipOrOnly = data.skipOrOnly==null ? "" : "."+data.skipOrOnly;
-			var title = "should "+ (data.resolvedUrl!==null ? "accept " : "reject ") + utils.a_an(test) + " "+utils.addSlashes(test);
+			var title = (data.resolvedUrl!==null ? "accepts " : "rejects ") + helpers.a_an(test) +" "+ helpers.addSlashes(test);
 			
-			var code = "";
-			code  = 'it'+skipOrOnly+'("'+title+'", function()\n';
+			code += 'it'+skipOrOnly+'("'+title+'", function()\n';
 			code += '{\n';
-			code += '	var baseUrl     = '+utils.format(data.baseUrl)+';\n';
-			code += '	var htmlBaseUrl = '+utils.format(data.htmlBaseUrl)+';\n';
-			code += '	var linkUrl     = '+utils.format(data.linkUrl)+';\n';
+			code += '	var baseUrl     = '+helpers.format(data.baseUrl)+';\n';
+			code += '	var htmlBaseUrl = '+helpers.format(data.htmlBaseUrl)+';\n';
+			code += '	var linkUrl     = '+helpers.format(data.linkUrl)+';\n';
 			code += '	\n';
 			code += '	var link = linkObj(linkUrl);\n';
 			code += '	if (typeof htmlBaseUrl==="string") link.html.base = htmlBaseUrl;\n';
@@ -102,10 +102,10 @@ describe("INTERNAL -- linkObj", function()
 			code += '	linkObj.resolve(link, baseUrl, options);\n';
 			code += '	\n';
 			code += '	expect(link.url.original).to.equal(linkUrl);\n';
-			code += '	expect(link.url.resolved).to.equal('+utils.format(data.resolvedLinkUrl)+');\n';
+			code += '	expect(link.url.resolved).to.equal('+helpers.format(data.resolvedLinkUrl)+');\n';
 			code += '	\n';
 			code += '	expect(link.base.original).to.equal(baseUrl);\n';
-			code += '	expect(link.base.resolved).to.equal('+utils.format(data.resolvedBaseUrl)+');\n';
+			code += '	expect(link.base.resolved).to.equal('+helpers.format(data.resolvedBaseUrl)+');\n';
 			code += '	\n';
 			code += '	if (typeof htmlBaseUrl==="string") expect(link.html.base).to.equal(htmlBaseUrl);\n';
 			code += '	\n';
@@ -118,7 +118,7 @@ describe("INTERNAL -- linkObj", function()
 		
 		
 		
-		it("should accept a base with a scheme/protocol not specified as accepted", function()
+		it("accepts a base with a scheme/protocol not specified as accepted", function()
 		{
 			var baseUrl = "smtp://fakeurl.com/";
 			var linkUrl = "http://fakeurl.com/";
@@ -144,7 +144,7 @@ describe("INTERNAL -- linkObj", function()
 		
 		
 		
-		it("should accept an html base with a scheme/protocol not specified as accepted", function()
+		it("accepts an html base with a scheme/protocol not specified as accepted", function()
 		{
 			var baseUrl     = "http://fakeurl.com/";
 			var htmlBaseUrl = "smtp://fakeurl.com/";
@@ -173,7 +173,7 @@ describe("INTERNAL -- linkObj", function()
 		
 		
 		
-		it("should reject an absolute url with a scheme/protocol not specified as accepted", function()
+		it("rejects an absolute url with a scheme/protocol not specified as accepted", function()
 		{
 			var baseUrl = "http://fakeurl.com/";
 			var linkUrl = "smtp://fakeurl.com/";
@@ -195,7 +195,7 @@ describe("INTERNAL -- linkObj", function()
 		
 		
 		
-		it("should reject a relative url with a base containing a scheme/protocol not specified as accepted", function()
+		it("rejects a relative url with a base containing a scheme/protocol not specified as accepted", function()
 		{
 			var baseUrl = "smtp://fakeurl.com/";
 			var linkUrl = "path/resource.html?query#hash";
