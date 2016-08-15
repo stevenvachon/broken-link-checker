@@ -1,0 +1,14 @@
+{
+	"overrides":
+	[
+		{
+			"extends": ["./scripts/eslintrc.esm.js"],
+			"files": ["./lib/**/*.js", "./test/**/*.js"]
+		},
+		{
+			"extends": ["./scripts/eslintrc.cjs.js"],
+			"files": ["./scripts/**/*.js"]
+		}
+	],
+	"root": true
+}

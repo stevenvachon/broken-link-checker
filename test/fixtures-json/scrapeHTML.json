@@ -1,0 +1,964 @@
+{
+	"<* itemtype>": {
+		"html": "<any-tag itemtype=\"file.html\">microdata</any-tag>",
+		"links": [
+			{
+				"originalURL":                       "file.html",
+				"resolvedURL":     "http://domain.com/file.html",
+				"rebasedURL":      "http://domain.com/file.html",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > any-tag:nth-child(1)",
+				"htmlTagName": "any-tag",
+				"htmlAttrName": "itemtype",
+				"htmlTag": "<any-tag itemtype=\"file.html\">",
+				"htmlText": "microdata"
+			}
+		]
+	},
+	"<a href>": {
+		"html": "<a href=\"file.html\">link</a>",
+		"links": [
+			{
+				"originalURL":                       "file.html",
+				"resolvedURL":     "http://domain.com/file.html",
+				"rebasedURL":      "http://domain.com/file.html",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > a:nth-child(1)",
+				"htmlTagName": "a",
+				"htmlAttrName": "href",
+				"htmlTag": "<a href=\"file.html\">",
+				"htmlText": "link"
+			}
+		]
+	},
+	"<a ping>": {
+		"html": "<a ping=\"file.html\">link</a>",
+		"links": [
+			{
+				"originalURL":                       "file.html",
+				"resolvedURL":     "http://domain.com/file.html",
+				"rebasedURL":      "http://domain.com/file.html",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > a:nth-child(1)",
+				"htmlTagName": "a",
+				"htmlAttrName": "ping",
+				"htmlTag": "<a ping=\"file.html\">",
+				"htmlText": "link"
+			}
+		]
+	},
+	"<applet archive>": {
+		"html": "<applet archive=\"file.zip\">params</applet>",
+		"links": [
+			{
+				"originalURL":                       "file.zip",
+				"resolvedURL":     "http://domain.com/file.zip",
+				"rebasedURL":      "http://domain.com/file.zip",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > applet:nth-child(1)",
+				"htmlTagName": "applet",
+				"htmlAttrName": "archive",
+				"htmlTag": "<applet archive=\"file.zip\">",
+				"htmlText": "params"
+			}
+		]
+	},
+	"<applet code>": {
+		"html": "<applet code=\"file.class\">params</applet>",
+		"links": [
+			{
+				"originalURL":                       "file.class",
+				"resolvedURL":     "http://domain.com/file.class",
+				"rebasedURL":      "http://domain.com/file.class",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > applet:nth-child(1)",
+				"htmlTagName": "applet",
+				"htmlAttrName": "code",
+				"htmlTag": "<applet code=\"file.class\">",
+				"htmlText": "params"
+			}
+		]
+	},
+	"<applet codebase>": {
+		"html": "<applet codebase=\"file.html\">params</applet>",
+		"links": [
+			{
+				"originalURL":                       "file.html",
+				"resolvedURL":     "http://domain.com/file.html",
+				"rebasedURL":      "http://domain.com/file.html",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > applet:nth-child(1)",
+				"htmlTagName": "applet",
+				"htmlAttrName": "codebase",
+				"htmlTag": "<applet codebase=\"file.html\">",
+				"htmlText": "params"
+			}
+		]
+	},
+	"<applet object>": {
+		"html": "<applet object=\"file.html\">params</applet>",
+		"links": [
+			{
+				"originalURL":                       "file.html",
+				"resolvedURL":     "http://domain.com/file.html",
+				"rebasedURL":      "http://domain.com/file.html",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > applet:nth-child(1)",
+				"htmlTagName": "applet",
+				"htmlAttrName": "object",
+				"htmlTag": "<applet object=\"file.html\">",
+				"htmlText": "params"
+			}
+		]
+	},
+	"<applet src>": {
+		"html": "<applet src=\"file.html\">params</applet>",
+		"links": [
+			{
+				"originalURL":                       "file.html",
+				"resolvedURL":     "http://domain.com/file.html",
+				"rebasedURL":      "http://domain.com/file.html",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > applet:nth-child(1)",
+				"htmlTagName": "applet",
+				"htmlAttrName": "src",
+				"htmlTag": "<applet src=\"file.html\">",
+				"htmlText": "params"
+			}
+		]
+	},
+	"<area href/>": {
+		"html": "<area href=\"file.html\"/>",
+		"links": [
+			{
+				"originalURL":                       "file.html",
+				"resolvedURL":     "http://domain.com/file.html",
+				"rebasedURL":      "http://domain.com/file.html",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > area:nth-child(1)",
+				"htmlTagName": "area",
+				"htmlAttrName": "href",
+				"htmlTag": "<area href=\"file.html\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<area ping/>": {
+		"html": "<area ping=\"file.html\"/>",
+		"links": [
+			{
+				"originalURL":                       "file.html",
+				"resolvedURL":     "http://domain.com/file.html",
+				"rebasedURL":      "http://domain.com/file.html",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > area:nth-child(1)",
+				"htmlTagName": "area",
+				"htmlAttrName": "ping",
+				"htmlTag": "<area ping=\"file.html\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<audio src>": {
+		"html": "<audio src=\"file.ogg\">sources/tracks</audio>",
+		"links": [
+			{
+				"originalURL":                       "file.ogg",
+				"resolvedURL":     "http://domain.com/file.ogg",
+				"rebasedURL":      "http://domain.com/file.ogg",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > audio:nth-child(1)",
+				"htmlTagName": "audio",
+				"htmlAttrName": "src",
+				"htmlTag": "<audio src=\"file.ogg\">",
+				"htmlText": "sources/tracks"
+			}
+		]
+	},
+	"<blockquote cite>": {
+		"html": "<blockquote cite=\"file.html\">quote</blockquote>",
+		"links": [
+			{
+				"originalURL":                       "file.html",
+				"resolvedURL":     "http://domain.com/file.html",
+				"rebasedURL":      "http://domain.com/file.html",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > blockquote:nth-child(1)",
+				"htmlTagName": "blockquote",
+				"htmlAttrName": "cite",
+				"htmlTag": "<blockquote cite=\"file.html\">",
+				"htmlText": "quote"
+			}
+		]
+	},
+	"<body background>": {
+		"html": "<body background=\"file.png\">html</body>",
+		"links": [
+			{
+				"originalURL":                       "file.png",
+				"resolvedURL":     "http://domain.com/file.png",
+				"rebasedURL":      "http://domain.com/file.png",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body",
+				"htmlTagName": "body",
+				"htmlAttrName": "background",
+				"htmlTag": "<body background=\"file.png\">",
+				"htmlText": "html"
+			}
+		]
+	},
+	"<button formaction>": {
+		"html": "<button formaction=\"file.html\">button</button>",
+		"links": [
+			{
+				"originalURL":                       "file.html",
+				"resolvedURL":     "http://domain.com/file.html",
+				"rebasedURL":      "http://domain.com/file.html",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > button:nth-child(1)",
+				"htmlTagName": "button",
+				"htmlAttrName": "formaction",
+				"htmlTag": "<button formaction=\"file.html\">",
+				"htmlText": "button"
+			}
+		]
+	},
+	"<del cite>": {
+		"html": "<del cite=\"file.html\">deleted</del>",
+		"links": [
+			{
+				"originalURL":                       "file.html",
+				"resolvedURL":     "http://domain.com/file.html",
+				"rebasedURL":      "http://domain.com/file.html",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > del:nth-child(1)",
+				"htmlTagName": "del",
+				"htmlAttrName": "cite",
+				"htmlTag": "<del cite=\"file.html\">",
+				"htmlText": "deleted"
+			}
+		]
+	},
+	"<embed src/>": {
+		"html": "<embed src=\"file.swf\"/>",
+		"links": [
+			{
+				"originalURL":                       "file.swf",
+				"resolvedURL":     "http://domain.com/file.swf",
+				"rebasedURL":      "http://domain.com/file.swf",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > embed:nth-child(1)",
+				"htmlTagName": "embed",
+				"htmlAttrName": "src",
+				"htmlTag": "<embed src=\"file.swf\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<form action>": {
+		"html": "<form action=\"file.html\">fields</form>",
+		"links": [
+			{
+				"originalURL":                       "file.html",
+				"resolvedURL":     "http://domain.com/file.html",
+				"rebasedURL":      "http://domain.com/file.html",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > form:nth-child(1)",
+				"htmlTagName": "form",
+				"htmlAttrName": "action",
+				"htmlTag": "<form action=\"file.html\">",
+				"htmlText": "fields"
+			}
+		]
+	},
+	"<frame longdesc/>": {
+		"html": "<frameset><frame longdesc=\"file.html\"/></frameset>",
+		"links": [
+			{
+				"originalURL":                       "file.html",
+				"resolvedURL":     "http://domain.com/file.html",
+				"rebasedURL":      "http://domain.com/file.html",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > frameset:nth-child(2) > frame:nth-child(1)",
+				"htmlTagName": "frame",
+				"htmlAttrName": "longdesc",
+				"htmlTag": "<frame longdesc=\"file.html\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<frame src/>": {
+		"html": "<frameset><frame src=\"file.html\"/></frameset>",
+		"links": [
+			{
+				"originalURL":                       "file.html",
+				"resolvedURL":     "http://domain.com/file.html",
+				"rebasedURL":      "http://domain.com/file.html",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > frameset:nth-child(2) > frame:nth-child(1)",
+				"htmlTagName": "frame",
+				"htmlAttrName": "src",
+				"htmlTag": "<frame src=\"file.html\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<head profile>": {
+		"html": "<head profile=\"file.html\">meta</head>",
+		"links": [
+			{
+				"originalURL":                       "file.html",
+				"resolvedURL":     "http://domain.com/file.html",
+				"rebasedURL":      "http://domain.com/file.html",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > head",
+				"htmlTagName": "head",
+				"htmlAttrName": "profile",
+				"htmlTag": "<head profile=\"file.html\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<html manifest>": {
+		"html": "<html manifest=\"file.appcache\">html</html>",
+		"links": [
+			{
+				"originalURL":                       "file.appcache",
+				"resolvedURL":     "http://domain.com/file.appcache",
+				"rebasedURL":      "http://domain.com/file.appcache",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html",
+				"htmlTagName": "html",
+				"htmlAttrName": "manifest",
+				"htmlTag": "<html manifest=\"file.appcache\">",
+				"htmlText": "html"
+			}
+		]
+	},
+	"<iframe longdesc>": {
+		"html": "<iframe longdesc=\"file.html\"></iframe>",
+		"links": [
+			{
+				"originalURL":                       "file.html",
+				"resolvedURL":     "http://domain.com/file.html",
+				"rebasedURL":      "http://domain.com/file.html",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > iframe:nth-child(1)",
+				"htmlTagName": "iframe",
+				"htmlAttrName": "longdesc",
+				"htmlTag": "<iframe longdesc=\"file.html\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<iframe src>": {
+		"html": "<iframe src=\"file.html\"></iframe>",
+		"links": [
+			{
+				"originalURL":                       "file.html",
+				"resolvedURL":     "http://domain.com/file.html",
+				"rebasedURL":      "http://domain.com/file.html",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > iframe:nth-child(1)",
+				"htmlTagName": "iframe",
+				"htmlAttrName": "src",
+				"htmlTag": "<iframe src=\"file.html\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<img longdesc/>": {
+		"html": "<img longdesc=\"file.html\"/>",
+		"links": [
+			{
+				"originalURL":                       "file.html",
+				"resolvedURL":     "http://domain.com/file.html",
+				"rebasedURL":      "http://domain.com/file.html",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > img:nth-child(1)",
+				"htmlTagName": "img",
+				"htmlAttrName": "longdesc",
+				"htmlTag": "<img longdesc=\"file.html\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<img src/>": {
+		"html": "<img src=\"file.png\"/>",
+		"links": [
+			{
+				"originalURL":                       "file.png",
+				"resolvedURL":     "http://domain.com/file.png",
+				"rebasedURL":      "http://domain.com/file.png",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > img:nth-child(1)",
+				"htmlTagName": "img",
+				"htmlAttrName": "src",
+				"htmlTag": "<img src=\"file.png\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<img srcset/>": {
+		"html": "<img srcset=\"file.png\"/>",
+		"links": [
+			{
+				"originalURL":                       "file.png",
+				"resolvedURL":     "http://domain.com/file.png",
+				"rebasedURL":      "http://domain.com/file.png",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > img:nth-child(1)",
+				"htmlTagName": "img",
+				"htmlAttrName": "srcset",
+				"htmlTag": "<img srcset=\"file.png\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<img srcset/> #2": {
+		"html": "<img srcset=\"file.png 2x\"/>",
+		"links": [
+			{
+				"originalURL":                       "file.png",
+				"resolvedURL":     "http://domain.com/file.png",
+				"rebasedURL":      "http://domain.com/file.png",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > img:nth-child(1)",
+				"htmlTagName": "img",
+				"htmlAttrName": "srcset",
+				"htmlTag": "<img srcset=\"file.png 2x\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<img srcset/> #3": {
+		"html": "<img srcset=\"file1.png, file2.png 2x\"/>",
+		"links": [
+			{
+				"originalURL":                       "file1.png",
+				"resolvedURL":     "http://domain.com/file1.png",
+				"rebasedURL":      "http://domain.com/file1.png",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > img:nth-child(1)",
+				"htmlTagName": "img",
+				"htmlAttrName": "srcset",
+				"htmlTag": "<img srcset=\"file1.png, file2.png 2x\">",
+				"htmlText": null
+			},
+			{
+				"originalURL":                       "file2.png",
+				"resolvedURL":     "http://domain.com/file2.png",
+				"rebasedURL":      "http://domain.com/file2.png",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > img:nth-child(1)",
+				"htmlTagName": "img",
+				"htmlAttrName": "srcset",
+				"htmlTag": "<img srcset=\"file1.png, file2.png 2x\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<input formaction/>": {
+		"html": "<input formaction=\"file.html\"/>",
+		"links": [
+			{
+				"originalURL":                       "file.html",
+				"resolvedURL":     "http://domain.com/file.html",
+				"rebasedURL":      "http://domain.com/file.html",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > input:nth-child(1)",
+				"htmlTagName": "input",
+				"htmlAttrName": "formaction",
+				"htmlTag": "<input formaction=\"file.html\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<input src/>": {
+		"html": "<input src=\"file.png\"/>",
+		"links": [
+			{
+				"originalURL":                       "file.png",
+				"resolvedURL":     "http://domain.com/file.png",
+				"rebasedURL":      "http://domain.com/file.png",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > input:nth-child(1)",
+				"htmlTagName": "input",
+				"htmlAttrName": "src",
+				"htmlTag": "<input src=\"file.png\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<ins cite>": {
+		"html": "<ins cite=\"file.html\">inserted</ins>",
+		"links": [
+			{
+				"originalURL":                       "file.html",
+				"resolvedURL":     "http://domain.com/file.html",
+				"rebasedURL":      "http://domain.com/file.html",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > ins:nth-child(1)",
+				"htmlTagName": "ins",
+				"htmlAttrName": "cite",
+				"htmlTag": "<ins cite=\"file.html\">",
+				"htmlText": "inserted"
+			}
+		]
+	},
+	"<link href/>": {
+		"html": "<link href=\"file.css\"/>",
+		"links": [
+			{
+				"originalURL":                       "file.css",
+				"resolvedURL":     "http://domain.com/file.css",
+				"rebasedURL":      "http://domain.com/file.css",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > head > link:nth-child(1)",
+				"htmlTagName": "link",
+				"htmlAttrName": "href",
+				"htmlTag": "<link href=\"file.css\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<menuitem icon/>": {
+		"html": "<menuitem icon=\"file.png\"/>",
+		"links": [
+			{
+				"originalURL":                       "file.png",
+				"resolvedURL":     "http://domain.com/file.png",
+				"rebasedURL":      "http://domain.com/file.png",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > menuitem:nth-child(1)",
+				"htmlTagName": "menuitem",
+				"htmlAttrName": "icon",
+				"htmlTag": "<menuitem icon=\"file.png\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<meta http-equiv=\"refresh\" content/>": {
+		"html": "<meta http-equiv=\"refresh\" content=\"5; url=file.html\"/>",
+		"links": [
+			{
+				"originalURL":                       "file.html",
+				"resolvedURL":     "http://domain.com/file.html",
+				"rebasedURL":      "http://domain.com/file.html",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > head > meta:nth-child(1)",
+				"htmlTagName": "meta",
+				"htmlAttrName": "content",
+				"htmlTag": "<meta http-equiv=\"refresh\" content=\"5; url=file.html\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<object codebase>": {
+		"html": "<object codebase=\"file.html\">params</object>",
+		"links": [
+			{
+				"originalURL":                       "file.html",
+				"resolvedURL":     "http://domain.com/file.html",
+				"rebasedURL":      "http://domain.com/file.html",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > object:nth-child(1)",
+				"htmlTagName": "object",
+				"htmlAttrName": "codebase",
+				"htmlTag": "<object codebase=\"file.html\">",
+				"htmlText": "params"
+			}
+		]
+	},
+	"<object data>": {
+		"html": "<object data=\"file.swf\">params</object>",
+		"links": [
+			{
+				"originalURL":                       "file.swf",
+				"resolvedURL":     "http://domain.com/file.swf",
+				"rebasedURL":      "http://domain.com/file.swf",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > object:nth-child(1)",
+				"htmlTagName": "object",
+				"htmlAttrName": "data",
+				"htmlTag": "<object data=\"file.swf\">",
+				"htmlText": "params"
+			}
+		]
+	},
+	"<q cite>": {
+		"html": "<q cite=\"file.html\">quote</q>",
+		"links": [
+			{
+				"originalURL":                       "file.html",
+				"resolvedURL":     "http://domain.com/file.html",
+				"rebasedURL":      "http://domain.com/file.html",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > q:nth-child(1)",
+				"htmlTagName": "q",
+				"htmlAttrName": "cite",
+				"htmlTag": "<q cite=\"file.html\">",
+				"htmlText": "quote"
+			}
+		]
+	},
+	"<script src>": {
+		"html": "<script src=\"file.js\"></script>",
+		"links": [
+			{
+				"originalURL":                       "file.js",
+				"resolvedURL":     "http://domain.com/file.js",
+				"rebasedURL":      "http://domain.com/file.js",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > head > script:nth-child(1)",
+				"htmlTagName": "script",
+				"htmlAttrName": "src",
+				"htmlTag": "<script src=\"file.js\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<source src/>": {
+		"html": "<source src=\"file.ogg\"/>",
+		"links": [
+			{
+				"originalURL":                       "file.ogg",
+				"resolvedURL":     "http://domain.com/file.ogg",
+				"rebasedURL":      "http://domain.com/file.ogg",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > source:nth-child(1)",
+				"htmlTagName": "source",
+				"htmlAttrName": "src",
+				"htmlTag": "<source src=\"file.ogg\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<source srcset/>": {
+		"html": "<source srcset=\"file.png\"/>",
+		"links": [
+			{
+				"originalURL":                       "file.png",
+				"resolvedURL":     "http://domain.com/file.png",
+				"rebasedURL":      "http://domain.com/file.png",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > source:nth-child(1)",
+				"htmlTagName": "source",
+				"htmlAttrName": "srcset",
+				"htmlTag": "<source srcset=\"file.png\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<source srcset/> #2": {
+		"html": "<source srcset=\"file.png 2x\"/>",
+		"links": [
+			{
+				"originalURL":                       "file.png",
+				"resolvedURL":     "http://domain.com/file.png",
+				"rebasedURL":      "http://domain.com/file.png",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > source:nth-child(1)",
+				"htmlTagName": "source",
+				"htmlAttrName": "srcset",
+				"htmlTag": "<source srcset=\"file.png 2x\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<source srcset/> #3": {
+		"html": "<source srcset=\"file1.png, file2.png 2x\"/>",
+		"links": [
+			{
+				"originalURL":                       "file1.png",
+				"resolvedURL":     "http://domain.com/file1.png",
+				"rebasedURL":      "http://domain.com/file1.png",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > source:nth-child(1)",
+				"htmlTagName": "source",
+				"htmlAttrName": "srcset",
+				"htmlTag": "<source srcset=\"file1.png, file2.png 2x\">",
+				"htmlText": null
+			},
+			{
+				"originalURL":                       "file2.png",
+				"resolvedURL":     "http://domain.com/file2.png",
+				"rebasedURL":      "http://domain.com/file2.png",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > source:nth-child(1)",
+				"htmlTagName": "source",
+				"htmlAttrName": "srcset",
+				"htmlTag": "<source srcset=\"file1.png, file2.png 2x\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<table background>": {
+		"html": "<table background=\"file.png\">spreadsheet</table>",
+		"links": [
+			{
+				"originalURL":                       "file.png",
+				"resolvedURL":     "http://domain.com/file.png",
+				"rebasedURL":      "http://domain.com/file.png",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > table:nth-child(1)",
+				"htmlTagName": "table",
+				"htmlAttrName": "background",
+				"htmlTag": "<table background=\"file.png\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<tbody background>": {
+		"html": "<table><tbody background=\"file.png\">rows</tbody></table>",
+		"links": [
+			{
+				"originalURL":                       "file.png",
+				"resolvedURL":     "http://domain.com/file.png",
+				"rebasedURL":      "http://domain.com/file.png",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > table:nth-child(1) > tbody:nth-child(1)",
+				"htmlTagName": "tbody",
+				"htmlAttrName": "background",
+				"htmlTag": "<tbody background=\"file.png\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<td background>": {
+		"html": "<table><td background=\"file.png\">data</td></table>",
+		"links": [
+			{
+				"originalURL":                       "file.png",
+				"resolvedURL":     "http://domain.com/file.png",
+				"rebasedURL":      "http://domain.com/file.png",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1)",
+				"htmlTagName": "td",
+				"htmlAttrName": "background",
+				"htmlTag": "<td background=\"file.png\">",
+				"htmlText": "data"
+			}
+		]
+	},
+	"<tfoot background>": {
+		"html": "<table><tfoot background=\"file.png\">rows</tfoot></table>",
+		"links": [
+			{
+				"originalURL":                       "file.png",
+				"resolvedURL":     "http://domain.com/file.png",
+				"rebasedURL":      "http://domain.com/file.png",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > table:nth-child(1) > tfoot:nth-child(1)",
+				"htmlTagName": "tfoot",
+				"htmlAttrName": "background",
+				"htmlTag": "<tfoot background=\"file.png\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<th background>": {
+		"html": "<table><th background=\"file.png\">heading</th></table>",
+		"links": [
+			{
+				"originalURL":                       "file.png",
+				"resolvedURL":     "http://domain.com/file.png",
+				"rebasedURL":      "http://domain.com/file.png",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > th:nth-child(1)",
+				"htmlTagName": "th",
+				"htmlAttrName": "background",
+				"htmlTag": "<th background=\"file.png\">",
+				"htmlText": "heading"
+			}
+		]
+	},
+	"<thead background>": {
+		"html": "<table><thead background=\"file.png\">rows</thead></table>",
+		"links": [
+			{
+				"originalURL":                       "file.png",
+				"resolvedURL":     "http://domain.com/file.png",
+				"rebasedURL":      "http://domain.com/file.png",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > table:nth-child(1) > thead:nth-child(1)",
+				"htmlTagName": "thead",
+				"htmlAttrName": "background",
+				"htmlTag": "<thead background=\"file.png\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<tr background>": {
+		"html": "<table><tr background=\"file.png\">columns</tr></table>",
+		"links": [
+			{
+				"originalURL":                       "file.png",
+				"resolvedURL":     "http://domain.com/file.png",
+				"rebasedURL":      "http://domain.com/file.png",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1)",
+				"htmlTagName": "tr",
+				"htmlAttrName": "background",
+				"htmlTag": "<tr background=\"file.png\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<track src/>": {
+		"html": "<track src=\"file.vtt\"/>",
+		"links": [
+			{
+				"originalURL":                       "file.vtt",
+				"resolvedURL":     "http://domain.com/file.vtt",
+				"rebasedURL":      "http://domain.com/file.vtt",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > track:nth-child(1)",
+				"htmlTagName": "track",
+				"htmlAttrName": "src",
+				"htmlTag": "<track src=\"file.vtt\">",
+				"htmlText": null
+			}
+		]
+	},
+	"<video poster>": {
+		"html": "<video poster=\"file.png\">sources/tracks</video>",
+		"links": [
+			{
+				"originalURL":                       "file.png",
+				"resolvedURL":     "http://domain.com/file.png",
+				"rebasedURL":      "http://domain.com/file.png",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > video:nth-child(1)",
+				"htmlTagName": "video",
+				"htmlAttrName": "poster",
+				"htmlTag": "<video poster=\"file.png\">",
+				"htmlText": "sources/tracks"
+			}
+		]
+	},
+	"<video src>": {
+		"html": "<video src=\"file.ogg\">sources/tracks</video>",
+		"links": [
+			{
+				"originalURL":                       "file.ogg",
+				"resolvedURL":     "http://domain.com/file.ogg",
+				"rebasedURL":      "http://domain.com/file.ogg",
+				"redirectedURL":    null,
+				"resolvedBaseURL": "http://domain.com/",
+				"rebasedBaseURL":  "http://domain.com/",
+				"htmlSelector": "html > body > video:nth-child(1)",
+				"htmlTagName": "video",
+				"htmlAttrName": "src",
+				"htmlTag": "<video src=\"file.ogg\">",
+				"htmlText": "sources/tracks"
+			}
+		]
+	}
+}
