@@ -1,0 +1,76 @@
+/* eslint-disable sort-keys */
+"use strict";
+const {normalize:normalizePath} = require("path");
+const {promises: {writeFile}} = require("fs");
+
+const urls =
+{
+	       "remote absolute": "https://domain2.com/dir2/file2.html?query2#hash2",
+	        "local absolute":  "http://domain1.com/dir1/file1.html?query1#hash1",
+	"remote scheme-relative":       "//domain2.com/dir2/file2.html?query2#hash2",
+	 "local scheme-relative":       "//domain1.com/dir1/file1.html?query1#hash1",
+	    "root-path-relative":                     "/dir/file.html?query#hash",
+	         "path-relative":                      "dir/file.html?query#hash",
+	     "resource-relative":                          "file.html?query#hash",
+	        "query-relative":                                   "?query#hash",
+	         "hash-relative":                                         "#hash",
+	                 "empty": "",
+	                  "null": null
+};
+
+
+
+const generate = () => saveFile( normalizePath(`${__dirname}/../test/helpers/json/Link.json`) );
+
+
+
+const generateData = () =>
+{
+	const entries = Object.entries(urls);
+
+	return entries.reduce((result, [linkType, linkUrl]) =>
+	{
+		entries.forEach(([baseType, baseUrl]) =>
+		{
+			entries.forEach(([htmlBaseType, htmlBaseUrl]) =>
+			{
+				result[`${linkType.toUpperCase()} url with ${baseType.toUpperCase()} base and ${htmlBaseType.toUpperCase()} html base`] =
+				{
+					linkUrl,
+					baseUrl,
+					htmlBaseUrl,
+
+					skipOrOnly: "skip",
+
+					// Placeholder values for manual editing
+					resolvedLinkUrl: "",
+					resolvedBaseUrl: "",
+					rebasedLinkUrl: "",
+					rebasedBaseUrl: "",
+					internal: null,
+					samePage: null
+				};
+			});
+		});
+
+		return result;
+	}, {});
+};
+
+
+
+// Extra line break for unix/git
+const generateString = () => `${JSON.stringify(generateData(), null, "\t")}\n`;
+
+
+
+const saveFile = async location =>
+{
+	await writeFile(location, generateString());
+
+	console.log(`Written to: ${location}`);
+};
+
+
+
+generate();

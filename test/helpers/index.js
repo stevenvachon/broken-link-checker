@@ -1,33 +1,56 @@
-"use strict";
-var server        = require("./server");
-var testGenerator = require("./testGenerator");
-
-var chai = require("chai");
-chai.config.includeStack = true;
-chai.use( require("chai-as-promised") );
-chai.use( require("chai-like") );
-chai.use( require("chai-things") );
-
-require("es6-promise").polyfill();
-require("object.assign").shim();
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
+import chaiSubset from "chai-subset";
+import chaiThings from "chai-things";
+import {fixturePath, fixtureStream, fixtureString} from "./fixture";
+import {parsedOptions, rawOptions} from "./options";
+import {start, startDead, stop} from "./server";
+import tagsString from "./tagsString";
 
 
 
-module.exports = 
+chai
+.use(chaiAsPromised)
+.use(chaiSubset)
+.use(chaiThings)
+.config.includeStack = true;
+
+
+
+export const defaultAuth =
 {
-	a_an:       testGenerator.a_an,
-	addSlashes: testGenerator.addSlashes,
-	format:     testGenerator.format,
-	//italic:     testGenerator.italic,
-	
-	options:    require("./options"),
-	
-	startConnection:  server.startConnection,
-	startConnections: server.startConnections,
-	stopConnection:   server.stopConnection,
-	stopConnections:  server.stopConnections,
-	
-	tagsString: require("./tagsString"),
-	
-	fixture: require("./fixture")
+	password: "",
+	username: ""
 };
+
+
+
+export class ExpectedError extends Error
+{
+	constructor()
+	{
+		super("This was thrown so that it could be caught");
+	}
+}
+
+
+
+export class WrongCallError extends Error
+{
+	constructor()
+	{
+		super("This should not have been called");
+	}
+}
+
+
+
+// TODO :: https://github.com/tc39/proposal-export-default-from
+export {fixturePath, fixtureStream, fixtureString};
+export {parsedOptions, rawOptions};
+export {startDead as startDeadServer};
+export {startDead as startDeadServers};
+export {start as startServer};
+export {start as startServers};
+export {stop as stopServers};
+export {tagsString};
