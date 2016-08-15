@@ -1,188 +1,194 @@
 "use strict";
-var UrlChecker = require("../lib/public/UrlChecker");
+const helpers    = require("./helpers");
+const UrlChecker = require("../lib/public/UrlChecker");
 
-var helpers = require("./helpers");
-
-var expect = require("chai").expect;
-
-var conn;
+const {after, before, describe, it} = require("mocha");
+const {expect} = require("chai");
 
 
 
 describe("PUBLIC -- UrlChecker", function()
 {
-	before( function()
+	before(() => helpers.startServer("http://blc/"));
+	after(helpers.stopServers);
+
+
+
+	describe("enqueue()", function()
 	{
-		return helpers.startConnection().then( function(connection)
+		it("accepts a valid url", function()
 		{
-			conn = connection;
+			const id = new UrlChecker( helpers.options() ).enqueue("http://blc/");
+
+			expect(id).to.be.a("number");
+		});
+
+
+
+		it("rejects an invalid url", function()
+		{
+			expect(() => new UrlChecker( helpers.options() ).enqueue("/path/")).to.throw(TypeError);
 		});
 	});
-	
-	
-	
-	after( function()
-	{
-		return helpers.stopConnection(conn.realPort);
-	});
-	
-	
-	
-	describe("methods (#1)", function()
-	{
-		describe("enqueue()", function()
-		{
-			it("accepts a valid url", function()
-			{
-				var instance = new UrlChecker( helpers.options() );
-				
-				expect( instance.enqueue(conn.absoluteUrl) ).to.not.be.an.instanceOf(Error);
-				expect( instance.enqueue("/normal/no-links.html", conn.absoluteUrl) ).to.not.be.an.instanceOf(Error);
-			});
-			
-			
-			
-			it("rejects an invalid url", function()
-			{
-				var id = new UrlChecker( helpers.options() ).enqueue("/path/");
-				
-				expect(id).to.be.an.instanceOf(Error);
-			});
-		});
-	});
-	
-	
-	
-	describe("handlers", function()
+
+
+
+	describe("events", function()
 	{
 		it("link", function(done)
 		{
-			new UrlChecker( helpers.options(),
+			new UrlChecker( helpers.options() )
+			.on("error", error => done(error))
+			.on("link", function(result, customData)
 			{
-				link: function(result, customData)
-				{
-					expect(arguments).to.have.length(2);
-					expect(result).to.be.an.instanceOf(Object);
-					expect(customData).to.be.undefined;
-					done();
-				}
-			}).enqueue( conn.absoluteUrl );
+				expect(arguments).to.have.length(2);
+				expect(result).to.be.an("object");
+				expect(customData).to.be.undefined;
+				done();
+			})
+			.enqueue("http://blc/");
 		});
-		
-		
-		
+
+
+
+		it("link + error", function(done)
+		{
+			new UrlChecker( helpers.options() )
+			.on("error", error =>
+			{
+				expect(arguments).to.have.length(1);
+				expect(error).to.be.an("error");
+				done();
+			})
+			.on("link", () => { throw new Error("test") })
+			.enqueue("http://blc/");
+		});
+
+
+
 		it("end", function(done)
 		{
-			new UrlChecker( helpers.options(),
+			new UrlChecker( helpers.options() )
+			.on("error", error => done(error))
+			.on("end", function()
 			{
-				end: function()
-				{
-					expect(arguments).to.have.length(0);
-					done();
-				}
-			}).enqueue( conn.absoluteUrl );
+				expect(arguments).to.be.empty;
+				done();
+			})
+			.enqueue("http://blc/");
+		});
+
+
+
+		it("end + error", function(done)
+		{
+			new UrlChecker( helpers.options() )
+			.on("error", error =>
+			{
+				expect(arguments).to.have.length(1);
+				expect(error).to.be.an("error");
+				done();
+			})
+			.on("end", () => { throw new Error("test") })
+			.enqueue("http://blc/");
 		});
 	});
-	
-	
-	
-	describe("methods (#2)", function()
+
+
+
+	describe("numActiveLinks", function()
 	{
-		describe("numActiveLinks()", function()
+		it("works", function(done)
 		{
-			it("works", function(done)
+			const instance = new UrlChecker( helpers.options() )
+			.on("error", error => done(error))
+			.on("end", () =>
 			{
-				var instance = new UrlChecker( helpers.options(),
-				{
-					end: function()
-					{
-						expect( instance.numActiveLinks() ).to.equal(0);
-						done();
-					}
-				});
-				
-				instance.enqueue(conn.absoluteUrl);
-				instance.enqueue("/normal/no-links.html", conn.absoluteUrl);
-				
-				expect( instance.numActiveLinks() ).to.equal(2);
+				expect( instance.numActiveLinks ).to.equal(0);
+				done();
 			});
+
+			instance.enqueue("http://blc/");
+			instance.enqueue("http://blc/normal/no-links.html");
+
+			expect( instance.numActiveLinks ).to.equal(2);
 		});
-		
-		
-		
-		describe("pause() / resume()", function()
+	});
+
+
+
+	describe("pause() / resume() / isPaused", function()
+	{
+		it("works", function(done)
 		{
-			it("works", function(done)
+			let resumed = false;
+
+			const instance = new UrlChecker( helpers.options() )
+			.on("error", error => done(error))
+			.on("end", () =>
 			{
-				var resumed = false;
-				
-				var instance = new UrlChecker( helpers.options(),
-				{
-					end: function()
-					{
-						expect(resumed).to.be.true;
-						done();
-					}
-				});
-				
-				instance.pause();
-				
-				instance.enqueue( conn.absoluteUrl );
-				
-				// Wait longer than scan should take
-				setTimeout( function()
-				{
-					resumed = true;
-					instance.resume();
-					
-				}, 100);
+				expect(resumed).to.be.true;
+				done();
 			});
+
+			expect( instance.pause() ).to.equal(instance);
+			expect(instance.isPaused).to.be.true;
+
+			instance.enqueue("http://blc/");
+
+			// Wait longer than scan should take
+			setTimeout(() =>
+			{
+				resumed = true;
+
+				expect( instance.resume() ).to.equal(instance);
+				expect(instance.isPaused).to.be.false;
+
+			}, 100);
 		});
-		
-		
-		
-		// TODO :: test what happens when the current queue item is dequeued
-		describe("dequeue() / numQueuedLinks()", function()
+	});
+
+
+
+	// TODO :: test what happens when the current queue item is dequeued
+	describe("dequeue() / numQueuedLinks", function()
+	{
+		it("accepts a valid id", function(done)
 		{
-			it("accepts a valid id", function(done)
+			const instance = new UrlChecker( helpers.options() )
+			.on("error", error => done(error))
+			.on("end", () =>
 			{
-				var instance = new UrlChecker( helpers.options(),
-				{
-					end: function()
-					{
-						expect( instance.numQueuedLinks() ).to.equal(0);
-						done();
-					}
-				});
-				
-				// Prevent first queued item from immediately starting (and thus being auto-dequeued)
-				instance.pause();
-				
-				var id = instance.enqueue( conn.absoluteUrl );
-				
-				expect(id).to.not.be.an.instanceOf(Error);
-				expect( instance.numQueuedLinks() ).to.equal(1);
-				expect( instance.dequeue(id) ).to.be.true;
-				expect( instance.numQueuedLinks() ).to.equal(0);
-				
-				instance.enqueue( conn.absoluteUrl );
-				instance.resume();
+				expect( instance.numQueuedLinks ).to.equal(0);
+				done();
 			});
-			
-			
-			
-			it("rejects an invalid id", function()
-			{
-				var instance = new UrlChecker( helpers.options() );
-				
-				// Prevent first queued item from immediately starting (and thus being auto-dequeued)
-				instance.pause();
-				
-				var id = instance.enqueue( conn.absoluteUrl );
-				
-				expect( instance.dequeue(id+1) ).to.be.an.instanceOf(Error);
-				expect( instance.numQueuedLinks() ).to.equal(1);
-			});
+
+			// Prevent first queued item from immediately starting (and thus being auto-dequeued)
+			instance.pause();
+
+			const id = instance.enqueue("http://blc/");
+
+			expect( instance.numQueuedLinks ).to.equal(1);
+			expect( instance.dequeue(id) ).to.be.true;
+			expect( instance.numQueuedLinks ).to.equal(0);
+
+			instance.enqueue("http://blc/");
+			instance.resume();
+		});
+
+
+
+		it("rejects an invalid id", function()
+		{
+			const instance = new UrlChecker( helpers.options() );
+
+			// Prevent first queued item from immediately starting (and thus being auto-dequeued)
+			instance.pause();
+
+			const id = instance.enqueue("http://blc/");
+
+			expect( instance.dequeue(id+1) ).to.be.false;
+			expect( instance.numQueuedLinks ).to.equal(1);
 		});
 	});
 
@@ -192,115 +198,111 @@ describe("PUBLIC -- UrlChecker", function()
 	{
 		it("requests a unique url only once", function(done)
 		{
-			var options = helpers.options({ cacheResponses:true });
-			var results = [];
-			var success = false;
+			const options = helpers.options({ cacheResponses:true });
+			const results = [];
 
-			var instance = new UrlChecker( options,
+			const instance = new UrlChecker(options)
+			.on("error", error => done(error))
+			.on("link", (result, customData) =>
 			{
-				link: function(result, customData)
+				switch (customData.index)
 				{
-					if (result.http.response._cached === true)
+					case 0:
 					{
-						success = true;
+						expect(result.http.cached).to.be.false;
+						break;
 					}
-					
-					result.http.response._cached = true;
-					results[customData.index] = result;
-				},
-				end: function()
-				{
-					expect(success).to.equal(true);
-					expect(results).to.have.length(3);
-					done();
+					case 1:
+					{
+						expect(result.http.cached).to.be.true;
+						break;
+					}
 				}
+
+				results[customData.index] = result;
+			})
+			.on("end", () =>
+			{
+				expect(results).to.have.length(3);
+				done();
 			});
-			
-			instance.enqueue( conn.absoluteUrl+"/normal/index.html",         null, {index:0} );
-			instance.enqueue( conn.absoluteUrl+"/normal/index.html",         null, {index:1} );
-			instance.enqueue( conn.absoluteUrl+"/normal/no-links.html", null, {index:2} );
+
+			instance.enqueue("http://blc/normal/index.html",    {index:0});
+			instance.enqueue("http://blc/normal/index.html",    {index:1});
+			instance.enqueue("http://blc/normal/no-links.html", {index:2});
 		});
 
 
 
 		it("re-requests a non-unique url after clearing cache", function(done)
 		{
-			var finalFired = false;
-			var options = helpers.options({ cacheResponses:true });
-			var results = [];
+			let finalFired = false;
+			const options = helpers.options({ cacheResponses:true });
+			const results = [];
 
-			var instance = new UrlChecker( options,
+			const instance = new UrlChecker(options)
+			.on("error", error => done(error))
+			.on("link", (result, customData) =>
 			{
-				link: function(result, customData)
+				expect(result.http.cached).to.be.false;
+
+				results[customData.index] = result;
+			})
+			.on("end", () =>
+			{
+				if (finalFired)
 				{
-					if (result.http.response._cached === true)
-					{
-						done( new Error("this should not have been a cached result") );
-					}
-					
-					result.http.response._cached = true;
-					results[customData.index] = result;
-				},
-				end: function()
+					expect(results).to.have.length(3);
+					done();
+				}
+				else
 				{
-					if (finalFired === true)
-					{
-						expect(results).to.have.length(3);
-						done();
-					}
-					else
-					{
-						instance.clearCache();
-						instance.enqueue( conn.absoluteUrl+"/normal/no-links.html", null, {index:2} );
-						finalFired = true;
-					}
+					expect( instance.clearCache() ).to.equal(instance);
+
+					instance.enqueue("http://blc/normal/no-links.html", {index:2});
+					finalFired = true;
 				}
 			});
-			
-			instance.enqueue( conn.absoluteUrl+"/normal/index.html",         null, {index:0} );
-			instance.enqueue( conn.absoluteUrl+"/normal/no-links.html", null, {index:1} );
+
+			instance.enqueue("http://blc/normal/index.html",    {index:0});
+			instance.enqueue("http://blc/normal/no-links.html", {index:1});
 		});
-		
-		
-		
+
+
+
 		it("re-requests a non-unique url after expiring in cache", function(done)
 		{
-			var finalFired = false;
-			var options = helpers.options({ cacheExpiryTime:50, cacheResponses:true });
-			var results = [];
-	
-			var instance = new UrlChecker( options,
+			let finalFired = false;
+			const options = helpers.options({ cacheMaxAge:50, cacheResponses:true });
+			const results = [];
+
+			const instance = new UrlChecker(options)
+			.on("error", error => done(error))
+			.on("link", (result, customData) =>
 			{
-				link: function(result, customData)
+				expect(result.http.cached).to.be.false;
+
+				results[customData.index] = result;
+			})
+			.on("end", () =>
+			{
+				if (finalFired)
 				{
-					if (result.http.response._cached === true)
-					{
-						done( new Error("this should not have been a cached result") );
-					}
-					
-					result.http.response._cached = true;
-					results[customData.index] = result;
-				},
-				end: function()
+					expect(results).to.have.length(2);
+					done();
+				}
+				else
 				{
-					if (finalFired === true)
+					setTimeout(() =>
 					{
-						expect(results).to.have.length(2);
-						done();
-					}
-					else
-					{
-						setTimeout( function()
-						{
-							instance.enqueue( conn.absoluteUrl+"/normal/no-links.html", null, {index:1} );
-							finalFired = true;
-							
-						}, 100);
-					}
+						instance.enqueue("http://blc/normal/no-links.html", {index:1});
+						finalFired = true;
+
+					}, 100);
 				}
 			});
-			
-			instance.enqueue( conn.absoluteUrl+"/normal/no-links.html", null, {index:0} );
+
+			instance.enqueue("http://blc/normal/no-links.html", {index:0});
 		});
 	});
 
@@ -308,71 +310,45 @@ describe("PUBLIC -- UrlChecker", function()
 
 	describe("edge cases", function()
 	{
-		it("supports a relative url", function(done)
-		{
-			new UrlChecker( helpers.options(),
-			{
-				link: function(result)
-				{
-					expect(result).to.be.like(
-					{
-						url:
-						{
-							original: "/normal/no-links.html",
-							resolved: conn.absoluteUrl+"/normal/no-links.html"
-						},
-						base:
-						{
-							original: conn.absoluteUrl
-						}
-					});
-					done();
-				}
-			}).enqueue( "/normal/no-links.html", conn.absoluteUrl );
-		});
-		
-		
-		
 		it("supports custom data", function(done)
 		{
-			new UrlChecker( helpers.options(),
+			new UrlChecker( helpers.options() )
+			.on("error", error => done(error))
+			.on("link", (result, customData) =>
 			{
-				link: function(result, customData)
-				{
-					expect(customData).to.deep.equal({ test:"value" });
-					done();
-				}
-			}).enqueue( conn.absoluteUrl, null, {test:"value"} );
+				expect(customData).to.deep.equal({ test:"value" });
+				done();
+			})
+			.enqueue("http://blc/", {test:"value"});
 		});
-		
-		
-		
+
+
+
 		it("supports multiple queue items", function(done)
 		{
-			var results = [];
-			
-			var instance = new UrlChecker( helpers.options(),
+			const results = [];
+
+			const instance = new UrlChecker( helpers.options() )
+			.on("error", error => done(error))
+			.on("link", (result, customData) =>
 			{
-				link: function(result, customData)
-				{
-					results[customData.index] = result;
-				},
-				end: function()
-				{
-					expect(results).to.have.length(3);
-					expect(results).to.be.like(
-					[
-						{ url:{ original: conn.absoluteUrl+"/normal/index.html" } },
-						{ url:{ original: conn.absoluteUrl+"/normal/no-links.html" } },
-						{ url:{ original: conn.absoluteUrl+"/normal/fake.html" } }
-					]);
-					done();
-				}
+				results[customData.index] = result;
+			})
+			.on("end", () =>
+			{
+				expect(results).to.have.length(3);
+				expect(results).to.containSubset(
+				[
+					{ url:{ resolved:{ href: "http://blc/normal/index.html"    } } },
+					{ url:{ resolved:{ href: "http://blc/normal/no-links.html" } } },
+					{ url:{ resolved:{ href: "http://blc/normal/fake.html"     } } }
+				]);
+				done();
 			});
-			
-			instance.enqueue( conn.absoluteUrl+"/normal/index.html",         null, {index:0} );
-			instance.enqueue( conn.absoluteUrl+"/normal/no-links.html", null, {index:1} );
-			instance.enqueue( conn.absoluteUrl+"/normal/fake.html",     null, {index:2} );
+
+			instance.enqueue("http://blc/normal/index.html",    {index:0});
+			instance.enqueue("http://blc/normal/no-links.html", {index:1});
+			instance.enqueue("http://blc/normal/fake.html",     {index:2});
 		});
 	});
 });

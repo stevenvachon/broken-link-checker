@@ -1,31 +1,19 @@
 "use strict";
-var helpers = require("./helpers");
+const helpers = require("./helpers");
 
-var expect = require("chai").expect;
-
-var conn;
+const {describe, it} = require("mocha");
+const {expect} = require("chai");
 
 
 
 describe("CLI", function()
 {
-	before( function()
-	{
-		return helpers.startConnections().then( function(connections)
-		{
-			conn = connections;
-		});
-	});
-	
-	
-	
-	after( function()
-	{
-		return helpers.stopConnections(conn.realPorts);
-	});
-	
-	
-	
+	//before(() => helpers.startServer("http://blc/"));
+	//after(helpers.stopServers);
+
+
+
+	// TODO :: ideas at https://github.com/stevenvachon/broken-link-checker/pull/46#issuecomment-242453696
 	it.skip("works", function(done)
 	{
 		done();

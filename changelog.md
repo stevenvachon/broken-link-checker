@@ -1,3 +1,22 @@
+* 0.8.0
+  * dropped support for Node v0.10, v0.12 and v4
+  * API change
+  * linkObj renamed to Link, and schema changed
+  * options changed: `acceptedSchemes`, `excludeLinksToSamePage`, `excludedSchemes`
+  * options renamed: `cacheExpiryTime`->`cacheMaxAge`
+  * CLI options added: `--verbosity`
+  * CLI options removed: `--verbose`
+  * added [WHATWG URL specification](https://url.spec.whatwg.org)-compliance
+  * added support for HTTP basic auth
+  * added support for HTTP compression
+  * added support for HTTP proxies
+  * added support for file:// protocol
+  * added missing tags/attributes
+  * added support for pausing/resuming the CLI
+  * added progress bar to the CLI
+  * added OS notification to the CLI
+  * test suite improvements
+  * bug fixes
 * 0.7.8 fix for Node.js v9
 * 0.7.7 added `--host-requests`, `--requests` CLI options
 * 0.7.6 bug fix

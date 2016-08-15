@@ -1,353 +1,1105 @@
 {
 	"<a href>": {
-		"html": "<a href=\"fake.html\">link</a>",
+		"html": "<a href=\"file.html\">link</a>",
 		"length": 1,
 		"link": {
 			"url": {
-				"original": "fake.html"
+				"original":                             "file.html",
+				"resolved": { "href": "http://domain.com/file.html" },
+				"rebased":  { "href": "http://domain.com/file.html" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
 			},
 			"html": {
 				"selector": "html > body > a:nth-child(1)",
 				"tagName": "a",
 				"attrName": "href",
-				"tag": "<a href=\"fake.html\">",
+				"tag": "<a href=\"file.html\">",
 				"text": "link"
 			}
 		}
 	},
-	"<area href/>": {
-		"html": "<area href=\"fake.html\"/>",
+	"<a ping>": {
+		"html": "<a ping=\"file.html\">link</a>",
 		"length": 1,
 		"link": {
 			"url": {
-				"original": "fake.html"
+				"original":                             "file.html",
+				"resolved": { "href": "http://domain.com/file.html" },
+				"rebased":  { "href": "http://domain.com/file.html" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > body > a:nth-child(1)",
+				"tagName": "a",
+				"attrName": "ping",
+				"tag": "<a ping=\"file.html\">",
+				"text": "link"
+			}
+		}
+	},
+	"<applet archive>": {
+		"html": "<applet archive=\"file.zip\">params</applet>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.zip",
+				"resolved": { "href": "http://domain.com/file.zip" },
+				"rebased":  { "href": "http://domain.com/file.zip" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > body > applet:nth-child(1)",
+				"tagName": "applet",
+				"attrName": "archive",
+				"tag": "<applet archive=\"file.zip\">",
+				"text": "params"
+			}
+		}
+	},
+	"<applet code>": {
+		"html": "<applet code=\"file.class\">params</applet>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.class",
+				"resolved": { "href": "http://domain.com/file.class" },
+				"rebased":  { "href": "http://domain.com/file.class" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > body > applet:nth-child(1)",
+				"tagName": "applet",
+				"attrName": "code",
+				"tag": "<applet code=\"file.class\">",
+				"text": "params"
+			}
+		}
+	},
+	"<applet codebase>": {
+		"html": "<applet codebase=\"file.html\">params</applet>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.html",
+				"resolved": { "href": "http://domain.com/file.html" },
+				"rebased":  { "href": "http://domain.com/file.html" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > body > applet:nth-child(1)",
+				"tagName": "applet",
+				"attrName": "codebase",
+				"tag": "<applet codebase=\"file.html\">",
+				"text": "params"
+			}
+		}
+	},
+	"<applet object>": {
+		"html": "<applet object=\"file.html\">params</applet>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.html",
+				"resolved": { "href": "http://domain.com/file.html" },
+				"rebased":  { "href": "http://domain.com/file.html" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > body > applet:nth-child(1)",
+				"tagName": "applet",
+				"attrName": "object",
+				"tag": "<applet object=\"file.html\">",
+				"text": "params"
+			}
+		}
+	},
+	"<applet src>": {
+		"html": "<applet src=\"file.html\">params</applet>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.html",
+				"resolved": { "href": "http://domain.com/file.html" },
+				"rebased":  { "href": "http://domain.com/file.html" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > body > applet:nth-child(1)",
+				"tagName": "applet",
+				"attrName": "src",
+				"tag": "<applet src=\"file.html\">",
+				"text": "params"
+			}
+		}
+	},
+	"<area href/>": {
+		"html": "<area href=\"file.html\"/>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.html",
+				"resolved": { "href": "http://domain.com/file.html" },
+				"rebased":  { "href": "http://domain.com/file.html" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
 			},
 			"html": {
 				"selector": "html > body > area:nth-child(1)",
 				"tagName": "area",
 				"attrName": "href",
-				"tag": "<area href=\"fake.html\">",
+				"tag": "<area href=\"file.html\">",
+				"text": null
+			}
+		}
+	},
+	"<area ping/>": {
+		"html": "<area ping=\"file.html\"/>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.html",
+				"resolved": { "href": "http://domain.com/file.html" },
+				"rebased":  { "href": "http://domain.com/file.html" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > body > area:nth-child(1)",
+				"tagName": "area",
+				"attrName": "ping",
+				"tag": "<area ping=\"file.html\">",
 				"text": null
 			}
 		}
 	},
 	"<audio src>": {
-		"html": "<audio src=\"fake.ogg\"></audio>",
+		"html": "<audio src=\"file.ogg\">sources/tracks</audio>",
 		"length": 1,
 		"link": {
 			"url": {
-				"original": "fake.ogg"
+				"original":                             "file.ogg",
+				"resolved": { "href": "http://domain.com/file.ogg" },
+				"rebased":  { "href": "http://domain.com/file.ogg" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
 			},
 			"html": {
 				"selector": "html > body > audio:nth-child(1)",
 				"tagName": "audio",
 				"attrName": "src",
-				"tag": "<audio src=\"fake.ogg\">",
-				"text": null
+				"tag": "<audio src=\"file.ogg\">",
+				"text": "sources/tracks"
 			}
 		}
 	},
 	"<blockquote cite>": {
-		"html": "<blockquote cite=\"fake.html\">quote</blockquote>",
+		"html": "<blockquote cite=\"file.html\">quote</blockquote>",
 		"length": 1,
 		"link": {
 			"url": {
-				"original": "fake.html"
+				"original":                             "file.html",
+				"resolved": { "href": "http://domain.com/file.html" },
+				"rebased":  { "href": "http://domain.com/file.html" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
 			},
 			"html": {
 				"selector": "html > body > blockquote:nth-child(1)",
 				"tagName": "blockquote",
 				"attrName": "cite",
-				"tag": "<blockquote cite=\"fake.html\">",
+				"tag": "<blockquote cite=\"file.html\">",
 				"text": "quote"
 			}
 		}
 	},
-	"<del cite>": {
-		"html": "<del cite=\"fake.html\">deleted</del>",
+	"<body background>": {
+		"html": "<body background=\"file.png\">html</body>",
 		"length": 1,
 		"link": {
 			"url": {
-				"original": "fake.html"
+				"original":                             "file.png",
+				"resolved": { "href": "http://domain.com/file.png" },
+				"rebased":  { "href": "http://domain.com/file.png" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > body",
+				"tagName": "body",
+				"attrName": "background",
+				"tag": "<body background=\"file.png\">",
+				"text": "html"
+			}
+		}
+	},
+	"<button formaction>": {
+		"html": "<button formaction=\"file.html\">button</button>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.html",
+				"resolved": { "href": "http://domain.com/file.html" },
+				"rebased":  { "href": "http://domain.com/file.html" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > body > button:nth-child(1)",
+				"tagName": "button",
+				"attrName": "formaction",
+				"tag": "<button formaction=\"file.html\">",
+				"text": "button"
+			}
+		}
+	},
+	"<del cite>": {
+		"html": "<del cite=\"file.html\">deleted</del>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.html",
+				"resolved": { "href": "http://domain.com/file.html" },
+				"rebased":  { "href": "http://domain.com/file.html" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
 			},
 			"html": {
 				"selector": "html > body > del:nth-child(1)",
 				"tagName": "del",
 				"attrName": "cite",
-				"tag": "<del cite=\"fake.html\">",
+				"tag": "<del cite=\"file.html\">",
 				"text": "deleted"
 			}
 		}
 	},
 	"<embed src/>": {
-		"html": "<embed src=\"fake.swf\"/>",
+		"html": "<embed src=\"file.swf\"/>",
 		"length": 1,
 		"link": {
 			"url": {
-				"original": "fake.swf"
+				"original":                             "file.swf",
+				"resolved": { "href": "http://domain.com/file.swf" },
+				"rebased":  { "href": "http://domain.com/file.swf" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
 			},
 			"html": {
 				"selector": "html > body > embed:nth-child(1)",
 				"tagName": "embed",
 				"attrName": "src",
-				"tag": "<embed src=\"fake.swf\">",
+				"tag": "<embed src=\"file.swf\">",
 				"text": null
 			}
 		}
 	},
 	"<form action>": {
-		"html": "<form action=\"fake.html\">fields</form>",
+		"html": "<form action=\"file.html\">fields</form>",
 		"length": 1,
 		"link": {
 			"url": {
-				"original": "fake.html"
+				"original":                             "file.html",
+				"resolved": { "href": "http://domain.com/file.html" },
+				"rebased":  { "href": "http://domain.com/file.html" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
 			},
 			"html": {
 				"selector": "html > body > form:nth-child(1)",
 				"tagName": "form",
 				"attrName": "action",
-				"tag": "<form action=\"fake.html\">",
+				"tag": "<form action=\"file.html\">",
 				"text": "fields"
 			}
 		}
 	},
-	"<iframe longdesc>": {
-		"html": "<iframe longdesc=\"fake.html\"></iframe>",
+	"<frame longdesc/>": {
+		"html": "<frameset><frame longdesc=\"file.html\"/></frameset>",
 		"length": 1,
 		"link": {
 			"url": {
-				"original": "fake.html"
+				"original":                             "file.html",
+				"resolved": { "href": "http://domain.com/file.html" },
+				"rebased":  { "href": "http://domain.com/file.html" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > frameset:nth-child(2) > frame:nth-child(1)",
+				"tagName": "frame",
+				"attrName": "longdesc",
+				"tag": "<frame longdesc=\"file.html\">",
+				"text": null
+			}
+		}
+	},
+	"<frame src/>": {
+		"html": "<frameset><frame src=\"file.html\"/></frameset>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.html",
+				"resolved": { "href": "http://domain.com/file.html" },
+				"rebased":  { "href": "http://domain.com/file.html" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > frameset:nth-child(2) > frame:nth-child(1)",
+				"tagName": "frame",
+				"attrName": "src",
+				"tag": "<frame src=\"file.html\">",
+				"text": null
+			}
+		}
+	},
+	"<head profile>": {
+		"html": "<head profile=\"file.html\">meta</head>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.html",
+				"resolved": { "href": "http://domain.com/file.html" },
+				"rebased":  { "href": "http://domain.com/file.html" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > head",
+				"tagName": "head",
+				"attrName": "profile",
+				"tag": "<head profile=\"file.html\">",
+				"text": null
+			}
+		}
+	},
+	"<html manifest>": {
+		"html": "<html manifest=\"file.appcache\">html</html>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.appcache",
+				"resolved": { "href": "http://domain.com/file.appcache" },
+				"rebased":  { "href": "http://domain.com/file.appcache" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html",
+				"tagName": "html",
+				"attrName": "manifest",
+				"tag": "<html manifest=\"file.appcache\">",
+				"text": "html"
+			}
+		}
+	},
+	"<iframe longdesc>": {
+		"html": "<iframe longdesc=\"file.html\"></iframe>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.html",
+				"resolved": { "href": "http://domain.com/file.html" },
+				"rebased":  { "href": "http://domain.com/file.html" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
 			},
 			"html": {
 				"selector": "html > body > iframe:nth-child(1)",
 				"tagName": "iframe",
 				"attrName": "longdesc",
-				"tag": "<iframe longdesc=\"fake.html\">",
+				"tag": "<iframe longdesc=\"file.html\">",
 				"text": null
 			}
 		}
 	},
 	"<iframe src>": {
-		"html": "<iframe src=\"fake.html\"></iframe>",
+		"html": "<iframe src=\"file.html\"></iframe>",
 		"length": 1,
 		"link": {
 			"url": {
-				"original": "fake.html"
+				"original":                             "file.html",
+				"resolved": { "href": "http://domain.com/file.html" },
+				"rebased":  { "href": "http://domain.com/file.html" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
 			},
 			"html": {
 				"selector": "html > body > iframe:nth-child(1)",
 				"tagName": "iframe",
 				"attrName": "src",
-				"tag": "<iframe src=\"fake.html\">",
+				"tag": "<iframe src=\"file.html\">",
 				"text": null
 			}
 		}
 	},
 	"<img longdesc/>": {
-		"html": "<img longdesc=\"fake.html\"/>",
+		"html": "<img longdesc=\"file.html\"/>",
 		"length": 1,
 		"link": {
 			"url": {
-				"original": "fake.html"
+				"original":                             "file.html",
+				"resolved": { "href": "http://domain.com/file.html" },
+				"rebased":  { "href": "http://domain.com/file.html" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
 			},
 			"html": {
 				"selector": "html > body > img:nth-child(1)",
 				"tagName": "img",
 				"attrName": "longdesc",
-				"tag": "<img longdesc=\"fake.html\">",
+				"tag": "<img longdesc=\"file.html\">",
 				"text": null
 			}
 		}
 	},
 	"<img src/>": {
-		"html": "<img src=\"fake.png\"/>",
+		"html": "<img src=\"file.png\"/>",
 		"length": 1,
 		"link": {
 			"url": {
-				"original": "fake.png"
+				"original":                             "file.png",
+				"resolved": { "href": "http://domain.com/file.png" },
+				"rebased":  { "href": "http://domain.com/file.png" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
 			},
 			"html": {
 				"selector": "html > body > img:nth-child(1)",
 				"tagName": "img",
 				"attrName": "src",
-				"tag": "<img src=\"fake.png\">",
+				"tag": "<img src=\"file.png\">",
+				"text": null
+			}
+		}
+	},
+	"<img srcset/>": {
+		"html": "<img srcset=\"file.png 2x\"/>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.png",
+				"resolved": { "href": "http://domain.com/file.png" },
+				"rebased":  { "href": "http://domain.com/file.png" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > body > img:nth-child(1)",
+				"tagName": "img",
+				"attrName": "srcset",
+				"tag": "<img srcset=\"file.png 2x\">",
+				"text": null
+			}
+		}
+	},
+	"<input formaction/>": {
+		"html": "<input formaction=\"file.html\"/>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.html",
+				"resolved": { "href": "http://domain.com/file.html" },
+				"rebased":  { "href": "http://domain.com/file.html" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > body > input:nth-child(1)",
+				"tagName": "input",
+				"attrName": "formaction",
+				"tag": "<input formaction=\"file.html\">",
 				"text": null
 			}
 		}
 	},
 	"<input src/>": {
-		"html": "<input src=\"fake.png\"/>",
+		"html": "<input src=\"file.png\"/>",
 		"length": 1,
 		"link": {
 			"url": {
-				"original": "fake.png"
+				"original":                             "file.png",
+				"resolved": { "href": "http://domain.com/file.png" },
+				"rebased":  { "href": "http://domain.com/file.png" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
 			},
 			"html": {
 				"selector": "html > body > input:nth-child(1)",
 				"tagName": "input",
 				"attrName": "src",
-				"tag": "<input src=\"fake.png\">",
+				"tag": "<input src=\"file.png\">",
 				"text": null
 			}
 		}
 	},
 	"<ins cite>": {
-		"html": "<ins cite=\"fake.html\">inserted</ins>",
+		"html": "<ins cite=\"file.html\">inserted</ins>",
 		"length": 1,
 		"link": {
 			"url": {
-				"original": "fake.html"
+				"original":                             "file.html",
+				"resolved": { "href": "http://domain.com/file.html" },
+				"rebased":  { "href": "http://domain.com/file.html" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
 			},
 			"html": {
 				"selector": "html > body > ins:nth-child(1)",
 				"tagName": "ins",
 				"attrName": "cite",
-				"tag": "<ins cite=\"fake.html\">",
+				"tag": "<ins cite=\"file.html\">",
 				"text": "inserted"
 			}
 		}
 	},
 	"<link href/>": {
-		"html": "<link href=\"fake.css\"/>",
+		"html": "<link href=\"file.css\"/>",
 		"length": 1,
 		"link": {
 			"url": {
-				"original": "fake.css"
+				"original":                             "file.css",
+				"resolved": { "href": "http://domain.com/file.css" },
+				"rebased":  { "href": "http://domain.com/file.css" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
 			},
 			"html": {
 				"selector": "html > head > link:nth-child(1)",
 				"tagName": "link",
 				"attrName": "href",
-				"tag": "<link href=\"fake.css\">",
+				"tag": "<link href=\"file.css\">",
 				"text": null
 			}
 		}
 	},
 	"<menuitem icon/>": {
-		"html": "<menuitem icon=\"fake.png\"/>",
+		"html": "<menuitem icon=\"file.png\"/>",
 		"length": 1,
 		"link": {
 			"url": {
-				"original": "fake.png"
+				"original":                             "file.png",
+				"resolved": { "href": "http://domain.com/file.png" },
+				"rebased":  { "href": "http://domain.com/file.png" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
 			},
 			"html": {
 				"selector": "html > body > menuitem:nth-child(1)",
 				"tagName": "menuitem",
 				"attrName": "icon",
-				"tag": "<menuitem icon=\"fake.png\">",
+				"tag": "<menuitem icon=\"file.png\">",
 				"text": null
 			}
 		}
 	},
 	"<meta http-equiv=\"refresh\" content/>": {
-		"html": "<meta http-equiv=\"refresh\" content=\"5; url=fake.html\"/>",
+		"html": "<meta http-equiv=\"refresh\" content=\"5; url=file.html\"/>",
 		"length": 1,
 		"link": {
 			"url": {
-				"original": "fake.html"
+				"original":                             "file.html",
+				"resolved": { "href": "http://domain.com/file.html" },
+				"rebased":  { "href": "http://domain.com/file.html" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
 			},
 			"html": {
 				"selector": "html > head > meta:nth-child(1)",
 				"tagName": "meta",
 				"attrName": "content",
-				"tag": "<meta http-equiv=\"refresh\" content=\"5; url=fake.html\">",
+				"tag": "<meta http-equiv=\"refresh\" content=\"5; url=file.html\">",
 				"text": null
 			}
 		}
 	},
-	"<object data>": {
-		"html": "<object data=\"fake.swf\"></object>",
+	"<object codebase>": {
+		"html": "<object codebase=\"file.html\">params</object>",
 		"length": 1,
 		"link": {
 			"url": {
-				"original": "fake.swf"
+				"original":                             "file.html",
+				"resolved": { "href": "http://domain.com/file.html" },
+				"rebased":  { "href": "http://domain.com/file.html" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > body > object:nth-child(1)",
+				"tagName": "object",
+				"attrName": "codebase",
+				"tag": "<object codebase=\"file.html\">",
+				"text": "params"
+			}
+		}
+	},
+	"<object data>": {
+		"html": "<object data=\"file.swf\">params</object>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.swf",
+				"resolved": { "href": "http://domain.com/file.swf" },
+				"rebased":  { "href": "http://domain.com/file.swf" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
 			},
 			"html": {
 				"selector": "html > body > object:nth-child(1)",
 				"tagName": "object",
 				"attrName": "data",
-				"tag": "<object data=\"fake.swf\">",
-				"text": null
+				"tag": "<object data=\"file.swf\">",
+				"text": "params"
 			}
 		}
 	},
 	"<q cite>": {
-		"html": "<q cite=\"fake.html\">quote</q>",
+		"html": "<q cite=\"file.html\">quote</q>",
 		"length": 1,
 		"link": {
 			"url": {
-				"original": "fake.html"
+				"original":                             "file.html",
+				"resolved": { "href": "http://domain.com/file.html" },
+				"rebased":  { "href": "http://domain.com/file.html" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
 			},
 			"html": {
 				"selector": "html > body > q:nth-child(1)",
 				"tagName": "q",
 				"attrName": "cite",
-				"tag": "<q cite=\"fake.html\">",
+				"tag": "<q cite=\"file.html\">",
 				"text": "quote"
 			}
 		}
 	},
 	"<script src>": {
-		"html": "<script src=\"fake.js\"></script>",
+		"html": "<script src=\"file.js\"></script>",
 		"length": 1,
 		"link": {
 			"url": {
-				"original": "fake.js"
+				"original":                             "file.js",
+				"resolved": { "href": "http://domain.com/file.js" },
+				"rebased":  { "href": "http://domain.com/file.js" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
 			},
 			"html": {
 				"selector": "html > head > script:nth-child(1)",
 				"tagName": "script",
 				"attrName": "src",
-				"tag": "<script src=\"fake.js\">",
+				"tag": "<script src=\"file.js\">",
 				"text": null
 			}
 		}
 	},
 	"<source src/>": {
-		"html": "<source src=\"fake.ogg\"/>",
+		"html": "<source src=\"file.ogg\"/>",
 		"length": 1,
 		"link": {
 			"url": {
-				"original": "fake.ogg"
+				"original":                             "file.ogg",
+				"resolved": { "href": "http://domain.com/file.ogg" },
+				"rebased":  { "href": "http://domain.com/file.ogg" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
 			},
 			"html": {
 				"selector": "html > body > source:nth-child(1)",
 				"tagName": "source",
 				"attrName": "src",
-				"tag": "<source src=\"fake.ogg\">",
+				"tag": "<source src=\"file.ogg\">",
+				"text": null
+			}
+		}
+	},
+	"<source srcset/>": {
+		"html": "<source srcset=\"file.png 2x\"/>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.png",
+				"resolved": { "href": "http://domain.com/file.png" },
+				"rebased":  { "href": "http://domain.com/file.png" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > body > source:nth-child(1)",
+				"tagName": "source",
+				"attrName": "srcset",
+				"tag": "<source srcset=\"file.png 2x\">",
+				"text": null
+			}
+		}
+	},
+	"<table background>": {
+		"html": "<table background=\"file.png\">spreadsheet</table>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.png",
+				"resolved": { "href": "http://domain.com/file.png" },
+				"rebased":  { "href": "http://domain.com/file.png" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > body > table:nth-child(1)",
+				"tagName": "table",
+				"attrName": "background",
+				"tag": "<table background=\"file.png\">",
+				"text": null
+			}
+		}
+	},
+	"<tbody background>": {
+		"html": "<table><tbody background=\"file.png\">rows</tbody></table>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.png",
+				"resolved": { "href": "http://domain.com/file.png" },
+				"rebased":  { "href": "http://domain.com/file.png" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > body > table:nth-child(1) > tbody:nth-child(1)",
+				"tagName": "tbody",
+				"attrName": "background",
+				"tag": "<tbody background=\"file.png\">",
+				"text": null
+			}
+		}
+	},
+	"<td background>": {
+		"html": "<table><td background=\"file.png\">data</td></table>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.png",
+				"resolved": { "href": "http://domain.com/file.png" },
+				"rebased":  { "href": "http://domain.com/file.png" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > body > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1)",
+				"tagName": "td",
+				"attrName": "background",
+				"tag": "<td background=\"file.png\">",
+				"text": "data"
+			}
+		}
+	},
+	"<tfoot background>": {
+		"html": "<table><tfoot background=\"file.png\">rows</tfoot></table>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.png",
+				"resolved": { "href": "http://domain.com/file.png" },
+				"rebased":  { "href": "http://domain.com/file.png" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > body > table:nth-child(1) > tfoot:nth-child(1)",
+				"tagName": "tfoot",
+				"attrName": "background",
+				"tag": "<tfoot background=\"file.png\">",
+				"text": null
+			}
+		}
+	},
+	"<th background>": {
+		"html": "<table><th background=\"file.png\">heading</th></table>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.png",
+				"resolved": { "href": "http://domain.com/file.png" },
+				"rebased":  { "href": "http://domain.com/file.png" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > body > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > th:nth-child(1)",
+				"tagName": "th",
+				"attrName": "background",
+				"tag": "<th background=\"file.png\">",
+				"text": "heading"
+			}
+		}
+	},
+	"<thead background>": {
+		"html": "<table><thead background=\"file.png\">rows</thead></table>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.png",
+				"resolved": { "href": "http://domain.com/file.png" },
+				"rebased":  { "href": "http://domain.com/file.png" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > body > table:nth-child(1) > thead:nth-child(1)",
+				"tagName": "thead",
+				"attrName": "background",
+				"tag": "<thead background=\"file.png\">",
+				"text": null
+			}
+		}
+	},
+	"<tr background>": {
+		"html": "<table><tr background=\"file.png\">columns</tr></table>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.png",
+				"resolved": { "href": "http://domain.com/file.png" },
+				"rebased":  { "href": "http://domain.com/file.png" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > body > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1)",
+				"tagName": "tr",
+				"attrName": "background",
+				"tag": "<tr background=\"file.png\">",
 				"text": null
 			}
 		}
 	},
 	"<track src/>": {
-		"html": "<track src=\"fake.vtt\"/>",
+		"html": "<track src=\"file.vtt\"/>",
 		"length": 1,
 		"link": {
 			"url": {
-				"original": "fake.vtt"
+				"original":                             "file.vtt",
+				"resolved": { "href": "http://domain.com/file.vtt" },
+				"rebased":  { "href": "http://domain.com/file.vtt" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
 			},
 			"html": {
 				"selector": "html > body > track:nth-child(1)",
 				"tagName": "track",
 				"attrName": "src",
-				"tag": "<track src=\"fake.vtt\">",
+				"tag": "<track src=\"file.vtt\">",
 				"text": null
 			}
 		}
 	},
-	"<video src>": {
-		"html": "<video src=\"fake.ogg\"></video>",
+	"<video poster>": {
+		"html": "<video poster=\"file.png\">sources/tracks</video>",
 		"length": 1,
 		"link": {
 			"url": {
-				"original": "fake.ogg"
+				"original":                             "file.png",
+				"resolved": { "href": "http://domain.com/file.png" },
+				"rebased":  { "href": "http://domain.com/file.png" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > body > video:nth-child(1)",
+				"tagName": "video",
+				"attrName": "poster",
+				"tag": "<video poster=\"file.png\">",
+				"text": "sources/tracks"
+			}
+		}
+	},
+	"<video src>": {
+		"html": "<video src=\"file.ogg\">sources/tracks</video>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.ogg",
+				"resolved": { "href": "http://domain.com/file.ogg" },
+				"rebased":  { "href": "http://domain.com/file.ogg" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
 			},
 			"html": {
 				"selector": "html > body > video:nth-child(1)",
 				"tagName": "video",
 				"attrName": "src",
-				"tag": "<video src=\"fake.ogg\">",
-				"text": null
+				"tag": "<video src=\"file.ogg\">",
+				"text": "sources/tracks"
+			}
+		}
+	},
+	"<* itemtype>": {
+		"html": "<tag itemtype=\"file.html\">microdata</tag>",
+		"length": 1,
+		"link": {
+			"url": {
+				"original":                             "file.html",
+				"resolved": { "href": "http://domain.com/file.html" },
+				"rebased":  { "href": "http://domain.com/file.html" },
+				"redirected":         null
+			},
+			"base": {
+				"resolved": { "href": "http://domain.com/" },
+				"rebased":  { "href": "http://domain.com/" }
+			},
+			"html": {
+				"selector": "html > body > tag:nth-child(1)",
+				"tagName": "tag",
+				"attrName": "itemtype",
+				"tag": "<tag itemtype=\"file.html\">",
+				"text": "microdata"
 			}
 		}
 	}

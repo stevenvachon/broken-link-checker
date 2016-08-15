@@ -1,7 +1,7 @@
 {
   "name": "broken-link-checker",
   "description": "Find broken links, missing images, etc in your HTML.",
-  "version": "0.7.8",
+  "version": "0.8.0",
   "license": "MIT",
   "author": "Steven Vachon <contact@svachon.com> (https://www.svachon.com/)",
   "repository": "stevenvachon/broken-link-checker",
@@ -11,51 +11,70 @@
     "broken-link-checker": "bin/blc"
   },
   "dependencies": {
-    "bhttp": "^1.2.1",
+    "auto-tunnel": "stevenvachon/auto-tunnel",
+    "bhttp": "^1.2.4",
     "calmcard": "~0.1.1",
-    "chalk": "^1.1.3",
-    "char-spinner": "^1.0.1",
+    "chalk": "^2.3.2",
     "condense-whitespace": "^1.0.0",
+    "decompress-response": "^3.3.0",
     "default-user-agent": "^1.0.0",
-    "errno": "~0.1.4",
-    "extend": "^3.0.0",
-    "humanize-duration": "^3.9.1",
-    "http-equiv-refresh": "^1.0.0",
-    "is-stream": "^1.0.1",
+    "errno": "~0.1.7",
+    "es6-promise-try": "^1.0.2",
+    "extend": "^3.0.1",
+    "gauge": "^2.7.4",
+    "http-equiv-refresh": "^2.0.0",
+    "humanize-duration": "^3.12.1",
+    "is-object": "^1.0.1",
+    "is-promise": "^2.1.0",
+    "is-stream": "^1.1.0",
     "is-string": "^1.0.4",
-    "limited-request-queue": "^2.0.0",
-    "link-types": "^1.1.0",
-    "maybe-callback": "^2.1.0",
-    "nopter": "~0.3.0",
-    "parse5": "^3.0.2",
-    "robot-directives": "~0.3.0",
-    "robots-txt-guard": "~0.1.0",
+    "isurl": "^1.0.0",
+    "keyscan": "^1.7.0",
+    "limited-request-queue": "stevenvachon/limited-request-queue",
+    "link-types": "^2.0.0",
+    "list-to-array": "^1.1.0",
+    "longest": "^2.0.1",
+    "node-notifier": "^5.2.1",
+    "optionator": "~0.8.2",
+    "parse-srcset": "^1.0.2",
+    "parse5": "^4.0.0",
+    "robot-directives": "~0.4.0",
+    "robots-txt-guard": "~0.1.1",
     "robots-txt-parse": "~0.0.4",
-    "urlcache": "~0.7.0",
-    "urlobj": "0.0.11"
+    "strip-ansi": "^4.0.0",
+    "supports-semigraphics": "^1.0.1",
+    "universal-url": "^1.0.0",
+    "url-relation": "^1.0.0-alpha9",
+    "urlcache": "stevenvachon/urlcache",
+    "util.promisify": "^1.0.0",
+    "walk-parse5": "^1.0.0"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "chai-as-promised": "^6.0.0",
-    "chai-like": "~0.2.10",
+    "basic-auth": "^1.1.0",
+    "basic-auth-header": "^1.0.1",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "chai-subset": "stevenvachon/chai-subset",
     "chai-things": "~0.2.0",
-    "es6-promise": "^4.1.0",
-    "mocha": "^3.0.2",
-    "object.assign": "^4.0.4",
-    "slashes": "^1.0.5",
-    "st": "^1.2.0"
+    "coveralls": "^3.0.0",
+    "escape-string-regexp": "^1.0.5",
+    "mocha": "^5.0.4",
+    "nock": "^9.2.3",
+    "nyc": "^11.6.0",
+    "void-elements": "^3.1.0"
   },
   "engines": {
-    "node": ">= 0.10"
+    "node": ">= 6"
   },
   "scripts": {
-    "test": "mocha test/ --reporter spec --check-leaks --bail",
-    "test-watch": "mocha test/ --reporter spec --check-leaks --bail -w"
+    "ci": "npm run test && nyc report --reporter=text-lcov | coveralls",
+    "posttest": "nyc report --reporter=html",
+    "test": "nyc --reporter=text-summary mocha test/ --reporter=spec --check-leaks --bail",
+    "watch": "npm run test -- --watch --watch-extensions=json"
   },
   "files": [
     "bin",
-    "lib",
-    "license"
+    "lib"
   ],
   "keywords": [
     "404",
@@ -63,6 +82,7 @@
     "hyperlink",
     "links",
     "seo",
-    "url"
+    "url",
+    "whatwg"
   ]
 }
