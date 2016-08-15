@@ -1,3 +1,21 @@
+* 0.8.0
+  * dropped support for Node versions below 12.0
+  * API changes
+  * `linkObj` renamed to `Link`, and schema changed
+  * options added: `includedKeywords`, `includePage`, `retryHeadCodes`
+  * options changed: `acceptedSchemes`, `excludeLinksToSamePage`, `excludedSchemes`
+  * options renamed: `cacheExpiryTime`→`cacheMaxAge`, `customFilter`→`includeLink`, `retry405Head`→`retryHeadFail`
+  * CLI options added: `--include`, `--verbosity`
+  * CLI options removed: `--verbose`
+  * added [WHATWG URL specification](https://url.spec.whatwg.org)-compliance
+  * added support for HTTP basic auth, compression, proxies
+  * added support for file:// protocol
+  * added missing tags/attributes
+  * added support for pausing/resuming the CLI
+  * added progress bar and OS notification to the CLI
+  * refactored to ES2015+
+  * test suite improvements
+  * bug fixes
 * 0.7.8 fix for Node.js v9
 * 0.7.7 added `--host-requests`, `--requests` CLI options
 * 0.7.6 bug fix
@@ -10,11 +28,11 @@
   * added `SiteChecker`
   * methods added: `numPages()`, `numSites()`
   * methods removed: `numActiveItems()`
-  * methods renamed: `length()`->`numQueuedLinks()`
+  * methods renamed: `length()`→`numQueuedLinks()`
   * options added: `honorRobotExclusions`
   * options removed: `excludeResponseData`
   * handlers added: `html`, `robots`
-  * handlers renamed: `item`->`page`
+  * handlers renamed: `item`→`page`
   * CLI options added: `--follow`, `--recursive`, `--user-agent`
   * linkObj added: `brokenReason`, `excludedReason`, `html.location`
   * linkObj removed: `error`, `http.redirects`, `http.statusCode`
@@ -52,9 +70,9 @@
   * API change
   * CLI options
   * options added: `excludeExternalLinks`, `excludeResponseData`, `maxSockets`
-  * options renamed: `maxSockets`->`maxSocketsPerHost`
+  * options renamed: `maxSockets`→`maxSocketsPerHost`
   * linkObj added: `http`
-  * linkObj moved: `response`->`http.response`
+  * linkObj moved: `response`→`http.response`
   * linkObj changed: `internal` and `samePage` now compares the base URL (ignoring `<base>`) with links that may have `<base>` applied
   * switched from [request](https://npmjs.com/request) to [bhttp](https://npmjs.com/bhttp)
 * 0.4.3 added `rateLimit` option, cleanup
@@ -68,7 +86,7 @@
   * linkObj added: `html.selector`
 * 0.3.0
   * options added: `maxSockets`
-  * options renamed: `site`->`base`
+  * options renamed: `site`→`base`
   * `<base>` supported
   * requesting links now only downloads the response header
   * faster test suite
