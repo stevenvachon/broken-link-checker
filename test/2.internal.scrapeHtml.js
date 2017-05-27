@@ -501,6 +501,41 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function()
 				]);
 			});
 		});
+
+
+
+		it("supports invalid html structure (#2)", function()
+		{
+			var html = '<html><head><title>title</title></head><body>';
+			html += '<a href="fake.html">1<p>2</a>';
+			html += '</body></html>';
+			
+			return wrapper(html).then( function(links)
+			{
+				expect(links).to.have.length(2);
+				expect(links).to.be.like(
+				[
+					{
+						url: { original:"fake.html" },
+						html:
+						{
+							selector: "html > body > a:nth-child(1)",
+							tag: '<a href="fake.html">',
+							text: "1"
+						}
+					},
+					{
+						url: { original:"fake.html" },
+						html:
+						{
+							selector: "html > body > p:nth-child(2) > a:nth-child(1)",
+							tag: '<a href="fake.html">',
+							text: "2"
+						}
+					}
+				]);
+			});
+		});
 		
 		
 		

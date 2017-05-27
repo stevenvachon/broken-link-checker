@@ -1,3 +1,4 @@
+* 0.7.6 bug fix
 * 0.7.5 bug fix
 * 0.7.4 bug fix
 * 0.7.3 updated tests and dependencies
