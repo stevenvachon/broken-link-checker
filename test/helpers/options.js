@@ -13,7 +13,10 @@ var testDefaultOptions =
 	honorRobotExclusions: false,
 	maxSockets: Infinity,
 	maxSocketsPerHost: Infinity,
-	retry405Head: false
+	retry405Head: false,
+	masquerades: {
+		"https://fakeurl3.com/": "https://fakeurl4.com/"
+	}
 };
 
 

@@ -6559,5 +6559,14 @@
 		"resolvedBaseUrl": null,
 		"internal": null,
 		"samePage": null
+	},
+	"MASQUERADED url": {
+		"linkUrl": "https://fakeurl3.com/path/link.html",
+		"baseUrl": "https://fakeurl3.com/path/link.html",
+		"htmlBaseUrl": "https://fakeurl3.com/path/link.html",
+		"resolvedLinkUrl": "https://fakeurl4.com/path/link.html",
+		"resolvedBaseUrl": "https://fakeurl3.com/path/link.html",
+		"internal": true,
+		"samePage": true
 	}
 }
