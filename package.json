@@ -1,25 +1,14 @@
 {
   "name": "broken-link-checker",
   "description": "Find broken links, missing images, etc in your HTML.",
-  "version": "0.7.7",
+  "version": "0.7.8",
   "license": "MIT",
-  "homepage": "https://github.com/stevenvachon/broken-link-checker",
-  "author": {
-    "name": "Steven Vachon",
-    "email": "contact@svachon.com",
-    "url": "http://www.svachon.com/"
-  },
+  "author": "Steven Vachon <contact@svachon.com> (https://www.svachon.com/)",
+  "repository": "stevenvachon/broken-link-checker",
   "main": "lib",
   "bin": {
     "blc": "bin/blc",
     "broken-link-checker": "bin/blc"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/stevenvachon/broken-link-checker.git"
-  },
-  "bugs": {
-    "url": "https://github.com/stevenvachon/broken-link-checker/issues"
   },
   "dependencies": {
     "bhttp": "^1.2.1",
@@ -42,8 +31,8 @@
     "robot-directives": "~0.3.0",
     "robots-txt-guard": "~0.1.0",
     "robots-txt-parse": "~0.0.4",
-    "urlcache": "~0.6.0",
-    "urlobj": "0.0.10"
+    "urlcache": "~0.7.0",
+    "urlobj": "0.0.11"
   },
   "devDependencies": {
     "chai": "^3.5.0",

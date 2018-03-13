@@ -1,3 +1,4 @@
+* 0.7.8 fix for Node.js v9
 * 0.7.7 added `--host-requests`, `--requests` CLI options
 * 0.7.6 bug fix
 * 0.7.5 bug fix
