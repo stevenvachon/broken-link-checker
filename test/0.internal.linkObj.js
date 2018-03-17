@@ -219,5 +219,32 @@ describe("INTERNAL -- linkObj", function()
 				samePage: null
 			});
 		});
+
+
+                it("replaces masquerades a url", function()
+                {
+                        var baseUrl = "smtp://fakeurl.com/";
+                        var linkUrl = "path/resource.html?query#hash";
+                        var link = linkObj(linkUrl);
+
+                        linkObj.resolve(link, baseUrl, options);
+
+                        expect(link).to.be.like(
+                        {
+                                url:
+                                {
+                                        original: linkUrl,
+                                        resolved: null
+                                },
+                                base:
+                                {
+                                        original: baseUrl,
+                                        resolved: baseUrl
+                                },
+                                internal: null,
+                                samePage: null
+                        });
+                });
 	});
 });
+
