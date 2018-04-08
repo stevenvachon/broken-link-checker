@@ -19,8 +19,8 @@
     "default-user-agent": "^1.0.0",
     "errno": "~0.1.4",
     "extend": "^3.0.0",
-    "humanize-duration": "^3.9.1",
     "http-equiv-refresh": "^1.0.0",
+    "humanize-duration": "^3.9.1",
     "is-stream": "^1.0.1",
     "is-string": "^1.0.4",
     "limited-request-queue": "^2.0.0",
@@ -31,6 +31,7 @@
     "robot-directives": "~0.3.0",
     "robots-txt-guard": "~0.1.0",
     "robots-txt-parse": "~0.0.4",
+    "strip-ansi": "^4.0.0",
     "urlcache": "~0.7.0",
     "urlobj": "0.0.11"
   },
