@@ -43,23 +43,18 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function()
 	
 	describe("link tags & attributes", function()
 	{
-		for (var test in tagTests)
-		{
-			var code = "";
+		Object.keys(tagTests).forEach(function(test) {
 			var data = tagTests[test];
-			var skipOrOnly = data.skipOrOnly==null ? "" : "."+data.skipOrOnly;
+			var skipOrOnly = data.skipOrOnly==null ? it : it[data.skipOrOnly];
+
+			skipOrOnly("supports " + helpers.addSlashes(test), function() {
+				return wrapper(data.html).then( function(links) {
+					expect(links).to.have.length(data.length);
+					expect(links[0]).to.be.like(data.link);
+				});
+			});
 			
-			code += 'it'+skipOrOnly+'("supports '+helpers.addSlashes(test)+'", function()\n';
-			code += '{\n';
-			code += '	return wrapper("'+helpers.addSlashes(data.html)+'").then( function(links)\n';
-			code += '	{\n';
-			code += '		expect(links).to.have.length('+data.length+');\n';
-			code += '		expect(links[0]).to.be.like('+JSON.stringify(data.link, null, "\t")+');\n';
-			code += '	});\n';
-			code += '});\n';
-			
-			eval(code);
-		}
+		});
 	});
 	
 	
