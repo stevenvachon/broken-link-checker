@@ -321,11 +321,24 @@ Detailed information for each link result is provided. Check out the [schema](ht
 console.log(result);
 ```
 
+## Using cheerio
+
+You can load the `tree` object to cheerio 1.0.0-rc.2 or later in the `html` hooks with
+
+```js
+var cheerio = require("cheerio");
+
+var siteChecker = new blc.SiteChecker(options, {
+	html: function(tree, robots, response, pageUrl, customData){
+		var $ = cheerio.load(tree.children)
+		var title = $("h1").text();
+	},
+});
+```
 
 ## Roadmap Features
 * fix issue where same-page links are not excluded when cache is enabled, despite `excludeLinksToSamePage===true`
 * publicize filter handlers
-* add cheerio support by using parse5's htmlparser2 tree adaptor?
 * add `rejectUnauthorized:false` option to avoid `UNABLE_TO_VERIFY_LEAF_SIGNATURE`
 * load sitemap.xml at end of each `SiteChecker` site to possibly check pages that were not linked to
 * remove `options.excludedSchemes` and handle schemes not in `options.acceptedSchemes` as junk?
