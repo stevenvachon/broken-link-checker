@@ -4,6 +4,7 @@ const HtmlChecker = require("../lib/public/HtmlChecker");
 
 const {after, before, describe, it} = require("mocha");
 const {expect} = require("chai");
+const cheerio = require("cheerio");
 
 const allTagsString = helpers.tagsString(3, false, "http://blc1/");
 const allTagsString_frameset = helpers.tagsString(3, true, "http://blc1/");
@@ -169,6 +170,21 @@ describe("PUBLIC -- HtmlChecker", function()
 				done();
 			})
 			.on("complete", () => { throw new Error("test") })
+			.scan(commonHtmlString, baseUrl);
+		});
+
+		it("html tree is compatible with cheerio", function(done)
+		{
+			new HtmlChecker( helpers.options() )
+			.on("error", error => done(error))
+			.on("html", function(tree, robots)
+			{
+				const $ = cheerio.load(tree.children);
+
+				expect($('a[href="fake.html"]').text()).to.equal("link-fake");
+
+				done();
+			})
 			.scan(commonHtmlString, baseUrl);
 		});
 	});
