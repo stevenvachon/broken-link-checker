@@ -383,9 +383,22 @@ if (result.broken) {
 }
 ```
 
+## Using cheerio
+
+
+You can load the `tree` object to cheerio 1.0.0-rc.2 or later using the `html` events
+
+```
+var siteChecker = new blc.SiteChecker(options);
+
+siteChecker.on("html", (tree, robot, res, url) => {
+    const $ = cheerio.load(tree.children);
+    console.log("Title", $("h1").text());
+});
+```
+
 
 ## Roadmap Features
-* add cheerio support by using parse5's htmlparser2 tree adaptor?
 * load sitemap.xml at end of each `SiteChecker` site to possibly check pages that were not linked to
 * remove `options.excludedSchemes` and handle schemes not in `options.acceptedSchemes` as junk?
 * change order of checking to: tcp error, 4xx code (broken), 5xx code (undetermined), 200
