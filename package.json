@@ -46,8 +46,7 @@
     "universal-url": "^1.0.0",
     "url-relation": "^1.0.0-alpha9",
     "urlcache": "stevenvachon/urlcache",
-    "util.promisify": "^1.0.0",
-    "walk-parse5": "^1.0.0"
+    "util.promisify": "^1.0.0"
   },
   "devDependencies": {
     "basic-auth": "^1.1.0",
