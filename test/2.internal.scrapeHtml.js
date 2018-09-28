@@ -198,6 +198,25 @@ describe("INTERNAL -- parseHtml / scrapeHtml", function()
 			});
 		});
 		
+		it("ignores comments", function()
+		{
+			return wrapper('<a href="fake1.html">link1<!-- this is comment -></a>').then( function(links)
+			{
+				expect(links).to.have.length(1);
+				expect(links).to.be.like(
+				[
+					{
+						url: { original:"fake1.html" },
+						html:
+						{
+							selector: "html > body > a:nth-child(1)",
+							tag: '<a href="fake1.html">',
+							text: "link1"
+						}
+					}
+				]);
+			});
+		});
 		
 		
 		it("supports nonconsecutive link elements", function()
