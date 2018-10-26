@@ -388,7 +388,7 @@ if (result.broken) {
 
 You can load the `tree` object to cheerio 1.0.0-rc.2 or later using the `html` events
 
-```
+```js
 var siteChecker = new blc.SiteChecker(options);
 
 siteChecker.on("html", (tree, robot, res, url) => {
