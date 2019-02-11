@@ -41,7 +41,6 @@
     "chai-things": "~0.2.0",
     "es6-promise": "^4.1.0",
     "mocha": "^3.0.2",
-    "object.assign": "^4.0.4",
     "slashes": "^1.0.5",
     "st": "^1.2.0"
   },

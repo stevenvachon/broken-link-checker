@@ -27,10 +27,8 @@ function options(overrides)
 		testDefaultOptions,
 		overrides
 	);
-	
+
 	return parseOptions(overrides);
 }
-
-
 
 module.exports = options;
