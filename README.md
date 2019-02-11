@@ -15,7 +15,7 @@ Features:
 
 ## Installation
 
-[Node.js](http://nodejs.org/) `>= 0.10` is required; `< 4.0` will need `Promise` and `Object.assign` polyfills.
+[Node.js](http://nodejs.org/) `>= 6.0` is required.
 
 There're two ways to use it:
 
@@ -174,58 +174,58 @@ urlChecker.enqueue(url, baseUrl, customData);
 ## Options
 
 ### `options.acceptedSchemes`
-Type: `Array`  
-Default value: `["http","https"]`  
+Type: `Array`
+Default value: `["http","https"]`
 Will only check links with schemes/protocols mentioned in this list. Any others (except those in `excludedSchemes`) will output an "Invalid URL" error.
 
 ### `options.cacheExpiryTime`
-Type: `Number`  
-Default Value: `3600000` (1 hour)  
+Type: `Number`
+Default Value: `3600000` (1 hour)
 The number of milliseconds in which a cached response should be considered valid. This is only relevant if the `cacheResponses` option is enabled.
 
 ### `options.cacheResponses`
-Type: `Boolean`  
-Default Value: `true`  
+Type: `Boolean`
+Default Value: `true`
 URL request results will be cached when `true`. This will ensure that each unique URL will only be checked once.
 
 ### `options.excludedKeywords`
-Type: `Array`  
-Default value: `[]`  
+Type: `Array`
+Default value: `[]`
 Will not check or output links that match the keywords and glob patterns in this list. The only wildcard supported is `*`.
 
 This option does *not* apply to `UrlChecker`.
 
 ### `options.excludedSchemes`
-Type: `Array`  
-Default value: `["data","geo","javascript","mailto","sms","tel"]`  
+Type: `Array`
+Default value: `["data","geo","javascript","mailto","sms","tel"]`
 Will not check or output links with schemes/protocols mentioned in this list. This avoids the output of "Invalid URL" errors with links that cannot be checked.
 
 This option does *not* apply to `UrlChecker`.
 
 ### `options.excludeExternalLinks`
-Type: `Boolean`  
-Default value: `false`  
+Type: `Boolean`
+Default value: `false`
 Will not check or output external links when `true`; relative links with a remote `<base>` included.
 
 This option does *not* apply to `UrlChecker`.
 
 ### `options.excludeInternalLinks`
-Type: `Boolean`  
-Default value: `false`  
+Type: `Boolean`
+Default value: `false`
 Will not check or output internal links when `true`.
 
 This option does *not* apply to `UrlChecker` nor `SiteChecker`'s *crawler*.
 
 ### `options.excludeLinksToSamePage`
-Type: `Boolean`  
-Default value: `true`  
+Type: `Boolean`
+Default value: `true`
 Will not check or output links to the same page; relative and absolute fragments/hashes included.
 
 This option does *not* apply to `UrlChecker`.
 
 ### `options.filterLevel`
-Type: `Number`  
-Default value: `1`  
+Type: `Number`
+Default value: `1`
 The tags and attributes that are considered links for checking, split into the following levels:
 * `0`: clickable links
 * `1`: clickable links, media, iframes, meta refreshes
@@ -237,8 +237,8 @@ Recursive links have a slightly different filter subset. To see the exact breakd
 This option does *not* apply to `UrlChecker`.
 
 ### `options.honorRobotExclusions`
-Type: `Boolean`  
-Default value: `true`  
+Type: `Boolean`
+Default value: `true`
 Will not scan pages that search engine crawlers would not follow. Such will have been specified with any of the following:
 * `<a rel="nofollow" href="…">`
 * `<area rel="nofollow" href="…">`
@@ -254,33 +254,33 @@ Will not scan pages that search engine crawlers would not follow. Such will have
 This option does *not* apply to `UrlChecker`.
 
 ### `options.maxSockets`
-Type: `Number`  
-Default value: `Infinity`  
+Type: `Number`
+Default value: `Infinity`
 The maximum number of links to check at any given time.
 
 ### `options.maxSocketsPerHost`
-Type: `Number`  
-Default value: `1`  
+Type: `Number`
+Default value: `1`
 The maximum number of links per host/port to check at any given time. This avoids overloading a single target host with too many concurrent requests. This will not limit concurrent requests to other hosts.
 
 ### `options.rateLimit`
-Type: `Number`  
-Default value: `0`  
+Type: `Number`
+Default value: `0`
 The number of milliseconds to wait before each request.
 
 ### `options.requestMethod`
-Type: `String`  
-Default value: `"head"`  
+Type: `String`
+Default value: `"head"`
 The HTTP request method used in checking links. If you experience problems, try using `"get"`, however `options.retry405Head` should have you covered.
 
 ### `options.retry405Head`
-Type: `Boolean`  
-Default value: `true`  
+Type: `Boolean`
+Default value: `true`
 Some servers do not respond correctly to a `"head"` request method. When `true`, a link resulting in an HTTP 405 "Method Not Allowed" error will be re-requested using a `"get"` method before deciding that it is broken.
 
 ### `options.userAgent`
-Type: `String`  
-Default value: `"broken-link-checker/0.7.0 Node.js/5.5.0 (OS X El Capitan; x64)"` (or similar)  
+Type: `String`
+Default value: `"broken-link-checker/0.7.0 Node.js/5.5.0 (OS X El Capitan; x64)"` (or similar)
 The HTTP user-agent to use when checking links as well as retrieving pages and robot exclusions.
 
 
