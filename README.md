@@ -271,7 +271,12 @@ The number of milliseconds to wait before each request.
 ### `options.requestMethod`
 Type: `String`  
 Default value: `"head"`  
-The HTTP request method used in checking links. If you experience problems, try using `"get"`, however `options.retry405Head` should have you covered.
+The HTTP request method used in checking links. If you experience problems, try using `"get"`, however `options.retry404Head` or `options.retry405Head` should have you covered.
+
+### `options.retry404Head`
+Type: `Boolean`  
+Default value: `false`  
+Some servers do not respond correctly to a `"head"` request method. When `true`, a link resulting in an HTTP 404 "Not Found" error will be re-requested using a `"get"` method before deciding that it is broken.
 
 ### `options.retry405Head`
 Type: `Boolean`  
