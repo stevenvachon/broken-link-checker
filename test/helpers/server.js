@@ -200,6 +200,24 @@ const addMock = (...urls) =>
 
 		intercept(instance,
 		{
+			path: "/internal-error/head.html",
+			methods:
+			{
+				get:
+				{
+					body: stream("/internal-error/head.html"),
+					headers: { "content-type":"text/html" },
+					statusCode: 200
+				},
+				head:
+				{
+					statusCode: 500
+				}
+			}
+		});
+
+        intercept(instance,
+		{
 			path: "/method-not-allowed/any.html",
 			methods:
 			{

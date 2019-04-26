@@ -3,6 +3,7 @@
   * API change
   * linkObj renamed to Link, and schema changed
   * options changed: `acceptedSchemes`, `excludeLinksToSamePage`, `excludedSchemes`
+  * options changed: `retry405Head`->`retryHeadFail`,`retryHeadCodes`
   * options renamed: `cacheExpiryTime`->`cacheMaxAge`
   * CLI options added: `--verbosity`
   * CLI options removed: `--verbose`

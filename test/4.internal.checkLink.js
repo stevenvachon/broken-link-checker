@@ -1532,7 +1532,7 @@ describe("INTERNAL -- checkLink", () =>
 
 
 
-		it("retry405Head = false", () =>
+		it("retryHeadFail = false", () =>
 		{
 			const auth = {};
 			const cache = new URLCache();
@@ -1556,11 +1556,11 @@ describe("INTERNAL -- checkLink", () =>
 
 
 
-		it("retry405Head = true", () =>
+		it("retryHeadFail = true", () =>
 		{
 			const auth = {};
 			const cache = new URLCache();
-			const options = helpers.options({ retry405Head:true });
+			const options = helpers.options({ retryHeadFail:true });
 			const link = Link.resolve(Link.create(),
 				"http://blc1/method-not-allowed/head.html",
 				"http://blc1/"
@@ -1580,7 +1580,7 @@ describe("INTERNAL -- checkLink", () =>
 
 
 
-		it("retry405Head = false (#2)", () =>
+		it("retryHeadFail = false (#2)", () =>
 		{
 			const auth = {};
 			const cache = new URLCache();
@@ -1604,11 +1604,11 @@ describe("INTERNAL -- checkLink", () =>
 
 
 
-		it("retry405Head = true (#2)", () =>
+		it("retryHeadFail = true (#2)", () =>
 		{
 			const auth = {};
 			const cache = new URLCache();
-			const options = helpers.options({ retry405Head:true });
+			const options = helpers.options({ retryHeadFail:true });
 			const link = Link.resolve(Link.create(),
 				"http://blc1/method-not-allowed/any.html",
 				"http://blc1/"
@@ -1625,5 +1625,50 @@ describe("INTERNAL -- checkLink", () =>
 				});
 			});
 		});
+
+		it("retryHeadCodes = []", () =>
+		{
+			const auth = {};
+			const cache = new URLCache();
+			const options = helpers.options({ retryHeadFail:true, retryHeadCodes: [] });
+			const link = Link.resolve(Link.create(),
+				"http://blc1/internal-error/head.html",
+				"http://blc1/"
+			);
+
+			return checkLink(link, auth, cache, options).then(result =>
+			{
+				expect(result).to.containSubset(
+					{
+						broken: true,
+						brokenReason: "HTTP_500",
+						excluded: null,
+						excludedReason: null
+					});
+			});
+		});
+
+		it("retryHeadCodes = [500]]", () =>
+		{
+			const auth = {};
+			const cache = new URLCache();
+			const options = helpers.options({ retryHeadFail:true, retryHeadCodes: [500] });
+			const link = Link.resolve(Link.create(),
+				"http://blc1/internal-error/head.html",
+				"http://blc1/"
+			);
+
+			return checkLink(link, auth, cache, options).then(result =>
+			{
+				expect(result).to.containSubset(
+					{
+						broken: false,
+						brokenReason: null,
+						excluded: null,
+						excludedReason: null
+					});
+			});
+		});
+
 	});
 });

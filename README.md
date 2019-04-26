@@ -337,12 +337,17 @@ The number of milliseconds to wait before each request.
 ### `requestMethod`
 Type: `String`  
 Default value: `'head'`  
-The HTTP request method used in checking links. If you experience problems, try using `'get'`, however the `retry405Head` option should have you covered.
+The HTTP request method used in checking links. If you experience problems, try using `'get'`, however the `retryHeadFail` & `retryHeadCodes` options should have you covered.
 
-### `retry405Head`
+### `retryHeadFail`
 Type: `Boolean`  
 Default value: `true`  
-Some servers do not respond correctly to a `'head'` request method. When `true`, a link resulting in an HTTP 405 "Method Not Allowed" error will be re-requested using a `'get'` method before deciding that it is broken. This is only relevant if the `requestMethod` option is set to `'head'`.
+Some servers do not respond correctly to a `'head'` request method. When `true`, a link resulting in a status code specified in `retryHeadCodes` option will be re-requested using a `'get'` method before deciding that it is broken. This is only relevant if the `requestMethod` option is set to `'head'`.
+
+### `retryHeadCodes`
+Type: `Number[]`  
+Default value: `[405]`  
+List of status codes that will cause a `'head'` request to be retried with a `'get'`. This is only relevant if `retryHeadFail` option is `true`.
 
 ### `userAgent`
 Type: `String`  
