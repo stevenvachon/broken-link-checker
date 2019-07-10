@@ -79,7 +79,7 @@
     "node": ">= 10"
   },
   "scripts": {
-    "build": "npm run lint && babel lib/ --config-file=./scripts/babel.config.js --out-dir=lib-cjs/ --source-maps",
+    "build": "babel lib/ --config-file=./scripts/babel.config.js --out-dir=lib-cjs/ --source-maps",
     "ci": "npm test && nyc report --reporter=text-lcov | coveralls",
     "lint": "npm run lint:cjs && npm run lint:esm",
     "lint:cjs": "eslint --config=scripts/eslintrc.cjs.js scripts/",
