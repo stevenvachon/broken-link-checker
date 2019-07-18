@@ -36,7 +36,7 @@
     "node-notifier": "^5.4.0",
     "optionator": "~0.8.2",
     "parse-srcset": "^1.0.2",
-    "parse5": "^4.0.0",
+    "parse5": "^5.1.0",
     "robot-directives": "~0.4.0",
     "robots-txt-guard": "~0.2.1",
     "robots-txt-parse": "^1.0.1",
