@@ -81,12 +81,12 @@
   },
   "scripts": {
     "build": "babel lib/ --config-file=./scripts/babel.config.js --out-dir=lib-cjs/ --source-maps",
-    "ci": "npm run lint && npm test && nyc report --reporter=text-lcov | coveralls",
+    "ci": "npm test && nyc report --reporter=text-lcov | coveralls",
     "lint": "npm run lint:cjs ; npm run lint:esm",
     "lint:cjs": "eslint --config=scripts/eslintrc.cjs.js scripts/",
     "lint:esm": "eslint --config=scripts/eslintrc.esm.js lib/ test/",
     "posttest": "nyc report --reporter=text-summary --reporter=html",
-    "prepublishOnly": "npm run lint && npm test && npm run build",
+    "prepublishOnly": "npm test && npm run build",
     "test": "nyc --exclude=scripts/ --silent mocha test/ --bail --check-leaks --require=scripts/register-babel",
     "test:watch": "npm test -- --watch --watch-extensions=js,json"
   },
