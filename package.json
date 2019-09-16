@@ -26,7 +26,7 @@
     "is-string": "^1.0.4",
     "isurl": "^4.0.1",
     "keyscan": "^1.7.0",
-    "limited-request-queue": "^5.0.0",
+    "limited-request-queue": "^6.0.0",
     "link-types": "^3.0.0",
     "list-to-array": "^1.1.0",
     "lodash": "^4.17.15",
