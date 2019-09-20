@@ -1,4 +1,4 @@
-# broken-link-checker [![NPM Version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Dependency Monitor][greenkeeper-image]][greenkeeper-url]
+# broken-link-checker [![NPM Version][npm-image]][npm-url] ![Build Status][ci-image] [![Coverage Status][coveralls-image]][coveralls-url] [![Dependency Monitor][greenkeeper-image]][greenkeeper-url]
 
 > Find broken links, missing images, etc within your HTML.
 
@@ -451,8 +451,7 @@ if (link.isBroken) {
 
 [npm-image]: https://img.shields.io/npm/v/broken-link-checker.svg
 [npm-url]: https://npmjs.org/package/broken-link-checker
-[travis-image]: https://img.shields.io/travis/stevenvachon/broken-link-checker.svg
-[travis-url]: https://travis-ci.org/stevenvachon/broken-link-checker
+[ci-image]: https://github.com/stevenvachon/broken-link-checker/workflows/tests/badge.svg
 [coveralls-image]: https://img.shields.io/coveralls/stevenvachon/broken-link-checker.svg
 [coveralls-url]: https://coveralls.io/github/stevenvachon/broken-link-checker
 [greenkeeper-image]: https://badges.greenkeeper.io/stevenvachon/broken-link-checker.svg
