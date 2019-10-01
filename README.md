@@ -316,7 +316,7 @@ if (result.broken) {
 ```
 
 ## HTML and HTTP information
-Detailed information for each link result is provided. Check out the [schema](https://github.com/stevenvachon/broken-link-checker/blob/master/lib/internal/linkObj.js#L16-L64) or:
+Detailed information for each link result is provided. Check out the [schema](https://github.com/stevenvachon/broken-link-checker/blob/v0.7.x/lib/internal/linkObj.js#L16-L64) or:
 ```js
 console.log(result);
 ```
