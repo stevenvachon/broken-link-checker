@@ -18,7 +18,7 @@
     "default-user-agent": "^1.0.0",
     "errno": "~0.1.7",
     "gauge": "^2.7.4",
-    "got": "^9.6.0",
+    "got": "^10.0.0",
     "http-equiv-refresh": "^2.0.1",
     "humanize-duration": "^3.21.0",
     "is-stream": "^2.0.0",
