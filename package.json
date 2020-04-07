@@ -66,7 +66,7 @@
     "chai-subset": "github:stevenvachon/chai-subset",
     "chai-things": "~0.2.0",
     "coveralls": "^3.0.9",
-    "escape-string-regexp": "^2.0.0",
+    "escape-string-regexp": "^3.0.0",
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsdoc": "^18.4.3",
