@@ -34,7 +34,7 @@
     "node-notifier": "^6.0.0",
     "optionator": "~0.8.3",
     "parse-srcset": "^1.0.2",
-    "parse5": "^5.1.1",
+    "parse5": "^6.0.0",
     "parse5-parser-stream": "^5.1.1",
     "robot-directives": "github:stevenvachon/robot-directives",
     "robots-txt-guard": "~0.2.1",
