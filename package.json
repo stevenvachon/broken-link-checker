@@ -30,7 +30,7 @@
     "list-to-array": "^1.1.0",
     "lodash": "^4.17.15",
     "longest": "^2.0.1",
-    "matcher": "^2.1.0",
+    "matcher": "^3.0.0",
     "node-notifier": "^6.0.0",
     "optionator": "~0.8.3",
     "parse-srcset": "^1.0.2",
