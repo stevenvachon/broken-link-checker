@@ -43,7 +43,8 @@
     "supports-semigraphics": "^1.0.1",
     "url-relation": "github:stevenvachon/url-relation",
     "urlcache": "github:stevenvachon/urlcache",
-    "walk-parse5": "^2.0.0"
+    "walk-parse5": "^2.0.0",
+    "snyk": "^1.316.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.5",
@@ -87,7 +88,9 @@
     "posttest": "nyc report --reporter=text-summary --reporter=html",
     "prepublishOnly": "npm test && npm run build",
     "test": "nyc --exclude=scripts/ --silent mocha test/ --bail --check-leaks --require=scripts/register-babel",
-    "test:watch": "npm test -- --watch --watch-extensions=js,json"
+    "test:watch": "npm test -- --watch --watch-extensions=js,json",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "files": [
     "bin",
@@ -102,5 +105,6 @@
     "seo",
     "url",
     "whatwg"
-  ]
+  ],
+  "snyk": true
 }
