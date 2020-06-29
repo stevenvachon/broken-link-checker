@@ -1,104 +1,41 @@
-import TAGS from "../../lib/internal/tags";
-import voidElements from "void-elements";
+"use strict";
+var tags = require("../../lib/internal/tags");
 
 
 
-const stringifyTag = (tagName, attrs, url) =>
+function tagsString(filterLevel, url)
 {
-	const isTableNode = tagName==="tbody" || tagName==="td" || tagName==="tfoot" || tagName==="th" || tagName==="thead" || tagName==="tr";
-
-	let html = ``;
-
-	if (isTableNode)
+	var attrName,html,tag,tagName;
+	var filteredTags = tags[filterLevel];
+	var html = "";
+	
+	for (tagName in filteredTags)
 	{
-		html += `<table>`;
-	}
-
-	html += `<${tagName}`;
-
-	Object.keys(attrs).forEach(attrName =>
-	{
-		// Special case for `<meta http-equiv="refresh" content="5; url=redirect.html">`
-		if (tagName==="meta" && attrName==="content")
+		html += '<'+tagName;
+		
+		tag = filteredTags[tagName];
+		
+		for (attrName in tag)
 		{
-			html += ` http-equiv="refresh" content="5; url=${url}"`;
-		}
-		else
-		{
-			html += ` ${attrName}="${url}"`;
-		}
-	});
-
-	html += `>`;
-
-	if (tagName!=="body" && tagName!=="head" && tagName!=="html" && !(tagName in voidElements))
-	{
-		html += `link</${tagName}>`;
-	}
-
-	if (isTableNode)
-	{
-		html += `</table>`;
-	}
-
-	return html;
-};
-
-
-
-export default (filterLevel, isFrameset, url) =>
-{
-	const filteredTags = TAGS[filterLevel];
-	let html = "";
-
-	if (filteredTags.html !== undefined)
-	{
-		html += stringifyTag("html", filteredTags.html, url);
-	}
-
-	if (filteredTags.head !== undefined)
-	{
-		html += stringifyTag("head", filteredTags.head, url);
-		html += `</head>`;
-	}
-
-
-
-	if (isFrameset)
-	{
-		html += `<frameset>`;
-		html += stringifyTag("frame", filteredTags.frame, url);
-		html += `</frameset>`;
-	}
-	else
-	{
-		if (filteredTags.body !== undefined)
-		{
-			html += stringifyTag("body", filteredTags.body, url);
-		}
-
-		Object.keys(filteredTags).forEach(tagName =>
-		{
-			if (tagName === "*")
+			// Special case for `<meta http-equiv="refresh" content="5; url=redirect.html">`
+			if (tagName==="meta" && attrName==="content")
 			{
-				html += stringifyTag("tag", filteredTags[tagName], url);
+				html += ' http-equiv="refresh" content="5; url=';
 			}
-			else if (tagName!=="body" && tagName!=="frame" && tagName!=="head" && tagName!=="html")
+			else
 			{
-				html += stringifyTag(tagName, filteredTags[tagName], url);
+				html += ' '+attrName+'="';
 			}
-		});
-
-		if (filteredTags.body !== undefined)
-		{
-			html += `</body>`;
+			
+			html += url+'"';
 		}
+		
+		html += '>link</'+tagName+'>';
 	}
-
-	if (filteredTags.html !== undefined)
-	{
-		html += `</html>`;
-	}
-
+	
 	return html;
-};
+}
+
+
+
+module.exports = tagsString;

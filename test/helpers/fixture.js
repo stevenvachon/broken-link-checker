@@ -1,10 +1,35 @@
-import {createReadStream, readFileSync} from "fs";
-import {resolve as resolvePath} from "path";
+"use strict";
+var fs = require("fs");
+var pathlib = require("path");
 
 
 
-export const fixturePath = (path="") => resolvePath(`${__dirname}/../fixtures-http/${path}`);
+function fixturePath(path)
+{
+	if (path == null) path = "";
+	
+	return pathlib.resolve( __dirname + "/../fixtures/" + path );
+}
 
-export const fixtureStream = path => createReadStream(fixturePath(path));
 
-export const fixtureString = path => readFileSync(fixturePath(path), "utf8");
+
+function fixtureStream(path)
+{
+	return fs.createReadStream(fixturePath(path));
+}
+
+
+
+function fixtureString(path)
+{
+	return fs.readFileSync(fixturePath(path), {encoding:"utf8"});
+}
+
+
+
+module.exports = 
+{
+	path: fixturePath,
+	stream: fixtureStream,
+	string: fixtureString
+};
