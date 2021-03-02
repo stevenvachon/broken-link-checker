@@ -31,6 +31,7 @@
     "longest": "^2.0.1",
     "matcher": "^4.0.0",
     "node-notifier": "^9.0.0",
+    "object-assign": "^4.1.1",
     "optionator": "~0.9.1",
     "parse-srcset": "^1.0.2",
     "parse5": "^6.0.1",
