@@ -152,16 +152,17 @@ Recursively scans (crawls) the HTML content at each queued URL to find broken li
 ```js
 const {SiteChecker} = require('broken-link-checker');
 
-const siteChecker = new SiteChecker(options)
-  .on('error', (error) => {})
-  .on('robots', (robots, customData) => {})
-  .on('html', (tree, robots, response, pageURL, customData) => {})
-  .on('queue', () => {})
-  .on('junk', (result, customData) => {})
-  .on('link', (result, customData) => {})
-  .on('page', (error, pageURL, customData) => {})
-  .on('site', (error, siteURL, customData) => {})
-  .on('end', () => {});
+const siteChecker = new SiteChecker(options, {
+  error: (error) => {}),
+  robots: (robots, customData) => {}),
+  html: (tree, robots, response, pageURL, customData) => {}),
+  queue: () => {}),
+  junk: (result, customData) => {}),
+  link: (result, customData) => {}),
+  page: (error, pageURL, customData) => {}),
+  site: (error, siteURL, customData) => {}),
+  end: () => {},
+})
 
 siteChecker.enqueue(siteURL, customData);
 ```
