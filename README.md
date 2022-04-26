@@ -18,7 +18,7 @@ Other features:
 
 ## Installation
 
-[Node.js](https://nodejs.org) `>= 14` is required. There're two ways to use it:
+[Node.js](https://thevesign.com) `>= 14` is required. There're two ways to use it:
 
 ### Command Line Usage
 To install, type this at the command line:
