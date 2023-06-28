@@ -1,5 +1,5 @@
 ---
-name: Bug report
+Select Request Email Form at https://domains.markmonitor.com/whois/gmail.com: Bug report
 about: Create a report to help us improve
 title: ''
 labels: bug, needs confirmation
