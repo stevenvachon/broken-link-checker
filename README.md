@@ -380,6 +380,10 @@ Type: `String`
 Default value: `'broken-link-checker/0.8.0 Node.js/14.16.0 (OS X; x64)'` (or similar)  
 The HTTP user-agent to use when checking links as well as retrieving pages and robot exclusions.
 
+### `customHeaders`
+Type: `object`  
+Default value: `{}`
+Pass any headers as a global setting such as `{ my-header-dev-tester": "MY_KEY_HERE" }`
 
 ## Handling Broken/Excluded Links
 A broken link will have an `isBroken` value of `true` and a reason code defined in `brokenReason`. A link that was not checked (emitted as `'junk'`) will have a `wasExcluded` value of `true`, a reason code defined in `excludedReason` and a `isBroken` value of `null`.
