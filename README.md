@@ -1,4 +1,4 @@
-# broken-link-checker [![NPM Version][npm-image]][npm-url] ![Build Status][ci-image] [![Coverage Status][coveralls-image]][coveralls-url] [![Dependency Monitor][greenkeeper-image]][greenkeeper-url]
+# broken-link-checker [![NPM Version][npm-image]][npm-url] ![Build Status][ci-image] [![Coverage Status][coveralls-image]][coveralls-url]
 
 > Find broken links, missing images, etc within your HTML.
 
@@ -449,5 +449,3 @@ Finally, **it is important** to analyze links excluded with the `BLC_UNSUPPORTED
 [ci-image]: https://img.shields.io/github/workflow/status/stevenvachon/broken-link-checker/tests
 [coveralls-image]: https://img.shields.io/coveralls/stevenvachon/broken-link-checker.svg
 [coveralls-url]: https://coveralls.io/github/stevenvachon/broken-link-checker
-[greenkeeper-image]: https://badges.greenkeeper.io/stevenvachon/broken-link-checker.svg
-[greenkeeper-url]: https://greenkeeper.io/
